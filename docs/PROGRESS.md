@@ -2,7 +2,7 @@
 
 State file of the lead. A new session starts from this file alone.
 
-**Last update:** 2026-11-14 · window W1 · **Status: T-001 merged into local `main`. T-002: PR open, all four CI jobs green, Q-17 resolved (repository public). Waiting for the owner: merge and `docs/checklists/T-002.md` parts B to D. Next window: W6.**
+**Last update:** 2026-11-14 · window W1 done · **Status: T-001 and T-002 merged into `main` on GitHub; `main` is protected by a ruleset. Next window: W6 (needs H-5).**
 
 ## 1. The product in five sentences
 
@@ -128,7 +128,7 @@ Blocking for the next windows: none for W1 to W3. Q-04, Q-10 block W4. Q-11 bloc
 |---|---|---|---|
 | W0 Plan | done, approved | 2026-11-14 | this file; the approval covers the plan, not the open questions Q-10 to Q-16 |
 | T-001 | done | 2026-11-14 | reviewer ACCEPT WITH CHANGES, changes done by lead; dev audit finding accepted as R-A1 |
-| T-002 | done, merge pending | 2026-11-14 | reviewer ACCEPT WITH CHANGES, changes done by lead; PR CI green (run 43613062296); Q-17 resolved by making the repository public; ruleset and failing-test proof (checklist B, C) still open |
+| T-002 | done | 2026-11-14 | reviewer ACCEPT WITH CHANGES, changes done by lead; PR #1 merged, CI green on PR and `main`; Q-17 resolved (repository public); ruleset `main protection` (id 27278504, no bypass); proof: PR #2 with a broken test was BLOCKED and a direct push to `main` was refused; secret scanning, push protection, Dependabot alerts and fork PR approval for all external contributors are on |
 | T-003 to T-005 | not started | | |
 | T-010 to T-014 | not started | | |
 | T-015 | not planned | | optional; blocked by Q-06 |
@@ -136,7 +136,7 @@ Blocking for the next windows: none for W1 to W3. Q-04, Q-10 block W4. Q-11 bloc
 
 ## 8. Next step
 
-1. Merge the PR `T-002: CI pipeline` into `main` (four green jobs). Then follow `docs/checklists/T-002.md` parts B to D: ruleset on `main`, failing-test proof, secret scanning, push protection, approval for fork pull requests.
+1. Every change to `main` now needs a pull request with four green checks: `checks`, `audit`, `secret-scan`, `reference`. Nobody can bypass the ruleset, the lead included.
 2. Note for the owner: the repository is public, so commit metadata shows the author emails (a personal address and a local machine address). For new commits, set `git config user.email` to the GitHub noreply address. Old commits keep their address unless history is rewritten (not recommended).
 3. Next window: W6 (T-020 spike), prompt in `docs/agent-team/windows.md`. Needs H-5.
 4. T-004 brief must point to the placeholder comment in the `reference` job of `.github/workflows/ci.yml`.
