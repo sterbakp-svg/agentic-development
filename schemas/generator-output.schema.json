@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-composer.example/schemas/generator-output/1.0.json",
+  "title": "Generator output (LLM response)",
+  "description": "The LLM returns only slot values and metadata. The app renders the final instructions from the fixed template. Use this schema as the structured-output schema of the model call.",
+  "type": "object",
+  "required": ["status", "slots", "description", "conversation_starters", "placeholders_left", "assumptions", "questions"],
+  "additionalProperties": false,
+  "properties": {
+    "status": { "enum": ["ready", "needs_input"], "description": "'needs_input' when a required fact is missing and a placeholder would make the agent weak. Slots are still filled with placeholders." },
+    "slots": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role_line", "responsibilities", "ongoing_topics", "tools", "stakeholders", "search_signals", "action_verbs", "waiting_parties", "fyi_risk_examples", "sender_rule", "urgency_signals", "impact_areas", "ownership_rule", "next_step_options", "solution_guidance", "draft_style", "draft_extra", "placeholder_example", "discretion_rule"],
+      "properties": {
+        "role_line": { "type": "string" },
+        "responsibilities": { "type": "string" },
+        "ongoing_topics": { "type": "string" },
+        "tools": { "type": "string" },
+        "stakeholders": { "type": "string" },
+        "search_signals": { "type": "string" },
+        "action_verbs": { "type": "string" },
+        "waiting_parties": { "type": "string" },
+        "fyi_risk_examples": { "type": "string" },
+        "sender_rule": { "type": "string" },
+        "urgency_signals": { "type": "string" },
+        "impact_areas": { "type": "string" },
+        "ownership_rule": { "type": "string" },
+        "next_step_options": { "type": "string" },
+        "solution_guidance": { "type": "string" },
+        "draft_style": { "type": "string" },
+        "draft_extra": { "type": "string" },
+        "placeholder_example": { "type": "string" },
+        "discretion_rule": { "type": "string" }
+      }
+    },
+    "description": { "type": "string", "maxLength": 1000, "description": "Agent description in the overview language. Must say the agent works in Microsoft 365 Copilot." },
+    "conversation_starters": {
+      "type": "array", "minItems": 4, "maxItems": 4,
+      "items": { "type": "string", "maxLength": 100 },
+      "description": "In the overview language."
+    },
+    "placeholders_left": { "type": "array", "items": { "type": "string" }, "description": "Every [placeholder] used in the slots, exactly as written." },
+    "assumptions": { "type": "array", "maxItems": 6, "items": { "type": "string", "maxLength": 200 }, "description": "What the generator inferred and the user should confirm. In the overview language." },
+    "questions": { "type": "array", "maxItems": 3, "items": { "type": "string", "maxLength": 200 }, "description": "Follow-up questions that would improve the agent most. In the overview language. Empty when status is 'ready' and nothing important is missing." }
+  }
+}

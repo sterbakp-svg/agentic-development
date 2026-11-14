@@ -1,0 +1,413 @@
+{
+  "id": "email-triage",
+  "version": "1.0.0",
+  "instruction_language": "en",
+  "body_file": "template.en.md",
+  "limits": {
+    "instructions_max_chars": 8000,
+    "instructions_target_chars": 7000,
+    "name_max_chars": 30,
+    "description_max_chars": 1000,
+    "conversation_starters_count": 4,
+    "conversation_starter_max_chars": 100
+  },
+  "rendering_rules": [
+    "Replace every {{slot}} with its value. Values are single-line plain text.",
+    "If a slot of kind 'line_optional' is empty, remove the whole line that contains it.",
+    "If a slot of kind 'inline_optional' is empty, replace it with an empty string and keep the line.",
+    "After rendering, no '{{' or '}}' may remain.",
+    "All text outside slots is fixed. The generator never changes it."
+  ],
+  "slots": [
+    {
+      "name": "agent_name",
+      "source": "computed",
+      "kind": "required",
+      "max_chars": 30,
+      "rule": "profile.agent.name, default 'Inbox Triage'"
+    },
+    {
+      "name": "user_name",
+      "source": "computed",
+      "kind": "required",
+      "max_chars": 60,
+      "rule": "profile.user.display_name; if empty use '[Name]'"
+    },
+    {
+      "name": "time_window_days",
+      "source": "computed",
+      "kind": "required",
+      "rule": "profile.agent.time_window_days, default 7, allowed 1-30"
+    },
+    {
+      "name": "top_n",
+      "source": "computed",
+      "kind": "required",
+      "rule": "profile.agent.top_n, default 10, allowed 3-20"
+    },
+    {
+      "name": "signature",
+      "source": "computed",
+      "kind": "required",
+      "max_chars": 60,
+      "rule": "profile.style.signature, default first name, else '[Name]'"
+    },
+    {
+      "name": "languages",
+      "source": "computed",
+      "kind": "required",
+      "rule": "Names of profile.languages.working joined with ', ' and ' and ' (English names)"
+    },
+    {
+      "name": "overview_language_name",
+      "source": "computed",
+      "kind": "required",
+      "rule": "English name of profile.languages.overview"
+    },
+    {
+      "name": "deadline_terms",
+      "source": "computed",
+      "kind": "required",
+      "rule": "Union of keyword_packs[lang].deadline for all working languages, each term in double quotes, joined with ', '"
+    },
+    {
+      "name": "urgency_terms",
+      "source": "computed",
+      "kind": "required",
+      "rule": "Same as deadline_terms, using keyword_packs[lang].urgency"
+    },
+    {
+      "name": "reminder_terms",
+      "source": "computed",
+      "kind": "required",
+      "rule": "Same as deadline_terms, using keyword_packs[lang].reminder"
+    },
+    {
+      "name": "table_headers",
+      "source": "computed",
+      "kind": "required",
+      "rule": "labels[overview].table_headers joined with ' | '"
+    },
+    {
+      "name": "label_further",
+      "source": "computed",
+      "kind": "required",
+      "rule": "labels[overview].further_attention"
+    },
+    {
+      "name": "label_handoff",
+      "source": "computed",
+      "kind": "required",
+      "rule": "labels[overview].ignore_or_handoff; use the '_delegate' variant when profile.role.has_team is true"
+    },
+    {
+      "name": "followup_examples",
+      "source": "computed",
+      "kind": "required",
+      "rule": "labels[overview].followup_examples, each in double quotes, joined with ', '"
+    },
+    {
+      "name": "placeholder_word",
+      "source": "computed",
+      "kind": "required",
+      "rule": "labels[overview].placeholder_word"
+    },
+    {
+      "name": "role_line",
+      "source": "llm",
+      "kind": "required",
+      "max_chars": 240,
+      "description": "Job title, department and organization in one phrase, e.g. 'Data and Business Analyst in the Outsourcing and Third-Party Risk Management (TPRM) department at [company], a financial institution'. Starts lowercase only if it starts with a common noun."
+    },
+    {
+      "name": "responsibilities",
+      "source": "llm",
+      "kind": "required",
+      "max_chars": 600,
+      "description": "4-8 responsibilities, separated by '; ', no final period."
+    },
+    {
+      "name": "ongoing_topics",
+      "source": "llm",
+      "kind": "required",
+      "max_chars": 400,
+      "description": "Current topics from the profile, separated by ', '. If the profile has none, '[e.g. <2-3 role-typical examples>]'."
+    },
+    {
+      "name": "tools",
+      "source": "llm",
+      "kind": "line_optional",
+      "max_chars": 200,
+      "description": "Work tools from the profile. Empty if the role does not depend on specific tools and the profile names none."
+    },
+    {
+      "name": "stakeholders",
+      "source": "llm",
+      "kind": "required",
+      "max_chars": 600,
+      "description": "Priority senders: named people first, then groups, then external parties. Missing names become placeholders such as '[manager]'."
+    },
+    {
+      "name": "search_signals",
+      "source": "llm",
+      "kind": "required",
+      "max_chars": 450,
+      "description": "3-6 role-specific search topics separated by '; ' (e.g. 'data, report and analysis requests; register updates')."
+    },
+    {
+      "name": "action_verbs",
+      "source": "llm",
+      "kind": "required",
+      "max_chars": 220,
+      "description": "Verb list of what counts as action for this role, e.g. 'reply, decide, approve, deliver, attend, or delegate'."
+    },
+    {
+      "name": "waiting_parties",
+      "source": "llm",
+      "kind": "inline_optional",
+      "max_chars": 80,
+      "description": "Starts with a space, e.g. ' (vendor, business owner, IT)'. Empty if not typical."
+    },
+    {
+      "name": "fyi_risk_examples",
+      "source": "llm",
+      "kind": "required",
+      "max_chars": 220,
+      "description": "3-4 role-specific risks hidden in FYI mail, separated by ', '."
+    },
+    {
+      "name": "sender_rule",
+      "source": "llm",
+      "kind": "required",
+      "max_chars": 120,
+      "description": "Who scores 5, e.g. 'manager or key stakeholder = 5'."
+    },
+    {
+      "name": "urgency_signals",
+      "source": "llm",
+      "kind": "required",
+      "max_chars": 260,
+      "description": "Role-specific urgency signals separated by ', '. Always include 'sender waiting more than 3 days'."
+    },
+    {
+      "name": "impact_areas",
+      "source": "llm",
+      "kind": "required",
+      "max_chars": 300,
+      "description": "Role-specific high-impact areas separated by ', '."
+    },
+    {
+      "name": "ownership_rule",
+      "source": "llm",
+      "kind": "required",
+      "max_chars": 120,
+      "description": "E.g. 'only the user can act = 5; easy to delegate = 1'. Use 'hand over' instead of 'delegate' when the user has no team."
+    },
+    {
+      "name": "next_step_options",
+      "source": "llm",
+      "kind": "required",
+      "max_chars": 260,
+      "description": "Comma list ending with 'or close'."
+    },
+    {
+      "name": "solution_guidance",
+      "source": "llm",
+      "kind": "inline_optional",
+      "max_chars": 300,
+      "description": "Starts with a space. Extra role-specific guidance, e.g. ' For data or report requests, name the likely data source, the analysis steps, and the open questions for the requester (scope, period, format, deadline).' Empty if not needed."
+    },
+    {
+      "name": "draft_style",
+      "source": "llm",
+      "kind": "required",
+      "max_chars": 120,
+      "description": "Comma list of style adjectives from profile.style, e.g. 'concise, professional, decisive and friendly'."
+    },
+    {
+      "name": "draft_extra",
+      "source": "llm",
+      "kind": "inline_optional",
+      "max_chars": 160,
+      "description": "Starts with a space and ends with ';'. E.g. ' when giving data, state source and as-of date;'. Empty if not needed."
+    },
+    {
+      "name": "placeholder_example",
+      "source": "llm",
+      "kind": "required",
+      "max_chars": 40,
+      "description": "Short example in the overview language, e.g. 'rozpočet' or 'register value'."
+    },
+    {
+      "name": "discretion_rule",
+      "source": "llm",
+      "kind": "required",
+      "max_chars": 200,
+      "description": "One sentence on confidential topics typical for the role, ending with ': summarize only what the user needs to act.' Replace 'the user' with the user name."
+    },
+    {
+      "name": "org_rule",
+      "source": "computed",
+      "kind": "line_optional",
+      "max_chars": 300,
+      "rule": "profile.org_context.mandatory_rule (set by the organization admin, validated). Empty if none."
+    }
+  ],
+  "labels": {
+    "sk": {
+      "table_headers": [
+        "#",
+        "Od",
+        "Predmet",
+        "Prijaté",
+        "Neprečítané",
+        "Termín",
+        "Skóre",
+        "Prečo je to dôležité",
+        "Navrhovaný krok"
+      ],
+      "further_attention": "Ďalšie na pozornosť",
+      "ignore_or_handoff": "Môžem ignorovať alebo odovzdať",
+      "ignore_or_handoff_delegate": "Môžem ignorovať alebo delegovať",
+      "followup_examples": [
+        "rozpíš bod 3",
+        "zmeň tón",
+        "skráť draft",
+        "napíš to po anglicky"
+      ],
+      "placeholder_word": "doplniť"
+    },
+    "cs": {
+      "table_headers": [
+        "#",
+        "Od",
+        "Předmět",
+        "Přijato",
+        "Nepřečteno",
+        "Termín",
+        "Skóre",
+        "Proč je to důležité",
+        "Navrhovaný krok"
+      ],
+      "further_attention": "Další k pozornosti",
+      "ignore_or_handoff": "Mohu ignorovat nebo předat",
+      "ignore_or_handoff_delegate": "Mohu ignorovat nebo delegovat",
+      "followup_examples": [
+        "rozepiš bod 3",
+        "změň tón",
+        "zkrať koncept",
+        "napiš to anglicky"
+      ],
+      "placeholder_word": "doplnit"
+    },
+    "en": {
+      "table_headers": [
+        "#",
+        "From",
+        "Subject",
+        "Received",
+        "Unread",
+        "Deadline",
+        "Score",
+        "Why it matters",
+        "Proposed step"
+      ],
+      "further_attention": "Also worth attention",
+      "ignore_or_handoff": "Can ignore or hand over",
+      "ignore_or_handoff_delegate": "Can ignore or delegate",
+      "followup_examples": [
+        "expand item 3",
+        "change the tone",
+        "shorten the draft",
+        "write it in Slovak"
+      ],
+      "placeholder_word": "fill in"
+    },
+    "de": {
+      "table_headers": [
+        "#",
+        "Von",
+        "Betreff",
+        "Erhalten",
+        "Ungelesen",
+        "Frist",
+        "Punkte",
+        "Warum wichtig",
+        "Nächster Schritt"
+      ],
+      "further_attention": "Weitere Hinweise",
+      "ignore_or_handoff": "Kann ignoriert oder übergeben werden",
+      "ignore_or_handoff_delegate": "Kann ignoriert oder delegiert werden",
+      "followup_examples": [
+        "Punkt 3 ausführen",
+        "Ton ändern",
+        "Entwurf kürzen",
+        "auf Englisch schreiben"
+      ],
+      "placeholder_word": "ergänzen"
+    }
+  },
+  "keyword_packs": {
+    "en": {
+      "deadline": [
+        "by",
+        "deadline"
+      ],
+      "urgency": [
+        "urgent",
+        "ASAP"
+      ],
+      "reminder": [
+        "reminder",
+        "any update"
+      ]
+    },
+    "sk": {
+      "deadline": [
+        "do",
+        "termín",
+        "najneskôr"
+      ],
+      "urgency": [
+        "urgentné",
+        "prosím"
+      ],
+      "reminder": [
+        "pripomínam"
+      ]
+    },
+    "cs": {
+      "deadline": [
+        "do",
+        "termín",
+        "nejpozději"
+      ],
+      "urgency": [
+        "urgentní",
+        "prosím"
+      ],
+      "reminder": [
+        "připomínám"
+      ]
+    },
+    "de": {
+      "deadline": [
+        "bis",
+        "Frist"
+      ],
+      "urgency": [
+        "dringend",
+        "bitte"
+      ],
+      "reminder": [
+        "Erinnerung"
+      ]
+    }
+  },
+  "language_names": {
+    "en": "English",
+    "sk": "Slovak",
+    "cs": "Czech",
+    "de": "German"
+  }
+}

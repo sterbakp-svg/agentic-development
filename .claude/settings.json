@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)",
+      "Bash(git push --force:*)",
+      "Bash(az group delete:*)",
+      "Bash(az deployment group create:*)",
+      "Bash(az deployment sub create:*)"
+    ],
+    "ask": [
+      "Bash(git push:*)",
+      "Bash(pnpm eval:*)",
+      "Bash(pnpm add:*)",
+      "Bash(npm install:*)"
+    ]
+  }
+}
