@@ -2,7 +2,7 @@
 
 State file of the lead. A new session starts from this file alone.
 
-**Last update:** 2026-11-14 · window W1 · **Status: T-001 merged into local `main`; T-002 ready on branch `t-002-ci-pipeline`, waiting for push, first CI run and decision Q-17. Next window: W6.**
+**Last update:** 2026-11-14 · window W1 · **Status: T-001 merged into local `main`. T-002: PR open, all four CI jobs green, Q-17 resolved (repository public). Waiting for the owner: merge and `docs/checklists/T-002.md` parts B to D. Next window: W6.**
 
 ## 1. The product in five sentences
 
@@ -128,7 +128,7 @@ Blocking for the next windows: none for W1 to W3. Q-04, Q-10 block W4. Q-11 bloc
 |---|---|---|---|
 | W0 Plan | done, approved | 2026-11-14 | this file; the approval covers the plan, not the open questions Q-10 to Q-16 |
 | T-001 | done | 2026-11-14 | reviewer ACCEPT WITH CHANGES, changes done by lead; dev audit finding accepted as R-A1 |
-| T-002 | done, AC partly blocked | 2026-11-14 | reviewer ACCEPT WITH CHANGES, changes done by lead; branch protection needs Q-17 (private repo on GitHub Free) |
+| T-002 | done, merge pending | 2026-11-14 | reviewer ACCEPT WITH CHANGES, changes done by lead; PR CI green (run 43613062296); Q-17 resolved by making the repository public; ruleset and failing-test proof (checklist B, C) still open |
 | T-003 to T-005 | not started | | |
 | T-010 to T-014 | not started | | |
 | T-015 | not planned | | optional; blocked by Q-06 |
@@ -136,7 +136,7 @@ Blocking for the next windows: none for W1 to W3. Q-04, Q-10 block W4. Q-11 bloc
 
 ## 8. Next step
 
-1. Product owner: approve `git push` of `main` and `t-002-ci-pipeline`, open the PR `T-002: CI pipeline`, and follow `docs/checklists/T-002.md`.
-2. Product owner: decide Q-17 (GitHub Pro recommended). Until then the lead merges no PR with a red check.
+1. Merge the PR `T-002: CI pipeline` into `main` (four green jobs). Then follow `docs/checklists/T-002.md` parts B to D: ruleset on `main`, failing-test proof, secret scanning, push protection, approval for fork pull requests.
+2. Note for the owner: the repository is public, so commit metadata shows the author emails (a personal address and a local machine address). For new commits, set `git config user.email` to the GitHub noreply address. Old commits keep their address unless history is rewritten (not recommended).
 3. Next window: W6 (T-020 spike), prompt in `docs/agent-team/windows.md`. Needs H-5.
 4. T-004 brief must point to the placeholder comment in the `reference` job of `.github/workflows/ci.yml`.
