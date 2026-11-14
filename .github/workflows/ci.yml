@@ -10,7 +10,7 @@ permissions:
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
   NEXT_TELEMETRY_DISABLED: '1'
@@ -91,13 +91,19 @@ jobs:
             tpl="templates/email-triage/v1"
             # The validator prints JSON and always exits 0, so check "ok".
             python3 -I reference/composer_ref.py validate "$tpl" "$dir/profile.json" "$dir/slots.json" \
-              | tee "validate-$ex.json"
-            python3 -I -c 'import json,sys; sys.exit(0 if json.load(open(sys.argv[1]))["ok"] else 1)' "validate-$ex.json"
+              | tee "$RUNNER_TEMP/validate-$ex.json"
+            python3 -I -c 'import json,sys; sys.exit(0 if json.load(open(sys.argv[1]))["ok"] else 1)' "$RUNNER_TEMP/validate-$ex.json"
             # Byte-for-byte comparison with the golden output.
-            python3 -I reference/composer_ref.py render "$tpl" "$dir/profile.json" "$dir/slots.json" > "render-$ex.md"
-            cmp "render-$ex.md" "$dir/expected-instructions.md"
+            python3 -I reference/composer_ref.py render "$tpl" "$dir/profile.json" "$dir/slots.json" > "$RUNNER_TEMP/render-$ex.md"
+            cmp "$RUNNER_TEMP/render-$ex.md" "$dir/expected-instructions.md"
             echo "$ex: validate ok, render identical"
           done
+          # Negative check: the injection slots must fail, so a validator that
+          # always says ok is caught.
+          python3 -I reference/composer_ref.py validate templates/email-triage/v1 \
+            examples/cio-insurance/profile.json evals/negative/injection-slots.json > "$RUNNER_TEMP/validate-negative.json"
+          python3 -I -c 'import json,sys; sys.exit(1 if json.load(open(sys.argv[1]))["ok"] else 0)' "$RUNNER_TEMP/validate-negative.json"
+          echo "negative: validate fails as expected"
       # T-004 adds a step here: set up Node, run the TypeScript renderer on the
       # same two examples and compare its output byte-for-byte with the
-      # reference output ("render-$ex.md") above.
+      # reference output ("$RUNNER_TEMP/render-$ex.md") above.
