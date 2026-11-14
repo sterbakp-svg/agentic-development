@@ -1,0 +1,110 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+
+jobs:
+  checks:
+    name: checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+
+  audit:
+    name: audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+      # Respects pnpm.auditConfig.ignoreGhsas in package.json (see R-A1).
+      - run: pnpm audit --audit-level moderate
+
+  secret-scan:
+    name: secret-scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GITLEAKS_VERSION: 8.30.1
+      GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # full history
+          persist-credentials: false
+      # Pinned binary with checksum (no third-party action, no license key).
+      - name: Install gitleaks
+        run: |
+          curl -sSfL -o gitleaks.tar.gz \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          echo "${GITLEAKS_SHA256}  gitleaks.tar.gz" | sha256sum -c -
+          tar -xzf gitleaks.tar.gz gitleaks
+      - name: Scan history
+        run: ./gitleaks git --redact --verbose --exit-code 1 .
+
+  reference:
+    name: reference
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          # Oldest Python on ubuntu-latest (26.04); 3.9 is not offered there. Local dev uses 3.9.
+          python-version: '3.10'
+      - name: Reference validator and renderer on golden examples
+        run: |
+          set -euo pipefail
+          for ex in cio-insurance tprm-analyst; do
+            dir="examples/$ex"
+            tpl="templates/email-triage/v1"
+            # The validator prints JSON and always exits 0, so check "ok".
+            python3 -I reference/composer_ref.py validate "$tpl" "$dir/profile.json" "$dir/slots.json" \
+              | tee "$RUNNER_TEMP/validate-$ex.json"
+            python3 -I -c 'import json,sys; sys.exit(0 if json.load(open(sys.argv[1]))["ok"] else 1)' "$RUNNER_TEMP/validate-$ex.json"
+            # Byte-for-byte comparison with the golden output.
+            python3 -I reference/composer_ref.py render "$tpl" "$dir/profile.json" "$dir/slots.json" > "$RUNNER_TEMP/render-$ex.md"
+            cmp "$RUNNER_TEMP/render-$ex.md" "$dir/expected-instructions.md"
+            echo "$ex: validate ok, render identical"
+          done
+          # Negative check: the injection slots must fail, so a validator that
+          # always says ok is caught.
+          python3 -I reference/composer_ref.py validate templates/email-triage/v1 \
+            examples/cio-insurance/profile.json evals/negative/injection-slots.json > "$RUNNER_TEMP/validate-negative.json"
+          python3 -I -c 'import json,sys; sys.exit(1 if json.load(open(sys.argv[1]))["ok"] else 0)' "$RUNNER_TEMP/validate-negative.json"
+          echo "negative: validate fails as expected"
+      # T-004 adds a step here: set up Node, run the TypeScript renderer on the
+      # same two examples and compare its output byte-for-byte with the
+      # reference output ("$RUNNER_TEMP/render-$ex.md") above.
