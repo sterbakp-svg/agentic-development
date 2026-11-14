@@ -25,6 +25,10 @@ One-time bootstrap (already done in this repository): copy the package into an e
 2. Review the plan that the lead agent writes in `docs/PROGRESS.md`, then approve it.
 3. Answer the questions in `docs/08-open-questions.md` when tickets need them.
 
+## CI
+
+GitHub Actions (`.github/workflows/ci.yml`) runs checks, audit, secret scan and the reference renderer on every pull request; branch protection is set up with `docs/checklists/T-002.md`.
+
 ## Contents
 
 | File | Purpose |
