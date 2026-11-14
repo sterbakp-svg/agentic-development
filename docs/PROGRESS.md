@@ -26,8 +26,8 @@ State file of the lead. A new session starts from this file alone.
 
 | # | What | Needed for | Status |
 |---|---|---|---|
-| H-1 | Create the GitHub repository and add it as `origin` | W1 | open |
-| H-2 | Install pnpm (`corepack enable pnpm`) | W1 | open |
+| H-1 | Create the GitHub repository and add it as `origin` | W1 | done (`sterbakp-svg/agentic-development`) |
+| H-2 | Install pnpm | W1 | done (pnpm 10.34.9 via npm; Node 26 has no corepack) |
 | H-3 | Decide Q-04 and Q-10: Azure subscription, Azure OpenAI deployment in an EU data zone, `AOAI_*` variables set locally | W4, W5 | open |
 | H-4 | Approve the eval budget (Q-11) | W5 | open |
 | H-5 | Test Power Platform environment; Windows machine or cloud PC if the Copilot Studio extension needs it | W6 (your test steps) | open |
@@ -138,4 +138,4 @@ Blocking for the next windows: none for W1 to W3. Q-04, Q-10 block W4. Q-11 bloc
 2. New session: `/clear`, `/model opus`, `/effort medium`, then the W1 prompt from `docs/agent-team/windows.md`.
 3. After W1: window W6 (T-020 spike).
 
-The W0 files (`docs/PROGRESS.md`, `docs/08-open-questions.md`) are not committed yet.
+The W0 files are committed (e6a66e0).
