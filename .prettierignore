@@ -1,0 +1,12 @@
+pnpm-lock.yaml
+docs/
+templates/
+prompts/
+examples/
+evals/
+reference/
+schemas/
+.claude/
+.next/
+dist/
+*.md

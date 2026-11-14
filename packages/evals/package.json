@@ -1,0 +1,12 @@
+{
+  "name": "@agent-composer/evals",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit",
+    "test": "echo 'no tests in @agent-composer/evals yet'",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "eval": "node src/run.mjs"
+  }
+}
