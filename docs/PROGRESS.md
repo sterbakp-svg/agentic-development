@@ -2,7 +2,7 @@
 
 State file of the lead. A new session starts from this file alone.
 
-**Last update:** 2026-11-14 · window W0 (plan) · **Status: plan approved by the product owner on 2026-11-14, including W6 directly after W1. No code written. Next window: W1, after H-1 and H-2.**
+**Last update:** 2026-11-14 · window W1 · **Status: T-001 merged into local `main`; T-002 ready on branch `t-002-ci-pipeline`, waiting for push, first CI run and decision Q-17. Next window: W6.**
 
 ## 1. The product in five sentences
 
@@ -136,8 +136,7 @@ Blocking for the next windows: none for W1 to W3. Q-04, Q-10 block W4. Q-11 bloc
 
 ## 8. Next step
 
-1. Product owner: finish H-1 (GitHub repository as `origin`) and H-2 (pnpm).
-2. New session: `/clear`, `/model opus`, `/effort medium`, then the W1 prompt from `docs/agent-team/windows.md`.
-3. After W1: window W6 (T-020 spike).
-
-The W0 files are committed (e6a66e0).
+1. Product owner: approve `git push` of `main` and `t-002-ci-pipeline`, open the PR `T-002: CI pipeline`, and follow `docs/checklists/T-002.md`.
+2. Product owner: decide Q-17 (GitHub Pro recommended). Until then the lead merges no PR with a red check.
+3. Next window: W6 (T-020 spike), prompt in `docs/agent-team/windows.md`. Needs H-5.
+4. T-004 brief must point to the placeholder comment in the `reference` job of `.github/workflows/ci.yml`.
