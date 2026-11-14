@@ -9,3 +9,4 @@ coverage/
 .DS_Store
 __pycache__/
 next-env.d.ts
+.claude/worktrees/

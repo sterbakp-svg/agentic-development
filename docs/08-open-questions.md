@@ -30,3 +30,8 @@ Golden rule 3: the reference decides. These points are recorded here; the TypeSc
 | D-1 | `template.json`, `label_handoff` rule: `profile.role.has_team` | `profile["user"]["has_team"]` | Fix the rule text (Q-15). |
 | D-2 | `docs/04-generation-and-validation.md` § 4: override pattern lists automatic "send/forward/delete" | The pattern also covers "move" | Add "move" to the doc in T-005. |
 | D-3 | `template.json` and the generator prompt: `discretion_rule` must end with ": summarize only what <user name> needs to act." | No check of this ending | Keep the reference behavior in v1. The judge rubric can cover it; a validator check would be a change of the reference and needs approval. |
+
+## Accepted risks
+
+### R-A1 Dev-only audit finding GHSA-g3hv-75wg-m249 (minimatch 10.2.6)
+Path: typescript-eslint → @typescript-eslint/typescript-estree → minimatch. Dev dependency only; `pnpm audit --prod` is clean. No upstream fix: typescript-eslint 8.72.2 requires `minimatch ^10.2.2`. Suppressed in root `package.json` (`pnpm.auditConfig.ignoreGhsas`) since T-001, 2026-11-14. Remove the ignore when typescript-eslint moves to a fixed minimatch; T-053 checks it monthly.

@@ -8,7 +8,7 @@ This package is the input for the development agent team (Claude Code). It is wr
 
 ## Setup
 
-1. Install Node.js 22 or later (`.nvmrc` pins 26) and pnpm 10 (`corepack enable` is enough).
+1. Install Node.js 22 or later (`.nvmrc` pins 26) and pnpm 10 (`npm install -g pnpm@10`; Node 25 and later ship no corepack).
 2. Clone the repository and open its root folder.
 3. Run `pnpm install`.
 4. Run `pnpm build` to build all workspace packages.
@@ -19,11 +19,11 @@ This package is the input for the development agent team (Claude Code). It is wr
 
 ## How to start
 
-1. Create an empty Git repository and copy this package into its root.
-2. Create the symlink `CLAUDE.md` → `AGENTS.md`.
-3. Open Claude Code in the repository root, run `/clear`, `/model opus`, `/effort high`, and paste the text from `KICKOFF_PROMPT.md` (window W0).
-4. Review the plan that the lead agent writes in `docs/PROGRESS.md`, then approve it.
-5. Answer the questions in `docs/08-open-questions.md` when tickets need them.
+One-time bootstrap (already done in this repository): copy the package into an empty Git repository and create the symlink `CLAUDE.md` → `AGENTS.md`.
+
+1. Open Claude Code in the repository root, run `/clear`, `/model opus`, `/effort high`, and paste the text from `KICKOFF_PROMPT.md` (window W0).
+2. Review the plan that the lead agent writes in `docs/PROGRESS.md`, then approve it.
+3. Answer the questions in `docs/08-open-questions.md` when tickets need them.
 
 ## Contents
 

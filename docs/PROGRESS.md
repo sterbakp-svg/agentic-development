@@ -127,7 +127,8 @@ Blocking for the next windows: none for W1 to W3. Q-04, Q-10 block W4. Q-11 bloc
 | Ticket | Status | Date | Note |
 |---|---|---|---|
 | W0 Plan | done, approved | 2026-11-14 | this file; the approval covers the plan, not the open questions Q-10 to Q-16 |
-| T-001 to T-005 | not started | | |
+| T-001 | done | 2026-11-14 | reviewer ACCEPT WITH CHANGES, changes done by lead; dev audit finding accepted as R-A1 |
+| T-002 to T-005 | not started | | |
 | T-010 to T-014 | not started | | |
 | T-015 | not planned | | optional; blocked by Q-06 |
 | T-020 to T-026 | not started | | T-021 and T-026 are HUMAN |
