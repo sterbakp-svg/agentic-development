@@ -13,3 +13,20 @@ Coding agents: when you need a decision that is not in the docs, add it here wit
 | Q-07 | Data retention default (24 months proposed). | 24 months, admin can shorten. | T-050 |
 | Q-08 | May the product ever enable email write capabilities (newer manifest versions support triage and supervised send)? | No in v1 to 2b; revisit with customer demand and a separate risk review. | T-060 |
 | Q-09 | Branding for consultant exports (logo, colors). | Product owner's brand by default; client branding in the consultant plan. | T-041 |
+| Q-10 | Which model deployments do we use: one for the generator and one for the judge, in which EU data zone region? The docs say only "config value per environment". | Generator: a current model with structured outputs in an EU data zone, Sweden Central. Judge: a different and stronger model than the generator, so it does not grade itself. Record both deployment names in `docs/PROGRESS.md`. | T-011 (real run), T-013 |
+| Q-11 | Budget ceiling for model calls in W4 and W5 (real generations, baseline eval run). | Set one ceiling in EUR for both windows. The lead shows a cost estimate from measured token counts before each eval run and stops at the ceiling. | T-013 |
+| Q-12 | T-014 (presets) and T-012 (extraction) have acceptance criteria that need the eval harness, but they are built before T-013 exists. | Mark both as "implemented, eval pending" after review. Close them in W5: the baseline run includes the 8 preset cases and the 5 job descriptions. | closing T-012, T-014 |
+| Q-13 | May the pilot validate with a weaker check than the reference? `docs/05-mvp-copilot-studio.md` plans simple `contains()` checks in the agent flow; the reference uses regular expressions (heading marker, "ignore …", automatic send, forward, delete or move). | No weaker guardrail checks. T-020 must list which reference checks the flow can express. If the override patterns cannot be checked, choose option C (function that runs `packages/core`). | T-024 (decided in T-020) |
+| Q-14 | The pilot feedback topic (3 questions, stored in Dataverse or a SharePoint list) is in `docs/05-mvp-copilot-studio.md` but in no ticket. Where is the data stored and who can read it? | Add it to T-022. SharePoint list in the pilot tenant, readable by the product owner only. The topic tells users not to paste email content. | T-022, T-026 |
+| Q-15 | `templates/email-triage/v1/template.json`, slot `label_handoff`: the rule text says `profile.role.has_team`. The schema, the generator prompt and the reference use `user.has_team`. The rule text is sent to the model in the `TEMPLATE` block. | Correct the text to `profile.user.has_team` before the first real generation in W4. Version 1.0.0 has no users yet and the golden output does not change. Needs your approval because it is a template file. | none (the reference decides) |
+| Q-16 | `evals/cases.md` says evals run in CI on every change to prompts, templates or model settings. T-013 says they are not part of the pull request CI. | Follow T-013: no evals in pull request CI. The lead runs them by hand, with approval, for such changes; nightly runs come with phase 2. Correct the sentence in `evals/cases.md` in T-013. | T-013 |
+
+## Differences between the docs and the reference
+
+Golden rule 3: the reference decides. These points are recorded here; the TypeScript code follows the reference.
+
+| # | Docs | Reference `composer_ref.py` | Proposal |
+|---|---|---|---|
+| D-1 | `template.json`, `label_handoff` rule: `profile.role.has_team` | `profile["user"]["has_team"]` | Fix the rule text (Q-15). |
+| D-2 | `docs/04-generation-and-validation.md` § 4: override pattern lists automatic "send/forward/delete" | The pattern also covers "move" | Add "move" to the doc in T-005. |
+| D-3 | `template.json` and the generator prompt: `discretion_rule` must end with ": summarize only what <user name> needs to act." | No check of this ending | Keep the reference behavior in v1. The judge rubric can cover it; a validator check would be a change of the reference and needs approval. |
