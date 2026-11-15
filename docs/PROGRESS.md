@@ -2,7 +2,7 @@
 
 State file of the lead. A new session starts from this file alone.
 
-**Last update:** 2026-11-15 · window W6 · **Status: T-020 desk part done (research, test checklist, paste files, spike doc with option A recommended on condition). Q-13 decided (stricter, never weaker). Waiting for the owner: hands-on test `docs/checklists/T-020.md` (needs H-5). Next window: W2.**
+**Last update:** 2026-11-15 · window W2 · **Status: W2 done: T-003 and T-010 merged into `main`. T-020 desk part done; waiting for the owner's hands-on test (H-5). Next window: W3.**
 
 ## 1. The product in five sentences
 
@@ -129,18 +129,20 @@ Blocking for the next windows: none for W1 to W3. Q-04, Q-10 block W4. Q-11 bloc
 | W0 Plan | done, approved | 2026-11-14 | this file; the approval covers the plan, not the open questions Q-10 to Q-16 |
 | T-001 | done | 2026-11-14 | reviewer ACCEPT WITH CHANGES, changes done by lead; dev audit finding accepted as R-A1 |
 | T-002 | done | 2026-11-14 | reviewer ACCEPT WITH CHANGES, changes done by lead; PR #1 merged, CI green on PR and `main`; Q-17 resolved (repository public); ruleset `main protection` (id 27278504, no bypass); proof: PR #2 with a broken test was BLOCKED and a direct push to `main` was refused; secret scanning, push protection, Dependabot alerts and fork PR approval for all external contributors are on |
-| T-003 to T-005 | not started | | |
-| T-010 to T-014 | not started | | |
+| T-003 | done | 2026-11-15 | tests first (test-engineer), core-dev; reviewer REWORK twice: round 1 (one-pass sanitizer, warning paths from unknown keys, merge over 20, deep input throws) fixed by core-dev; round 2 (fixpoint loop quadratic, CPU denial of service) fixed by the lead with a linear stack pass, proven equal to the fixpoint by a 3,000-case fuzz test and a 100,000-character speed test. Lead decision after round 2: accept, because the only round-2 finding is fixed and tested (AGENTS.md: max 2 rounds). Q-19, Q-20 |
+| T-004, T-005 | not started | | |
+| T-010 | done | 2026-11-15 | tests first, core-dev; reviewer ACCEPT WITH CHANGES (Retry-After cap, managed identity only in production, config docs), done in round 1. Open for T-011: zod for the HTTP response, total deadline per call, `temperature` for reasoning deployments (Q-10). `.env.example` not added: blocked by the owner's permission rules |
+| T-011 to T-014 | not started | | |
 | T-015 | not planned | | optional; blocked by Q-06 |
 | T-020 | desk part done, test open | 2026-11-15 | reviewer ACCEPT WITH CHANGES, changes done by lead (Unicode folding, stricter `#` rule, flow emulation self-check, Check lines, Q-18); research `docs/research/T-020-platform-facts.md`; checklist `docs/checklists/T-020.md`; paste files `pilot/copilot-studio/spike/`; `docs/spikes/T-020.md` recommends A on condition; Q-13 decided: stricter, never weaker |
 | T-021 to T-026 | not started | | T-021 and T-026 are HUMAN; T-021 checklist after the T-020 test |
 
 ## 8. Next step
 
-1. Product owner: run `docs/checklists/T-020.md` in a test environment (H-5), fill in the result form, send it with `pilot/copilot-studio/spike/results/`. About 3 to 4 hours.
-2. Q-13 decided 2026-11-15: the pilot flow may be stricter than the reference, never weaker (applies to T-024). Q-18 (computed slots with user text are not checked) goes into the T-003 brief.
-3. Lead after the test: finish `docs/spikes/T-020.md` with the results and the final option; tech-writer writes `docs/checklists/T-021.md` for the chosen route (extension or `pac`).
-4. Next window, not blocked by the test: W2 (T-003 and T-010), prompt in `docs/agent-team/windows.md`.
-5. Every change to `main` needs a pull request with four green checks (`checks`, `audit`, `secret-scan`, `reference`); nobody can bypass the ruleset.
-6. Note for the owner: the repository is public, so commit metadata shows the author emails. For new commits, set `git config user.email` to the GitHub noreply address.
-7. T-004 brief must point to the placeholder comment in the `reference` job of `.github/workflows/ci.yml`.
+1. Product owner: run `docs/checklists/T-020.md` in a test environment (H-5), fill in the result form, send it with `pilot/copilot-studio/spike/results/`.
+2. Product owner: decide whether `.env.example` may be committed (a permission rule blocks agents from writing it). The variables are documented in `README.md` § Configuration.
+3. Q-18 (computed slots with user text are not checked for forbidden content) is still open; the check fits as a step after parsing in `prepareProfile`.
+4. Next window: W3 (T-004, T-014, T-005), prompt in `docs/agent-team/windows.md`. The T-004 brief must point to the placeholder comment in the `reference` job of `.github/workflows/ci.yml`, and to Q-20.
+5. T-011 brief (W4): zod for the HTTP response of the model client, total deadline per call, `temperature` for reasoning deployments (Q-10).
+6. Every change to `main` needs a pull request with four green checks; nobody can bypass the ruleset.
+7. Note for the owner: the repository is public, so commit metadata shows the author emails. For new commits, set `git config user.email` to the GitHub noreply address.

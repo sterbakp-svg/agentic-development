@@ -6,4 +6,16 @@ describe('core public API', () => {
     expect(core.agentProfileSchema).toBeDefined();
     expect(typeof core.prepareProfile).toBe('function');
   });
+
+  it('exports the model client (T-010)', () => {
+    for (const name of [
+      'loadModelConfig',
+      'createEntraTokenProvider',
+      'ModelError',
+      'createModelClient',
+      'toStrictJsonSchema',
+    ]) {
+      expect(typeof (core as Record<string, unknown>)[name]).toBe('function');
+    }
+  });
 });

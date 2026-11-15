@@ -17,6 +17,21 @@ This package is the input for the development agent team (Claude Code). It is wr
 7. Run `pnpm eval` for the eval runner. It is a stub for now: it calls no model and needs no `AOAI_*` variables.
 8. Run `pnpm --filter @agent-composer/web dev` to start the web app on http://localhost:3000.
 
+## Configuration
+
+The model client in `packages/core` reads these environment variables.
+
+| Variable | Required | Default | Meaning |
+|---|---|---|---|
+| `AOAI_ENDPOINT` | required | none | Azure OpenAI endpoint. https, host only: no path, query, fragment or credentials. |
+| `AOAI_DEPLOYMENT` | required | none | Name of the model deployment. |
+| `AOAI_API_VERSION` | required | none | API version used in the request URL. |
+| `AOAI_TIMEOUT_MS` | optional | `45000` | Timeout per attempt in milliseconds. A positive whole number. |
+| `AOAI_AUTH_MODE` | optional | `managed_identity` | `managed_identity` in Azure, `developer` for local sign-in (Azure CLI and similar). |
+| `AZURE_CLIENT_ID` | optional | none | Client ID of a user-assigned managed identity. Leave empty for a system-assigned one. |
+
+No API key: authentication is Entra ID only.
+
 ## How to start
 
 One-time bootstrap (already done in this repository): copy the package into an empty Git repository and create the symlink `CLAUDE.md` → `AGENTS.md`.
