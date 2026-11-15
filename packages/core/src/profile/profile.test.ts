@@ -140,6 +140,13 @@ describe('injection characters are removed with a warning', () => {
     { name: 'opening braces', input: 'Ja{{na', output: 'Jana', kind: 'braces_removed' },
     { name: 'closing braces', input: 'Ja}}na', output: 'Jana', kind: 'braces_removed' },
     { name: 'brace pair around text', input: '{{Jana}}', output: 'Jana', kind: 'braces_removed' },
+    {
+      name: 'braces rebuilt by brace removal',
+      input: 'Ja{}}{x',
+      output: 'Jax',
+      kind: 'braces_removed',
+    },
+    { name: 'braces rebuilt around a pair', input: 'a}{{}b', output: 'ab', kind: 'braces_removed' },
     { name: 'backtick', input: 'Ja`na', output: 'Jana', kind: 'backticks_removed' },
     {
       name: 'fenced block markers',
@@ -448,11 +455,14 @@ describe('idempotence', () => {
   dirty.role.tools = ['git', '', 'git', ' jira'];
   dirty.org_context = { common_stakeholders: ['Legal', 'Finance'] };
   dirty.stakeholders = [{ role_or_group: 'legal', relation: 'peer' }];
+  const rebuilt = minimalProfile();
+  rebuilt.user.display_name = '{`{signature}`}{}}{x a}{{}b';
 
   const subjects: Array<[string, unknown]> = [
     ...Object.entries(goldenProfiles),
     ['minimal profile', minimalProfile()],
     ['dirty profile', dirty],
+    ['rebuilt sequences', rebuilt],
   ];
 
   it.each(subjects)('prepareProfile(prepareProfile(x).profile) is stable: %s', (_n, raw) => {
