@@ -8,6 +8,8 @@ export const baseConfig: ModelConfig = {
   timeoutMs: 45000,
   maxAttempts: 3,
   baseDelayMs: 1000,
+  maxRetryDelayMs: 30000,
+  authMode: 'developer',
 };
 
 export const schema = {

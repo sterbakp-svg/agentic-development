@@ -61,9 +61,12 @@ function num(v: unknown): number {
 }
 
 function retryAfterMs(res: Response): number | undefined {
-  const raw = res.headers.get('retry-after')?.trim();
-  if (raw === undefined || !/^[0-9]+$/.test(raw)) return undefined;
-  return Number(raw) * 1000;
+  // retry-after-ms (Azure OpenAI) wins over Retry-After (seconds). Only plain digits count.
+  const ms = res.headers.get('retry-after-ms')?.trim();
+  if (ms !== undefined && /^[0-9]+$/.test(ms)) return Number(ms);
+  const s = res.headers.get('retry-after')?.trim();
+  if (s !== undefined && /^[0-9]+$/.test(s)) return Number(s) * 1000;
+  return undefined;
 }
 
 function fail(error: ModelError, transient = false, retryAfter?: number): Attempt {
@@ -113,8 +116,9 @@ function readCompletion(body: unknown): Attempt {
  * Creates the Azure OpenAI client (structured output, Entra ID bearer token only).
  *
  * Retry policy: network errors, timeouts and HTTP 408, 429, 500, 502, 503, 504 are
- * retried up to `config.maxAttempts` attempts in total. The delay is the `Retry-After`
- * header in seconds, or `baseDelayMs * 2^(n-1)`. Each attempt has its own timeout and
+ * retried up to `config.maxAttempts` attempts in total. The delay is `retry-after-ms`,
+ * `Retry-After` in seconds, or `baseDelayMs * 2^(n-1)`; a delay above `maxRetryDelayMs`
+ * ends the call with the transient error instead. Each attempt has its own timeout and
  * gets a fresh token. Refusals, truncation, invalid JSON and other HTTP errors are not retried.
  *
  * Nothing is logged. `onMetrics` is called once per call with IDs, counts and
@@ -129,42 +133,54 @@ export function createModelClient(config: ModelConfig, deps: ClientDeps): ModelC
     `/chat/completions?api-version=${encodeURIComponent(config.apiVersion)}`;
 
   async function attemptOnce(req: StructuredRequest): Promise<Attempt> {
-    let token: string;
-    try {
-      token = await deps.getToken();
-    } catch (e) {
-      return fail(
-        e instanceof ModelError ? e : new ModelError('auth', 'Could not get an Entra ID token.'),
-      );
-    }
+    // Built outside the try: a programming error here must not be retried as a network error.
+    const body = JSON.stringify({
+      messages: [
+        { role: 'system', content: req.system },
+        { role: 'user', content: req.user },
+      ],
+      temperature: req.temperature ?? DEFAULT_TEMPERATURE,
+      max_completion_tokens: req.maxOutputTokens ?? DEFAULT_MAX_OUTPUT_TOKENS,
+      response_format: {
+        type: 'json_schema',
+        json_schema: {
+          name: req.schemaName,
+          strict: true,
+          schema: toStrictJsonSchema(req.schema),
+        },
+      },
+    });
 
+    // The timer covers the token call too.
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), config.timeoutMs);
     try {
+      let token: string;
+      try {
+        token = await deps.getToken({ abortSignal: controller.signal });
+      } catch (e) {
+        if (controller.signal.aborted) {
+          return fail(new ModelError('timeout', 'The model request timed out.'), true);
+        }
+        return fail(
+          e instanceof ModelError ? e : new ModelError('auth', 'Could not get an Entra ID token.'),
+        );
+      }
+
       const res = await doFetch(url, {
         method: 'POST',
         headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json' },
         signal: controller.signal,
-        body: JSON.stringify({
-          messages: [
-            { role: 'system', content: req.system },
-            { role: 'user', content: req.user },
-          ],
-          temperature: req.temperature ?? DEFAULT_TEMPERATURE,
-          max_completion_tokens: req.maxOutputTokens ?? DEFAULT_MAX_OUTPUT_TOKENS,
-          response_format: {
-            type: 'json_schema',
-            json_schema: {
-              name: req.schemaName,
-              strict: true,
-              schema: toStrictJsonSchema(req.schema),
-            },
-          },
-        }),
+        body,
       });
 
       if (!res.ok) {
         const status = res.status;
+        try {
+          await res.body?.cancel();
+        } catch {
+          // Releasing the connection is best effort.
+        }
         if (status === 401 || status === 403) {
           return fail(
             new ModelError('auth', `Model request rejected with HTTP ${status}.`, { status }),
@@ -177,14 +193,14 @@ export function createModelClient(config: ModelConfig, deps: ClientDeps): ModelC
         );
       }
 
-      let body: unknown;
+      let parsed: unknown;
       try {
-        body = await res.json();
+        parsed = await res.json();
       } catch (e) {
         if (controller.signal.aborted) throw e;
         return fail(new ModelError('invalid_json', 'The response body is not valid JSON.'));
       }
-      return readCompletion(body);
+      return readCompletion(parsed);
     } catch {
       return controller.signal.aborted
         ? fail(new ModelError('timeout', 'The model request timed out.'), true)
@@ -203,7 +219,10 @@ export function createModelClient(config: ModelConfig, deps: ClientDeps): ModelC
         attempts++;
         last = await attemptOnce(req);
         if (last.ok || !last.transient || attempts >= config.maxAttempts) break;
-        await sleep(last.retryAfterMs ?? config.baseDelayMs * 2 ** (attempts - 1));
+        const delay = last.retryAfterMs ?? config.baseDelayMs * 2 ** (attempts - 1);
+        // A server that asks for a longer wait than the cap gets no retry.
+        if (delay > config.maxRetryDelayMs) break;
+        await sleep(delay);
       }
       const latencyMs = now() - start;
 

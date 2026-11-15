@@ -1,6 +1,6 @@
-export type { ModelConfig } from './config';
+export type { AuthMode, ModelConfig } from './config';
 export { loadModelConfig } from './config';
-export type { TokenProvider } from './token';
+export type { EntraTokenOptions, TokenProvider } from './token';
 export { createEntraTokenProvider } from './token';
 export type { ModelErrorCode } from './errors';
 export { ModelError } from './errors';

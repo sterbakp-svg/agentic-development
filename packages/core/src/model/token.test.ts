@@ -12,7 +12,7 @@ describe('createEntraTokenProvider', () => {
         expiresOnTimestamp: soon(),
       })),
     };
-    const provider = createEntraTokenProvider(credential);
+    const provider = createEntraTokenProvider({ mode: 'developer', credential });
     await expect(provider()).resolves.toBe('tok-1');
     expect(credential.getToken).toHaveBeenCalledTimes(1);
     const scope = credential.getToken.mock.calls[0]![0];
@@ -26,7 +26,7 @@ describe('createEntraTokenProvider', () => {
         expiresOnTimestamp: soon(),
       })),
     };
-    const provider = createEntraTokenProvider(credential);
+    const provider = createEntraTokenProvider({ mode: 'developer', credential });
     await provider();
     await provider();
     expect(credential.getToken).toHaveBeenCalledTimes(2);
@@ -38,18 +38,22 @@ describe('createEntraTokenProvider', () => {
         throw new Error('credential-detail-marker');
       }),
     };
-    const err = await createEntraTokenProvider(credential)().catch((e: unknown) => e);
+    const err = await createEntraTokenProvider({ mode: 'developer', credential })().catch(
+      (e: unknown) => e,
+    );
     expect(err).toMatchObject({ code: 'auth' });
     expect((err as Error).message).not.toContain('credential-detail-marker');
   });
 
   it('rejects with ModelError auth when the credential returns null', async () => {
     const credential = { getToken: vi.fn(async () => null) };
-    const err = await createEntraTokenProvider(credential)().catch((e: unknown) => e);
+    const err = await createEntraTokenProvider({ mode: 'developer', credential })().catch(
+      (e: unknown) => e,
+    );
     expect(err).toMatchObject({ code: 'auth' });
   });
 
   it('can be created without arguments (no network at creation)', () => {
-    expect(typeof createEntraTokenProvider()).toBe('function');
+    expect(typeof createEntraTokenProvider({ mode: 'managed_identity' })).toBe('function');
   });
 });

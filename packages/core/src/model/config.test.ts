@@ -25,6 +25,8 @@ describe('loadModelConfig', () => {
       timeoutMs: 45000,
       maxAttempts: 3,
       baseDelayMs: 1000,
+      maxRetryDelayMs: 30000,
+      authMode: 'managed_identity',
     });
   });
 
