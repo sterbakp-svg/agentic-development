@@ -2,7 +2,7 @@
 
 State file of the lead. A new session starts from this file alone.
 
-**Last update:** 2026-11-14 · window W1 done · **Status: T-001 and T-002 merged into `main` on GitHub; `main` is protected by a ruleset. Next window: W6 (needs H-5).**
+**Last update:** 2026-11-15 · window W6 · **Status: T-020 desk part done (research, test checklist, paste files, spike doc with option A recommended on condition). Waiting for the owner: hands-on test `docs/checklists/T-020.md` (needs H-5) and a yes on Q-13. Next window: W2.**
 
 ## 1. The product in five sentences
 
@@ -110,7 +110,7 @@ Phase 1 exit: 8 of 10 pilot users create the agent; average relevance 4 or more;
 | R-3 | **Phase 0 cannot finish without a paid Azure resource.** T-011 needs a real run, T-013 needs eval runs. | W1 to W3 and W6 run without it. W4 starts only after H-3. |
 | R-4 | **T-014 and T-012 have acceptance criteria that need the eval harness**, which arrives later (W5). | See Q-12. |
 | R-5 | **The pilot flow validates with `contains()` only**, which is weaker than the reference validator (no regular expressions). A weaker check touches the guardrail promise. | See Q-13. The spike T-020 must show which reference checks the flow can express. |
-| R-6 | **Copilot Studio extension may be Windows-only**; you work on macOS. | T-020 checks the current support. H-5. |
+| R-6 | **Copilot Studio extension may not run on Apple silicon.** Docs (2026) list Windows x64 and macOS, no architecture for macOS. | T-020 test part 5; fallback `pac` CLI on macOS (part 5b). H-5. |
 | R-7 | **Pilot tenant approval (Q-05) can take weeks** and blocks T-021 and all of W7. | Start now, in parallel with phase 0. |
 | R-8 | **Prompt size.** The generator request carries the template, 35 slot definitions and two full examples. This matters for the prompt tool limit (T-020) and for cost (NFR-6). | Measure tokens in W4; T-020 checks the prompt tool limit; option B is the fallback. |
 | R-9 | **Structured output in strict mode may reject `maxLength`, `minItems` and similar keywords.** | Already planned in `docs/02-architecture.md`: remove them from the request schema, enforce in the validator. The ADR in W4 fixes the details. |
@@ -132,11 +132,14 @@ Blocking for the next windows: none for W1 to W3. Q-04, Q-10 block W4. Q-11 bloc
 | T-003 to T-005 | not started | | |
 | T-010 to T-014 | not started | | |
 | T-015 | not planned | | optional; blocked by Q-06 |
-| T-020 to T-026 | not started | | T-021 and T-026 are HUMAN |
+| T-020 | desk part done, test open | 2026-11-15 | research `docs/research/T-020-platform-facts.md`; checklist `docs/checklists/T-020.md`; paste files `pilot/copilot-studio/spike/`; `docs/spikes/T-020.md` recommends A on condition; Q-13 proposal "stricter, never weaker" |
+| T-021 to T-026 | not started | | T-021 and T-026 are HUMAN; T-021 checklist after the T-020 test |
 
 ## 8. Next step
 
-1. Every change to `main` now needs a pull request with four green checks: `checks`, `audit`, `secret-scan`, `reference`. Nobody can bypass the ruleset, the lead included.
-2. Note for the owner: the repository is public, so commit metadata shows the author emails (a personal address and a local machine address). For new commits, set `git config user.email` to the GitHub noreply address. Old commits keep their address unless history is rewritten (not recommended).
-3. Next window: W6 (T-020 spike), prompt in `docs/agent-team/windows.md`. Needs H-5.
-4. T-004 brief must point to the placeholder comment in the `reference` job of `.github/workflows/ci.yml`.
+1. Product owner: run `docs/checklists/T-020.md` in a test environment (H-5), fill in the result form, send it with `pilot/copilot-studio/spike/results/`. About 3 to 4 hours.
+2. Product owner: answer Q-13 (proposal: the pilot flow may be stricter than the reference, never weaker).
+3. Lead after the test: finish `docs/spikes/T-020.md` with the results and the final option; tech-writer writes `docs/checklists/T-021.md` for the chosen route (extension or `pac`).
+4. Next window, not blocked by the test: W2 (T-003 and T-010), prompt in `docs/agent-team/windows.md`.
+5. Note for the owner: the repository is public, so commit metadata shows the author emails. For new commits, set `git config user.email` to the GitHub noreply address.
+6. T-004 brief must point to the placeholder comment in the `reference` job of `.github/workflows/ci.yml`.
