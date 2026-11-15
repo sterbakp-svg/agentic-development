@@ -67,7 +67,11 @@ const priorities = z.strictObject({
 });
 
 const languages = z.strictObject({
-  working: z.array(lang).min(1).max(4),
+  working: z
+    .array(lang)
+    .min(1)
+    .max(4)
+    .refine((items) => new Set(items).size === items.length, { message: 'items must be unique' }),
   overview: lang,
   instructions: z.literal('en').default('en'),
 });

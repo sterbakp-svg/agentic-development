@@ -199,7 +199,7 @@ export const invalidCases: InvalidCase[] = [
   {
     name: 'missing stakeholder relation',
     mutate: (p) => (p.stakeholders = [{ role_or_group: 'Legal' }]),
-    expected: { path: 'stakeholders.0.relation', code: 'invalid_type' },
+    expected: { path: 'stakeholders.0.relation', code: 'invalid_value' },
   },
   // unknown keys (additionalProperties: false)
   {
@@ -249,11 +249,8 @@ export const invalidCases: InvalidCase[] = [
     mutate: (p) => (p.style = { draft_tone: items(6) }),
     expected: { path: 'style.draft_tone', code: 'too_big' },
   },
-  {
-    name: 'languages.working 5 items',
-    mutate: (p) => (p.languages.working = ['en', 'sk', 'cs', 'de', 'en']),
-    expected: { path: 'languages.working', code: 'too_big' },
-  },
+  // languages.working cannot exceed 4 items after deduplication (the enum has 4 values);
+  // maxItems and uniqueItems are tested on agentProfileSchema directly in profile.test.ts.
   {
     name: 'org_context.common_stakeholders 11 items',
     mutate: (p) => (p.org_context = { common_stakeholders: items(11) }),

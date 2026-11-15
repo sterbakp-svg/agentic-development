@@ -401,6 +401,15 @@ describe('agentProfileSchema', () => {
   it('is a zod schema that accepts a golden profile', () => {
     expect(agentProfileSchema.safeParse(goldenProfiles['tprm-analyst']).success).toBe(true);
   });
+
+  it.each([
+    ['duplicate items (uniqueItems)', ['en', 'en']],
+    ['5 items (maxItems)', ['en', 'sk', 'cs', 'de', 'en']],
+  ])('rejects languages.working with %s, like the JSON schema', (_name, working) => {
+    const raw = clone(goldenProfiles['tprm-analyst']) as { languages: { working: string[] } };
+    raw.languages.working = working;
+    expect(agentProfileSchema.safeParse(raw).success).toBe(false);
+  });
 });
 
 describe('conformance with schemas/agent-profile.schema.json (ajv)', () => {
