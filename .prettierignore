@@ -10,3 +10,4 @@ schemas/
 .next/
 dist/
 *.md
+pilot/copilot-studio/spike/generated/

@@ -1,0 +1,1 @@
+role_line,responsibilities,ongoing_topics,tools,stakeholders,search_signals,action_verbs,waiting_parties,fyi_risk_examples,sender_rule,urgency_signals,impact_areas,ownership_rule,next_step_options,solution_guidance,draft_style,draft_extra,placeholder_example,discretion_rule
