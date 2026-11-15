@@ -12,7 +12,7 @@ export type PrepareResult =
   | { ok: false; profile?: undefined; issues: ProfileIssue[]; warnings: NormalizationWarning[] };
 
 /** Same as the maxItems of `stakeholders` in the profile schema. */
-const MAX_STAKEHOLDERS = 20;
+export const MAX_STAKEHOLDERS = 20;
 
 const norm = (s: string | undefined) => (s ?? '').trim().toLowerCase();
 

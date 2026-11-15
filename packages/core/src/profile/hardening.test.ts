@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { agentProfileSchema, prepareProfile } from '../index';
-import { minimalProfile } from './__fixtures__/helpers';
+import { minimalProfile, schemaJson } from './__fixtures__/helpers';
+import { MAX_STAKEHOLDERS } from './prepare';
 
 describe('rebuilt sequences', () => {
   it.each(['{`{signature}`}', '{}}{x', 'a}{{}b', '{{`{`{`{a}`}`}`}}'])('%s leaves nothing', (s) => {
@@ -154,5 +155,59 @@ describe('invisible characters', () => {
     if (!r.ok) throw new Error('expected ok');
     expect(r.profile.user.display_name).toBe('a\u200Db\u200Cc');
     expect(r.warnings).toEqual([]);
+  });
+});
+
+describe('sanitizer is linear and equals the fixpoint of all removals', () => {
+  // Reference: repeat every removal until nothing changes (the rule from docs/04 § 2).
+  const fixpoint = (s: string): string => {
+    let out = s;
+    for (;;) {
+      const next = out
+        .replace(/[\p{Cc}\p{Zl}\p{Zp}\u202A-\u202E\u2066-\u2069\u200B\uFEFF]/gu, '')
+        .replace(/`/g, '')
+        .replace(/\{\{|\}\}/g, '');
+      if (next === out) return out.trim();
+      out = next;
+    }
+  };
+  const run = (s: string): string => {
+    const p = minimalProfile();
+    p.role.description = s;
+    const r = prepareProfile(p);
+    return r.ok
+      ? (r.profile.role.description ?? '')
+      : `issue:${r.issues.map((i) => i.code).join()}`;
+  };
+
+  it('gives the same result as the fixpoint on 3,000 random strings', () => {
+    const alphabet = ['{', '}', '`', 'a', ' ', '\u0000', '\u2028', '\u200D'];
+    let seed = 42;
+    const rnd = () => (seed = (seed * 1103515245 + 12345) % 2 ** 31) / 2 ** 31;
+    for (let n = 0; n < 3000; n++) {
+      const len = 1 + Math.floor(rnd() * 24);
+      const s =
+        'A role description long enough for minLength ' +
+        Array.from({ length: len }, () => alphabet[Math.floor(rnd() * alphabet.length)]).join('');
+      expect(run(s)).toBe(fixpoint(s));
+    }
+  });
+
+  it('cleans a 100,000-character hostile string fast', () => {
+    const k = 25_000;
+    const hostile = '{}'.repeat(k) + '}' + '{}'.repeat(k - 1) + '{';
+    const p = minimalProfile();
+    p.role.description = hostile;
+    const start = Date.now();
+    prepareProfile(p);
+    expect(Date.now() - start).toBeLessThan(200);
+    expect(fixpoint(hostile.slice(0, 400))).not.toMatch(/\{\{|\}\}/);
+  });
+});
+
+describe('stakeholder cap', () => {
+  it('equals stakeholders.maxItems in the JSON schema', () => {
+    const schema = schemaJson as unknown as { properties: { stakeholders: { maxItems: number } } };
+    expect(MAX_STAKEHOLDERS).toBe(schema.properties.stakeholders.maxItems);
   });
 });

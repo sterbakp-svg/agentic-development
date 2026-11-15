@@ -29,23 +29,28 @@ type Collect = (path: string, kind: WarningKind) => void;
 
 // Control characters, line/paragraph separators, bidi controls, zero width space, BOM.
 // U+200C and U+200D stay (emoji and some scripts need them).
-const INVISIBLE = /[\p{Cc}\p{Zl}\p{Zp}\u202A-\u202E\u2066-\u2069\u200B\uFEFF]/gu;
+const INVISIBLE = /^[\p{Cc}\p{Zl}\p{Zp}\u202A-\u202E\u2066-\u2069\u200B\uFEFF]$/u;
 
+/**
+ * One linear pass with a stack. Removing invisible characters, backticks, `{{` and `}}`
+ * until nothing changes always ends in the same string, whatever the order; the stack
+ * reaches that result directly (`{`{x}`}` -> `x`), so hostile input cannot make it slow.
+ */
 function cleanString(s: string, path: string, warn: Collect): string {
-  let out = s;
-  // Removals can build new sequences (`{`{x}`}` -> `{{x}}`), so repeat until stable.
-  for (;;) {
-    const before = out;
-    const step = (next: string, kind: WarningKind) => {
-      if (next !== out) warn(path, kind);
-      out = next;
-    };
-    step(out.replace(INVISIBLE, ''), 'control_chars_removed');
-    step(out.replace(/\{\{|\}\}/g, ''), 'braces_removed');
-    step(out.replace(/`/g, ''), 'backticks_removed');
-    if (out === before) break;
+  const out: string[] = [];
+  for (const ch of s) {
+    if (ch === '`') {
+      warn(path, 'backticks_removed');
+    } else if (INVISIBLE.test(ch)) {
+      warn(path, 'control_chars_removed');
+    } else if ((ch === '{' || ch === '}') && out[out.length - 1] === ch) {
+      out.pop();
+      warn(path, 'braces_removed');
+    } else {
+      out.push(ch);
+    }
   }
-  return out.trim();
+  return out.join('').trim();
 }
 
 /** Schema node at a position, or undefined for positions the schema does not know. */
