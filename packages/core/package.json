@@ -11,5 +11,8 @@
   },
   "exports": {
     ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@azure/identity": "4.14.1"
   }
 }
