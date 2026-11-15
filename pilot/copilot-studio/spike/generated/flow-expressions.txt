@@ -74,13 +74,13 @@ if(contains(outputs('text'), concat('# RESPONSE RULES', variables('nl'))), '', '
 ### slot checks
 # Select "slot_checks", From = outputs("names_llm"), Map (switch to text mode):
 concat(
-if(or(contains(outputs('values')?[item()], variables('nl')), contains(outputs('values')?[item()], decodeUriComponent('%0D'))), concat(item(), ': line break; '), ''),
-if(contains(outputs('values')?[item()], '`'), concat(item(), ': backtick; '), ''),
-if(or(contains(outputs('values')?[item()], '{{'), contains(outputs('values')?[item()], '}}')), concat(item(), ': braces; '), ''),
-if(or(startsWith(trim(coalesce(outputs('values')?[item()], '')), '#'), contains(outputs('values')?[item()], concat(variables('nl'), '#')), contains(outputs('values')?[item()], concat(variables('nl'), ' #'))), concat(item(), ': heading marker; '), ''),
-if(or(contains(toLower(coalesce(outputs('values')?[item()], '')), 'ignore all'), contains(toLower(coalesce(outputs('values')?[item()], '')), 'ignore any'), contains(toLower(coalesce(outputs('values')?[item()], '')), 'ignore the'), contains(toLower(coalesce(outputs('values')?[item()], '')), 'ignore previous'), contains(toLower(coalesce(outputs('values')?[item()], '')), 'ignore above')), concat(item(), ': ignore pattern; '), ''),
-if(contains(toLower(coalesce(outputs('values')?[item()], '')), 'disregard'), concat(item(), ': disregard; '), ''),
-if(or(contains(toLower(coalesce(outputs('values')?[item()], '')), 'automatically'), contains(toLower(coalesce(outputs('values')?[item()], '')), 'without review'), contains(toLower(coalesce(outputs('values')?[item()], '')), 'without asking')), concat(item(), ': auto-send pattern (approximation); '), ''),
+if(or(contains(coalesce(outputs('values')?[item()], ''), variables('nl')), contains(coalesce(outputs('values')?[item()], ''), decodeUriComponent('%0D'))), concat(item(), ': line break; '), ''),
+if(contains(coalesce(outputs('values')?[item()], ''), '`'), concat(item(), ': backtick; '), ''),
+if(or(contains(coalesce(outputs('values')?[item()], ''), '{{'), contains(coalesce(outputs('values')?[item()], ''), '}}')), concat(item(), ': braces; '), ''),
+if(contains(coalesce(outputs('values')?[item()], ''), '#'), concat(item(), ': hash sign (stricter than heading rule); '), ''),
+if(or(contains(toLower(replace(replace(replace(replace(coalesce(outputs('values')?[item()], ''), 'ſ', 's'), 'K', 'k'), 'İ', 'i'), 'ı', 'i')), 'ignore all'), contains(toLower(replace(replace(replace(replace(coalesce(outputs('values')?[item()], ''), 'ſ', 's'), 'K', 'k'), 'İ', 'i'), 'ı', 'i')), 'ignore any'), contains(toLower(replace(replace(replace(replace(coalesce(outputs('values')?[item()], ''), 'ſ', 's'), 'K', 'k'), 'İ', 'i'), 'ı', 'i')), 'ignore the'), contains(toLower(replace(replace(replace(replace(coalesce(outputs('values')?[item()], ''), 'ſ', 's'), 'K', 'k'), 'İ', 'i'), 'ı', 'i')), 'ignore previous'), contains(toLower(replace(replace(replace(replace(coalesce(outputs('values')?[item()], ''), 'ſ', 's'), 'K', 'k'), 'İ', 'i'), 'ı', 'i')), 'ignore above')), concat(item(), ': ignore pattern; '), ''),
+if(contains(toLower(replace(replace(replace(replace(coalesce(outputs('values')?[item()], ''), 'ſ', 's'), 'K', 'k'), 'İ', 'i'), 'ı', 'i')), 'disregard'), concat(item(), ': disregard; '), ''),
+if(or(contains(toLower(replace(replace(replace(replace(coalesce(outputs('values')?[item()], ''), 'ſ', 's'), 'K', 'k'), 'İ', 'i'), 'ı', 'i')), 'automatically'), contains(toLower(replace(replace(replace(replace(coalesce(outputs('values')?[item()], ''), 'ſ', 's'), 'K', 'k'), 'İ', 'i'), 'ı', 'i')), 'without review'), contains(toLower(replace(replace(replace(replace(coalesce(outputs('values')?[item()], ''), 'ſ', 's'), 'K', 'k'), 'İ', 'i'), 'ı', 'i')), 'without asking')), concat(item(), ': auto-send pattern (approximation); '), ''),
 if(greater(length(coalesce(outputs('values')?[item()], '')), int(outputs('limits')?[item()])), concat(item(), ': too long; '), '')
 )
 

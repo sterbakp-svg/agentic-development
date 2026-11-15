@@ -132,14 +132,15 @@ Blocking for the next windows: none for W1 to W3. Q-04, Q-10 block W4. Q-11 bloc
 | T-003 to T-005 | not started | | |
 | T-010 to T-014 | not started | | |
 | T-015 | not planned | | optional; blocked by Q-06 |
-| T-020 | desk part done, test open | 2026-11-15 | research `docs/research/T-020-platform-facts.md`; checklist `docs/checklists/T-020.md`; paste files `pilot/copilot-studio/spike/`; `docs/spikes/T-020.md` recommends A on condition; Q-13 proposal "stricter, never weaker" |
+| T-020 | desk part done, test open | 2026-11-15 | reviewer ACCEPT WITH CHANGES, changes done by lead (Unicode folding, stricter `#` rule, flow emulation self-check, Check lines, Q-18); research `docs/research/T-020-platform-facts.md`; checklist `docs/checklists/T-020.md`; paste files `pilot/copilot-studio/spike/`; `docs/spikes/T-020.md` recommends A on condition; Q-13 proposal "stricter, never weaker" |
 | T-021 to T-026 | not started | | T-021 and T-026 are HUMAN; T-021 checklist after the T-020 test |
 
 ## 8. Next step
 
 1. Product owner: run `docs/checklists/T-020.md` in a test environment (H-5), fill in the result form, send it with `pilot/copilot-studio/spike/results/`. About 3 to 4 hours.
-2. Product owner: answer Q-13 (proposal: the pilot flow may be stricter than the reference, never weaker).
+2. Product owner: answer Q-13 (proposal: the pilot flow may be stricter than the reference, never weaker). Q-18 (computed slots with user text are not checked) goes into the T-003 brief.
 3. Lead after the test: finish `docs/spikes/T-020.md` with the results and the final option; tech-writer writes `docs/checklists/T-021.md` for the chosen route (extension or `pac`).
 4. Next window, not blocked by the test: W2 (T-003 and T-010), prompt in `docs/agent-team/windows.md`.
-5. Note for the owner: the repository is public, so commit metadata shows the author emails. For new commits, set `git config user.email` to the GitHub noreply address.
-6. T-004 brief must point to the placeholder comment in the `reference` job of `.github/workflows/ci.yml`.
+5. Every change to `main` needs a pull request with four green checks (`checks`, `audit`, `secret-scan`, `reference`); nobody can bypass the ruleset.
+6. Note for the owner: the repository is public, so commit metadata shows the author emails. For new commits, set `git config user.email` to the GitHub noreply address.
+7. T-004 brief must point to the placeholder comment in the `reference` job of `.github/workflows/ci.yml`.

@@ -19,7 +19,7 @@ The agent flow cannot run the TypeScript core. It implements the same rules with
 1. Start from the template body stored as a flow constant (template version in the flow name).
 2. For `line_optional` slots that are empty, first remove the full line (for `tools`: replace `- Tools: {{tools}}.` plus the line break with nothing; for `org_rule`: replace `- {{org_rule}}` plus the line break).
 3. Replace every `{{slot}}` with its value (`replace()` per slot).
-4. Checks in the flow: no `{{` left; `length()` ≤ the limit from `template.json`; each guardrail line present (`contains()`); slot length limits; forbidden patterns. `contains()` is case-sensitive and there is no regex function, so the flow lowercases with `toLower()` first and may be stricter than the reference, never weaker (parity table in `docs/spikes/T-020.md`).
+4. Checks in the flow: no `{{` left; `length()` ≤ the limit from `template.json`; each guardrail line present (`contains()`); slot length limits; forbidden patterns. `contains()` is case-sensitive and there is no regex function, so the flow replaces the four letters that Python `re.I` folds to ASCII (ſ, K, İ, ı), lowercases with `toLower()`, and may be stricter than the reference, never weaker (parity table in `docs/spikes/T-020.md`).
 5. Return the result. The flow must answer within 100 seconds and must not run in express mode (1,024 characters per variable).
 
 Golden test for the pilot: run the flow with the two golden examples (profile + slots) and compare the output with `examples/*/expected-instructions.md`. They must be identical.
