@@ -15,10 +15,14 @@ Settings: temperature 0.2; max output tokens 3,000; one retry on a validator err
 
 ## 2. Profile normalization (before the call)
 
-- Trim all strings; remove empty array items; deduplicate.
-- Remove control characters and the sequences `{{`, `}}` and backticks from every string. Record a warning when something is removed.
-- Apply defaults from the schema.
-- Merge `org_context.common_stakeholders` into `stakeholders` with relation `internal_function`, unless the user already lists them.
+Implemented in `packages/core/src/profile` (`prepareProfile`), in this order:
+
+1. From every string remove invisible characters (Unicode Cc, Zl, Zp, bidi controls U+202A–U+202E and U+2066–U+2069, U+200B, U+FEFF; U+200C and U+200D stay), backticks and the sequences `{{` and `}}`, until nothing is left to remove (``{`{x}`}`` becomes `x`); then trim. One linear pass gives this result. Record a warning per field and kind when something is removed.
+2. Remove empty array items and exact duplicates.
+3. Validate against the schema and apply its defaults (only inside objects that are present).
+4. Merge `org_context.common_stakeholders` into `stakeholders` with relation `internal_function`, unless the user already lists them (same `role_or_group` or `name`, case-insensitive). The merged list keeps the schema limit of 20: the user's own entries first; a warning `common_stakeholders_truncated` when common entries are left out.
+
+Input deeper than 8 levels is rejected (`too_deep`); the function never throws. Issues and warnings carry only a path (schema keys, indices, `*`) and a code, never input values.
 
 ## 3. Rendering
 
