@@ -52,7 +52,10 @@ function walk(value: unknown, path: string, warn: Collect): unknown {
 }
 
 /** Returns a sanitized deep copy of the input; the input is not mutated. */
-export function sanitizeInput(input: unknown): { value: unknown; warnings: NormalizationWarning[] } {
+export function sanitizeInput(input: unknown): {
+  value: unknown;
+  warnings: NormalizationWarning[];
+} {
   const seen = new Set<string>();
   const warnings: NormalizationWarning[] = [];
   const value = walk(input, '', (path, kind) => {

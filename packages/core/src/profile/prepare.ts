@@ -37,7 +37,10 @@ export function prepareProfile(raw: unknown): PrepareResult {
   const { value, warnings } = sanitizeInput(raw);
   const parsed = agentProfileSchema.safeParse(value);
   if (!parsed.success) {
-    const issues = parsed.error.issues.map((i) => ({ path: i.path.map(String).join('.'), code: i.code }));
+    const issues = parsed.error.issues.map((i) => ({
+      path: i.path.map(String).join('.'),
+      code: i.code,
+    }));
     return { ok: false, issues, warnings };
   }
   return { ok: true, profile: mergeCommonStakeholders(parsed.data), issues: [], warnings };
