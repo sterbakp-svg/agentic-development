@@ -85,7 +85,7 @@ The flow reports codes, not texts. A code is made of IDs, never content: slot na
 | `guardrail_missing.g<n>`, `section_missing.h<n>` | `n` is the 1-based position of the guardrail line or heading in `packages/core/src/validator/guardrails.ts`. |
 | `unresolved_marker`, `instructions_too_long`, `description_too_long`, `starters_count`, `starter_too_long`, `name_too_long`, `placeholder_not_declared` | Checks without a slot ID. Report the code once per error (two starters too long: two times). |
 
-A flow check that the repository does not have may use its own code in lower snake case with dots between IDs. Warning codes: `email_in_slot`, `above_target`. `unknown_error` in a result means that core reported something that `codes.ts` does not know: file a bug.
+A flow check that the repository does not have may use its own code in lower snake case with dots between IDs. A stricter flow check that replaces a reference check reports the reference code (for example `contains('#')` reports `forbidden_content.<slot>.heading_marker`, and a check for `automatically` or `without review` reports `forbidden_content.<slot>.auto_send_pattern`). The vocabulary belongs to a template version: the `g<n>` and `h<n>` positions change when the lists in `guardrails.ts` change. Warning codes: `email_in_slot`, `above_target`. `unknown_error` in a result means that core reported something that `codes.ts` does not know: file a bug.
 
 ## How the result is computed
 
