@@ -32,14 +32,14 @@ Follow `templates/email-triage/v1/template.json` → `rendering_rules`. The refe
 
 ## 4. Validation
 
-The reference implementation is `reference/composer_ref.py` (`validate`). Errors block the result. Warnings show in the quality report.
+The reference implementation is `reference/composer_ref.py` (`validate`); the TypeScript port is `packages/core/src/validator` (`validate`), proven equal with a differential corpus in `packages/core/test-fixtures/validate/`. Errors block the result. Warnings show in the quality report.
 
 | Check | Type |
 |---|---|
 | Every LLM slot exists; required slots are not empty | error |
 | Slot length ≤ `max_chars` | error |
 | Slot has no line break, backtick, heading marker, `{{` or `}}` | error |
-| Slot has no override pattern ("ignore previous …", "disregard", automatic send/forward/delete) | error |
+| Slot has no override pattern ("ignore previous …", "disregard", automatic send/forward/delete/move) | error |
 | Inline optional slot starts with a space when not empty | error |
 | Rendered text has no slot marker | error |
 | Rendered text ≤ 8,000 characters | error |
