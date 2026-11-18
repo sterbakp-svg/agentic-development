@@ -11,3 +11,4 @@ schemas/
 dist/
 *.md
 pilot/copilot-studio/spike/generated/
+packages/core/test-fixtures/

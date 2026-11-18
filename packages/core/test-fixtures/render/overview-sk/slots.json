@@ -1,0 +1,23 @@
+{
+  "slots": {
+    "role_line": "CIO (Director of IT and PMO) and Management Board member at [company], an insurance company in an international group",
+    "responsibilities": "IT operations and development; PMO and project portfolio; information security; regulatory compliance (DORA, NBS, internal and external audit); IT vendors, contracts and budget; Management Board agenda",
+    "ongoing_topics": "Group IT transformation program for business units (alignment, standardization, simplification), DORA compliance and governance, AI adoption (GitHub Copilot, AI agents)",
+    "tools": "",
+    "stakeholders": "[CEO name], [matrix manager, Group IT], Management Board members, Group IT / Group CIO office, NBS (National Bank of Slovakia, regulator), internal and external audit, Risk & Compliance, direct reports: [names], key vendors: [names]",
+    "search_signals": "approvals and decisions; budget, contract and vendor issues; escalations",
+    "action_verbs": "reply, decide, approve, deliver, attend, or delegate",
+    "waiting_parties": "",
+    "fyi_risk_examples": "incident, regulatory finding, audit issue, escalation",
+    "sender_rule": "key stakeholder = 5",
+    "urgency_signals": "explicit deadline, meeting soon, repeated reminders, escalation tone, sender waiting more than 3 days",
+    "impact_areas": "regulatory or DORA, security incident, production outage, budget or contract, Board or Group decision, reputation",
+    "ownership_rule": "only Martin can act = 5; easy to delegate = 1",
+    "next_step_options": "reply, decide, approve, delegate to [role], schedule a meeting, escalate, or close",
+    "solution_guidance": "",
+    "draft_style": "concise, professional, decisive and friendly",
+    "draft_extra": "",
+    "placeholder_example": "rozpočet",
+    "discretion_rule": "Handle HR, personal and confidential topics discreetly: summarize only what Martin needs to act."
+  }
+}

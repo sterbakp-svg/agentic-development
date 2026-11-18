@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "template_id": "email-triage",
+  "user": {
+    "display_name": "Jana",
+    "job_title": "Data and Business Analyst",
+    "department": "Outsourcing and Third-Party Risk Management (TPRM)",
+    "organization_name": "",
+    "organization_type": "a financial institution",
+    "industry": "financial_services",
+    "seniority": "specialist",
+    "has_team": false
+  },
+  "role": {
+    "description": "Data and business analyst for the outsourcing and third-party risk management department. Maintains the outsourcing register and the DORA Register of Information, checks data quality, writes business requirements for TPRM processes and tools, supports due diligence and risk assessments, and prepares dashboards and reports for management, risk committees and the regulator.",
+    "responsibilities": [
+      "data analysis and reporting on outsourcing and third-party risk",
+      "outsourcing register and DORA Register of Information (ICT third-party providers)",
+      "data quality checks",
+      "business requirements and process analysis for TPRM processes and tools",
+      "support for due diligence, risk and criticality assessments, contract and SLA monitoring, and exit plans",
+      "dashboards and reports for management, risk committees and the regulator"
+    ],
+    "ongoing_topics": [],
+    "tools": [],
+    "regulations": [
+      "DORA"
+    ]
+  },
+  "stakeholders": [
+    {
+      "role_or_group": "manager, Head of Outsourcing & TPRM",
+      "relation": "manager",
+      "priority": "highest"
+    },
+    {
+      "role_or_group": "team members",
+      "relation": "team",
+      "priority": "high"
+    },
+    {
+      "role_or_group": "business owners of outsourced services",
+      "relation": "internal_function",
+      "priority": "high"
+    },
+    {
+      "role_or_group": "Procurement, Legal, Compliance, Information Security, Operational Risk",
+      "relation": "internal_function",
+      "priority": "high"
+    },
+    {
+      "role_or_group": "Internal Audit",
+      "relation": "auditor",
+      "priority": "high"
+    },
+    {
+      "role_or_group": "Group TPRM",
+      "relation": "group_or_headquarters",
+      "priority": "high"
+    },
+    {
+      "role_or_group": "NBS",
+      "relation": "regulator",
+      "priority": "highest"
+    },
+    {
+      "role_or_group": "key vendors",
+      "relation": "vendor",
+      "priority": "high"
+    }
+  ],
+  "priorities": {
+    "confidential_topics": [
+      "contract terms",
+      "vendor pricing",
+      "personal data"
+    ]
+  },
+  "languages": {
+    "working": [
+      "sk",
+      "en"
+    ],
+    "overview": "sk",
+    "instructions": "en"
+  },
+  "style": {
+    "draft_tone": [
+      "clear",
+      "precise",
+      "friendly",
+      "collaborative"
+    ],
+    "signature": "Jana"
+  },
+  "agent": {
+    "name": "Inbox Triage",
+    "time_window_days": 7,
+    "top_n": 10
+  },
+  "org_context": {
+    "mandatory_rule": "Mention the policy number in every draft."
+  }
+}

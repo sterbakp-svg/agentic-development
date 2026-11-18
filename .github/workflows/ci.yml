@@ -105,6 +105,11 @@ jobs:
             examples/cio-insurance/profile.json evals/negative/injection-slots.json > "$RUNNER_TEMP/validate-negative.json"
           python3 -I -c 'import json,sys; sys.exit(1 if json.load(open(sys.argv[1]))["ok"] else 0)' "$RUNNER_TEMP/validate-negative.json"
           echo "negative: validate fails as expected"
-      # T-004 adds a step here: set up Node, run the TypeScript renderer on the
-      # same two examples and compare its output byte-for-byte with the
-      # reference output ("$RUNNER_TEMP/render-$ex.md") above.
+      # The TypeScript renderer is compared with the reference by the vitest suite
+      # in job `checks`. This step checks that the stored expected output of the
+      # differential corpus is still what the reference produces.
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+      - name: Differential corpus matches the reference
+        run: node packages/core/scripts/reference-fixtures.mjs --check
