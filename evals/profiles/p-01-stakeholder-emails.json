@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "template_id": "email-triage",
+  "user": {
+    "display_name": "Lucia",
+    "job_title": "Internal Auditor",
+    "department": "Internal Audit",
+    "organization_type": "an insurance company",
+    "industry": "insurance",
+    "seniority": "specialist",
+    "has_team": false
+  },
+  "role": {
+    "description": "Plans and runs internal audits of claims, IT and outsourcing. Follows up open audit findings and reports to the Audit Committee.",
+    "responsibilities": ["audit planning", "audit fieldwork and reports", "follow-up of open findings", "Audit Committee reports"],
+    "regulations": ["Solvency II", "DORA"]
+  },
+  "stakeholders": [
+    { "name": "Miro (miro.k@example.com)", "role_or_group": "Head of Internal Audit", "relation": "manager", "priority": "highest" },
+    { "name": "Hana", "role_or_group": "Audit Committee chair, hana.audit@example.com", "relation": "board", "priority": "highest" },
+    { "role_or_group": "external auditor (audit-team@example.org)", "relation": "auditor", "priority": "high" },
+    { "role_or_group": "owners of audit findings", "relation": "internal_function", "priority": "high" }
+  ],
+  "languages": { "working": ["sk", "en"], "overview": "sk", "instructions": "en" },
+  "style": { "draft_tone": ["factual", "polite"], "signature": "Lucia" }
+}

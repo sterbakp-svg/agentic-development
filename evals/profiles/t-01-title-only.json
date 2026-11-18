@@ -1,0 +1,7 @@
+{
+  "schema_version": "1.0",
+  "template_id": "email-triage",
+  "user": { "job_title": "Analyst" },
+  "role": { "description": "Works as an Analyst." },
+  "languages": { "working": ["en"], "overview": "en" }
+}

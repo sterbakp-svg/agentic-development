@@ -128,7 +128,7 @@ Marked CHANGED where a current source differs from `docs/05-mvp-copilot-studio.m
 - **CHANGED. Naming.** The brief and `docs/05` say "prompt tool (formerly AI Builder prompts / prompt actions)". Current Learn name: "Prompt" tool, added under Tools > Add a tool > Prompt (S4). In agent flows the node is "Run a prompt" (S3).
 - **CHANGED. Credits unit.** Message page (S7) says tokens or characters. Billing page (S6) says tokens only. Pilot cost estimates should use tokens.
 - **NOT A PLATFORM VALUE. 8,000 characters.** `docs/05` line 22 uses 8,000 for `length()`. No Microsoft page confirms 8,000 as a Copilot Studio or flow limit. It is our configuration. Golden rule 5 says read it from `templates/<id>/<version>/template.json`.
-- **NOT CONFIRMED. Agent instructions 4,615 characters (`docs/05` line 11).** Fits under the 8,000 that community sources quote. No Learn page confirms an instruction cap.
+- **NOT CONFIRMED. Agent instructions 5,785 characters (interview prompt 1.1.1 pasted from `# ROLE` on, `docs/05` line 11).** Fits under the 8,000 that community sources quote. No Learn page confirms an instruction cap.
 - **BRIEF ESTIMATE, NOT A SOURCE.** Brief estimates 44,300 characters is about 11,000 to 12,000 tokens. S6 gives an illustrative ratio of about 3.8 characters per token (4,200 tokens for about 16,000 characters). Ratio is illustrative. Token count must be measured in the prompt tool test.
 
 ## Facts that decide option A, B or C

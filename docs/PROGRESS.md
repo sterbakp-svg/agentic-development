@@ -66,8 +66,8 @@ One approved change against `windows.md`: W6 runs directly after W1, not after W
 | W4 | 1 | ADR for the generator pipeline in `docs/adr/` | architect | — |
 | W4 | 2 | Failing tests with a mocked model for T-011 and T-012 | test-engineer | — |
 | W4 | 3 | T-011 Generator pipeline | core-dev | step 4 |
-| W4 | 4 | T-012 `prompts/extract-profile.system.md` and five test job descriptions | prompt-engineer | step 3 |
-| W4 | 5 | T-012 wiring in `packages/core` | core-dev | — |
+| W4 | 4 | T-012 (ADR-001): the interview agent extracts from a pasted job description (`# PASTED JOB DESCRIPTION` in `prompts/mvp-interview-agent.instructions.md`); five test job descriptions in `evals/job-descriptions/`; a separate `prompts/extract-profile.system.md` only if the evals show weak extraction | prompt-engineer | step 3 |
+| W4 | 5 | T-012: no wiring in `packages/core` (ADR-001); closes with the first manual eval run (W8, Q-12) | — | — |
 | W4 | 6 | Reviews of T-011 and T-012, merge; one real generation per golden profile, validator reports shown to you | reviewer ×2, lead | both reviews together |
 | W5 | 1 | T-013 `packages/evals`, missing profiles in `evals/profiles/` | test-engineer | step 2 |
 | W5 | 2 | Judge prompt from the rubric, checked on G-01 and G-02 | prompt-engineer | step 1 |
@@ -136,6 +136,7 @@ Blocking for the next windows: none for W1 to W3. Q-04, Q-10 block W4. Q-11 bloc
 | T-005 | done | 2026-11-18 | tests first with a 126-case validate corpus from the reference; core-dev; two tests contradicted the reference and were set to the reference output by the lead (golden rule 3); reviewer ACCEPT WITH CHANGES (every code point of every pattern letter equal to Python `re.I`; 20,000 random cases byte-equal), doc changes and a linear `EMAIL_RE` done by the lead. E-5 to E-7 |
 | T-010 | done | 2026-11-15 | tests first, core-dev; reviewer ACCEPT WITH CHANGES (Retry-After cap, managed identity only in production, config docs), done in round 1. Open for T-011: zod for the HTTP response, total deadline per call, `temperature` for reasoning deployments (Q-10). `.env.example` not added: blocked by the owner's permission rules |
 | T-011 to T-013 | not started | | W4, W5 |
+| T-012 | implemented, eval pending | 2026-11-18 | ADR-001 path: interview prompt 1.1.1 with `# PASTED JOB DESCRIPTION`; JD-01 to JD-05 in `evals/job-descriptions/`; missing eval profiles R-01 to P-01; `evals-data.test.ts`; T-020 checklist Part 5c (ADR § 9); Q-35 to Q-37. Reviewer ACCEPT WITH CHANGES, done in round 1. Closes with the first manual eval run (before/after 1.0.0 vs 1.1.1, W8, Q-12). |
 | T-014 | implemented, eval pending | 2026-11-18 | 8 presets, `schemas/preset.schema.json`, merge rule in `docs/03-input-model.md`, eval cases PR-01 to PR-08; reviewer ACCEPT WITH CHANGES, done in round 1. Closes with the W5 baseline (Q-12). Owner: keep "Python or R" and "SQL" as data-analyst tools? |
 | R-A2 | accepted | 2026-11-18 | GHSA-fc5q-39xc-vjpf (picomatch, dev-only, no fix); accepted by the product owner |
 | T-015 | not planned | | optional; blocked by Q-06 |

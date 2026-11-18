@@ -1,0 +1,38 @@
+{
+  "user": {
+    "job_title": "Data Protection Officer (DPO)",
+    "organization_type": "a regional network of private hospitals and outpatient clinics",
+    "industry": "healthcare",
+    "seniority": "specialist",
+    "has_team": false
+  },
+  "role": {
+    "description": "Independent data protection officer of a hospital network. Advises management and staff on personal data processing, monitors compliance and is the contact point for the data protection authority and for patients who exercise their rights.",
+    "responsibilities": [
+      "GDPR and national data protection act compliance across all hospitals and clinics",
+      "advice on data protection impact assessments (DPIA)",
+      "data subject requests from patients and employees within legal deadlines",
+      "personal data breach assessment with IT Security and notifications within 72 hours",
+      "review of data processing agreements with vendors",
+      "privacy training for medical and administrative staff",
+      "data protection reports to the CEO and the Supervisory Board"
+    ],
+    "ongoing_topics": [
+      "rollout of a new electronic health record system",
+      "NIS2 readiness with IT Security"
+    ],
+    "regulations": ["GDPR", "national data protection act", "NIS2"]
+  },
+  "stakeholders": [
+    { "role_or_group": "Chief Executive Officer", "relation": "manager", "priority": "highest" },
+    { "role_or_group": "Supervisory Board", "relation": "board", "priority": "highest" },
+    { "role_or_group": "data protection authority", "relation": "regulator", "priority": "highest" },
+    { "role_or_group": "hospital directors", "relation": "executive", "priority": "high" },
+    { "role_or_group": "IT Security", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "Legal", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "Quality and Patient Safety", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "HR", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "vendors of medical and IT systems", "relation": "vendor", "priority": "high" },
+    { "role_or_group": "patients exercising their rights", "relation": "other", "priority": "high" }
+  ]
+}

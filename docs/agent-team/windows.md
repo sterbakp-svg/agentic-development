@@ -89,7 +89,7 @@ Before you close: run the golden tests yourself, update docs/PROGRESS.md, show m
 ```
 ```text
 You are the lead per AGENTS.md. Read docs/PROGRESS.md. First check that the AOAI_* environment variables are set; if not, stop and tell me.
-In this window do ONLY T-011 and T-012. Step 1: architect writes an ADR for the generator pipeline (request building, structured output, retry with validator errors, stored metadata). Step 2: test-engineer writes failing tests with a mocked model. Step 3: core-dev implements T-011; prompt-engineer writes prompts/extract-profile.system.md and the five test job descriptions for T-012, core-dev wires it. Step 4: reviewer checks both tickets.
+In this window do ONLY T-011 and T-012. Step 1: architect writes an ADR for the generator pipeline (request building, structured output, retry with validator errors, stored metadata). Step 2: test-engineer writes failing tests with a mocked model. Step 3: core-dev implements T-011; for T-012 (ADR-001) prompt-engineer writes the five test job descriptions and checks the job description section of prompts/mvp-interview-agent.instructions.md: the interview agent extracts, and a separate prompts/extract-profile.system.md comes only if the evals show weak extraction. Step 4: reviewer checks both tickets.
 Run one real generation for each golden profile and show me the validator reports. Ask me before any eval run. Update docs/PROGRESS.md, show me a one-screen summary and stop.
 ```
 

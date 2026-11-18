@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "template_id": "email-triage",
+  "user": {
+    "display_name": "Zuzana",
+    "job_title": "Procurement Specialist",
+    "organization_type": "an energy distribution company",
+    "industry": "energy",
+    "seniority": "specialist",
+    "has_team": false
+  },
+  "role": {
+    "description": "Runs tenders for network maintenance services and manages framework contracts with service vendors.",
+    "responsibilities": ["tenders for maintenance services", "framework contracts and call-offs", "vendor evaluation"]
+  },
+  "stakeholders": [
+    { "name": "Marta `{{tools}}`", "role_or_group": "Head of Procurement", "relation": "manager", "priority": "highest" },
+    { "name": "Ondrej {`{signature}`}", "role_or_group": "network maintenance lead", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "maintenance service vendors", "relation": "vendor", "priority": "high" }
+  ],
+  "languages": { "working": ["sk", "en"], "overview": "sk", "instructions": "en" }
+}

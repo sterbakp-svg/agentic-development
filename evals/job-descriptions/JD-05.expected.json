@@ -1,0 +1,37 @@
+{
+  "user": {
+    "job_title": "Vedúci/a zákazníckeho servisu",
+    "organization_type": "internetový obchod s elektronikou a domácimi spotrebičmi",
+    "industry": "retail",
+    "seniority": "manager",
+    "has_team": true,
+    "delegation_roles": ["operátori zákazníckej podpory"]
+  },
+  "role": {
+    "description": "Vedie tím 12 operátorov zákazníckej linky, chatu a e-mailovej podpory internetového obchodu, rieši eskalované sťažnosti a reklamácie a sleduje SLA a spokojnosť zákazníkov.",
+    "responsibilities": [
+      "vedenie tímu 12 operátorov zákazníckej linky, chatu a e-mailovej podpory",
+      "eskalované sťažnosti a reklamácie",
+      "SLA a spokojnosť zákazníkov (NPS)",
+      "plánovanie zmien a kapacít v sezóne",
+      "oneskorené zásielky s logistikou a dopravcami",
+      "spolupráca s dodávateľom call centra a chatbota",
+      "týždenný reporting obchodnému riaditeľovi"
+    ],
+    "ongoing_topics": [
+      "príprava na sezónu Black Friday a Vianoce",
+      "výber nového ticketovacieho systému"
+    ],
+    "regulations": ["zákon o ochrane spotrebiteľa", "GDPR"]
+  },
+  "stakeholders": [
+    { "role_or_group": "obchodný riaditeľ", "relation": "manager", "priority": "highest" },
+    { "role_or_group": "Slovenská obchodná inšpekcia", "relation": "regulator", "priority": "high" },
+    { "role_or_group": "tím operátorov", "relation": "team", "priority": "high" },
+    { "role_or_group": "logistika", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "právne oddelenie", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "marketing", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "dopravcovia", "relation": "vendor", "priority": "high" },
+    { "role_or_group": "dodávateľ call centra a chatbota", "relation": "vendor", "priority": "high" }
+  ]
+}
