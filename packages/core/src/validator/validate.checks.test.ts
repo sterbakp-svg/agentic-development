@@ -87,9 +87,14 @@ describe('check: missing slot', () => {
     const r = run((p, g) => (g.slots.agent_name = '{{bad}} `x`'));
     expect(r).toEqual({ ok: true, chars: 5174, errors: [], warnings: [] });
   });
-  it('unknown slots in the generator output are ignored', () => {
+  it('unknown slots get no slot checks, but their placeholders are scanned (like the reference)', () => {
     const r = run((p, g) => (g.slots.unknown_slot = '`x` {{y}} [z]'));
-    expect(r.ok).toBe(true);
+    expect(r).toEqual({
+      ok: false,
+      chars: 5174,
+      errors: ['placeholder not declared in placeholders_left: [z]'],
+      warnings: [],
+    });
   });
 });
 
@@ -434,8 +439,10 @@ describe('check: placeholders must be declared in placeholders_left', () => {
     });
     expect(r.errors).toEqual([]);
   });
-  it('only slots that the template declares are scanned', () => {
-    expect(run((p, g) => (g.slots.unknown_slot = '[hidden]')).errors).toEqual([]);
+  it('placeholders in unknown slots are scanned too (reference joins all slot values)', () => {
+    expect(run((p, g) => (g.slots.unknown_slot = '[hidden]')).errors).toEqual([
+      'placeholder not declared in placeholders_left: [hidden]',
+    ]);
   });
 });
 
