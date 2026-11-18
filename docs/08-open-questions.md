@@ -34,6 +34,18 @@ Golden rule 3: the reference decides. These points are recorded here; the TypeSc
 | D-1 | `template.json`, `label_handoff` rule: `profile.role.has_team` | `profile["user"]["has_team"]` | Fix the rule text (Q-15). |
 | D-2 | `docs/04-generation-and-validation.md` § 4: override pattern lists automatic "send/forward/delete" | The pattern also covers "move" | Add "move" to the doc in T-005. |
 | D-3 | `template.json` and the generator prompt: `discretion_rule` must end with ": summarize only what <user name> needs to act." | No check of this ending | Keep the reference behavior in v1. The judge rubric can cover it; a validator check would be a change of the reference and needs approval. |
+| D-4 | `template.json`, `signature` rule: "default first name" | Default is the full stripped `display_name` | Code follows the reference. Fix the rule text together with Q-15 (both are rule text sent to the model). |
+
+### Differences between the TypeScript core and the reference in error cases
+
+Found in the T-004 review with 18,000 random differential cases (all byte-identical for valid input) and targeted probes. The reference raises or behaves by Python rules only for input that the schema or the validator already rejects, or that JavaScript cannot represent. The TypeScript renderer does not raise here.
+
+| # | Input | Reference | TypeScript (`packages/core/src/renderer`) | Why acceptable |
+|---|---|---|---|---|
+| E-1 | Non-string LLM slot value (`null`, number, array) | raises | renders empty | The validator (T-005) rejects the generator output before rendering. |
+| E-2 | `user`, `agent` or `style` is `null`; `agent.name` not a string | raises | uses the defaults | `prepareProfile` rejects such profiles before rendering. |
+| E-3 | `has_team` is `[]` or `{}` | non-delegate label (Python truthiness) | delegate label (JavaScript truthiness) | The schema allows only a boolean; `prepareProfile` rejects other types. |
+| E-4 | `time_window_days` or `top_n` written as `7.0` or `1e1` in the JSON file | `7.0`, `10.0` | `7`, `10` | JSON numbers lose their spelling in JavaScript. `7.0` is a valid JSON Schema integer, so only hand-written files can differ. Proposal: the reference uses `str(int(...))` (a reference change; needs your approval). |
 
 ## Accepted risks
 
