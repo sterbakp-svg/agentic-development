@@ -1,6 +1,6 @@
 # Evaluation cases
 
-The generator is an LLM. Its quality is measured with fixed cases. Run them in CI on every change to `prompts/`, `templates/` or the model settings (`pnpm eval`). Store each run in `evals/runs/<date>-<model>.json`.
+The generator is an LLM. Its quality is measured with fixed cases. Delivery path ADR-001: the model runs only in the Copilot Studio prompt tool, so the cases are run by hand in the company test environment and scored by people with the rubric below (T-013, procedure in ADR-001 § 8). Store each run in `evals/runs/<date>-<model>.json`.
 
 ## Two levels of checks
 

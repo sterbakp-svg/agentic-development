@@ -28,7 +28,7 @@ Golden test for the pilot: run the flow with the two golden examples (profile + 
 
 If the prompt tool cannot hold the generator prompt with template and examples, or cannot return structured JSON reliably:
 - Option B: put the examples in a shortened form (slots only, no rendered text) into the prompt.
-- Option C: call an Azure Function (one HTTP endpoint) that runs `packages/core` and holds the model call. This moves the pilot closer to phase 2 and needs an Azure subscription.
+- Option C (dropped by ADR-001: no Azure in the current path): call an Azure Function (one HTTP endpoint) that runs `packages/core` and holds the model call. This moves the pilot closer to phase 2 and needs an Azure subscription.
 
 ## Development workflow with coding agents
 

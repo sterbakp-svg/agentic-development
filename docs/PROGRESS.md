@@ -2,7 +2,7 @@
 
 State file of the lead. A new session starts from this file alone.
 
-**Last update:** 2026-11-18 · window W3 · **Status: W3 done: T-004, T-005 merged; T-014 implemented, eval pending (Q-12). Phase 0 has core profile, renderer, validator and model client. Next window: W4 (blocked by H-3: Azure subscription, AOAI deployment, Q-04, Q-10). T-020 hands-on test still open (H-5).**
+**Last update:** 2026-11-18 · after W3 · **Status: delivery path changed by ADR-001 (one company's Power Platform, Copilot Studio prompt tool, no Azure, manual evals, IT deploys). Phase 0 core done and kept as test oracle. Next window: W5 (changed: manual eval kit), in parallel with the T-020 hands-on test.**
 
 ## 1. The product in five sentences
 
@@ -28,8 +28,8 @@ State file of the lead. A new session starts from this file alone.
 |---|---|---|---|
 | H-1 | Create the GitHub repository and add it as `origin` | W1 | done (`sterbakp-svg/agentic-development`) |
 | H-2 | Install pnpm | W1 | done (pnpm 10.34.9 via npm; Node 26 has no corepack) |
-| H-3 | Decide Q-04 and Q-10: Azure subscription, Azure OpenAI deployment in an EU data zone, `AOAI_*` variables set locally | W4, W5 | open |
-| H-4 | Approve the eval budget (Q-11) | W5 | open |
+| H-3 | ~~Azure subscription and Azure OpenAI~~ | — | obsolete (ADR-001) |
+| H-4 | ~~Eval budget (Q-11)~~ | — | obsolete (ADR-001); manual evals instead |
 | H-5 | Test Power Platform environment; Windows machine or cloud PC if the Copilot Studio extension needs it | W6 (your test steps) | open |
 | H-6 | Decide Q-05 and do T-021: pilot tenant, environment, agent shell, first clone | W7 | open |
 
@@ -37,7 +37,9 @@ H-6 has the longest lead time (tenant approval). It is the critical path of phas
 
 ## 4. Order of work
 
-Approved order of windows: **W1 → W6 → W2 → W3 → W4 → W5 → W7 → W8**. W1 to W5 are phase 0; W6 to W8 are phase 1.
+**Current order (ADR-001, 2026-11-18):** W1, W6 desk part, W2, W3 done → **W5 changed** (manual eval kit, T-012 job descriptions, T-020 checklist update) in parallel with the **T-020 hands-on test** (human) → T-021 (human) → W7 → W8 (internal test, first manual evals) → W15 new (T-027 packaging and IT handover) → T-028 (IT import, human) → T-026 (pilot, human) → W16 new (pilot evaluation). W4 dropped. W9 to W14 deferred. Details and blockers: ADR-001 § 13. The tables below are the original plan, kept for history.
+
+Original order of windows: **W1 → W6 → W2 → W3 → W4 → W5 → W7 → W8**.
 
 One approved change against `windows.md`: W6 runs directly after W1, not after W5. T-020 depends only on T-001, it needs no Azure resource, and its result (option A, B or C) and your test steps take calendar time. W2 and W3 are not blocked by any human decision, W4 and W5 are.
 
@@ -142,11 +144,9 @@ Blocking for the next windows: none for W1 to W3. Q-04, Q-10 block W4. Q-11 bloc
 
 ## 8. Next step
 
-1. Product owner: H-3 before W4: Azure subscription (Q-04), Azure OpenAI deployment in an EU data zone and the model choice (Q-10), `AOAI_*` variables set locally (see `README.md` § Configuration). W4 starts with a check of these and stops if they are missing.
-2. Product owner: run `docs/checklists/T-020.md` (H-5) and send the result form.
-3. Product owner, small decisions: `.env.example` allowed (permission rule blocks agents)? E-4 proposal (reference uses `str(int(...))`)? Q-15 and D-4 (rule text in `template.json`, fix before the first real generation in W4)? Data-analyst tools "Python or R", "SQL"?
-4. Q-18 still open (forbidden-content check on computed slots with user text); fits after parsing in `prepareProfile`.
-5. Lead lesson from W3: `pnpm lint` output can look green through the local tooling; always also run `npx eslint .` and `npx prettier --check .` and read the exit codes.
-6. W4 brief (T-011): zod for the HTTP response of the model client, total deadline per call, `temperature` for reasoning deployments (Q-10), the strict schema drops `maxItems` of `assumptions` and `questions` (enforce in T-011).
-7. Every change to `main` needs a pull request with four green checks; nobody can bypass the ruleset.
-8. Note for the owner: the repository is public, so commit metadata shows the author emails. For new commits, set `git config user.email` to the GitHub noreply address.
+1. Product owner: answer the new questions Q-21 to Q-34 from ADR-001 (most need the company's IT). Most urgent: Q-21 (solution owner and publisher), Q-22 (licenses and Copilot Credits), Q-25 (VS Code extension or `pac`, from the T-020 test), Q-27 (company artifacts outside the public repository).
+2. Product owner: maker access in the company test environment, then the T-020 hands-on test with `docs/checklists/T-020.md` (W5 adds the new test points from ADR-001 § 9).
+3. Product owner: `AGENTS.md` still requires `pnpm eval` (Commands, step 5 of the ticket workflow). Changing it changes the workflow rules: may the lead replace it with the manual eval procedure?
+4. Next window: W5 (changed), prompt to be written from ADR-001 § 13 row 1.
+5. Small open decisions from W3: `.env.example`, E-4, Q-15 and D-4, data-analyst tools.
+6. Every change to `main` needs a pull request with four green checks; nobody can bypass the ruleset.
