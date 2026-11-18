@@ -1,0 +1,36 @@
+{
+  "presets": {
+    "executive": {
+      "label": "Executive",
+      "description": "For a CEO, managing director or board member."
+    },
+    "it-manager": {
+      "label": "IT manager",
+      "description": "For a head of IT who runs operations, security and vendors."
+    },
+    "finance": {
+      "label": "Finance manager",
+      "description": "For a head of finance or controlling."
+    },
+    "risk-compliance": {
+      "label": "Risk and compliance",
+      "description": "For a risk or compliance specialist."
+    },
+    "data-analyst": {
+      "label": "Data analyst",
+      "description": "For an analyst who prepares data, reports and dashboards."
+    },
+    "project-manager": {
+      "label": "Project manager",
+      "description": "For a manager who runs a project plan, its risks and changes."
+    },
+    "sales": {
+      "label": "Sales manager",
+      "description": "For a sales manager with targets, offers and key accounts."
+    },
+    "hr": {
+      "label": "HR business partner",
+      "description": "For an HR partner who advises managers and handles employee cases."
+    }
+  }
+}

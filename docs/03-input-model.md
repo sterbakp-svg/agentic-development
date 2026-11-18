@@ -13,6 +13,15 @@ The formal definition is `schemas/agent-profile.schema.json`. This page explains
 | Agent | name, time window, top N | Defaults (Inbox Triage, 7, 10) | Fixed numbers in the frame |
 | Org context (2b) | organization description, common stakeholders, mandatory rule | Tenant admin | Shared context; one mandatory rule line |
 
+## Role presets (FR-12)
+
+`presets/<id>.json` proposes typical values for one role: executive, it-manager, finance, risk-compliance, data-analyst, project-manager, sales, hr. The format is `schemas/preset.schema.json`. Its `profile` part is a subset of the profile schema and has the same limits.
+- A preset sets only `user.seniority`, `user.has_team`, `user.delegation_roles`, `role.responsibilities`, `role.tools`, `role.regulations`, `stakeholders` (groups only, never names), `priorities` and `style.draft_tone`.
+- A preset never sets identity fields, `role.description`, ongoing topics, languages, agent settings or org context.
+- Applying a preset fills only fields that are missing or empty. Values the user already set win.
+- Labels and descriptions come from `apps/web/messages/{en,sk}.json` (`presets.<id>.label`, `presets.<id>.description`).
+- Eval cases PR-01 to PR-08 in `evals/cases.md` cover each preset.
+
 ## Interview design (wizard and pilot agent)
 
 | Step | Questions (short, with examples) | Minimum to continue |
