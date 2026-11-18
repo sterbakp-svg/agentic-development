@@ -1,0 +1,8 @@
+{
+  "ok": false,
+  "chars": 5187,
+  "errors": [
+    "unresolved slot marker in rendered text"
+  ],
+  "warnings": []
+}

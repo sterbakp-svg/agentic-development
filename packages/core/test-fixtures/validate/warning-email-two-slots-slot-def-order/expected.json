@@ -1,0 +1,9 @@
+{
+  "ok": true,
+  "chars": 5080,
+  "errors": [],
+  "warnings": [
+    "email address in slot role_line; names are enough",
+    "email address in slot tools; names are enough"
+  ]
+}

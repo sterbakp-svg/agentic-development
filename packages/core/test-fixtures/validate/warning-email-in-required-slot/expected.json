@@ -1,0 +1,8 @@
+{
+  "ok": true,
+  "chars": 4948,
+  "errors": [],
+  "warnings": [
+    "email address in slot stakeholders; names are enough"
+  ]
+}

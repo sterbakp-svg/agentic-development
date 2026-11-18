@@ -1,0 +1,8 @@
+{
+  "ok": false,
+  "chars": 5057,
+  "errors": [
+    "empty required slot: role_line"
+  ],
+  "warnings": []
+}

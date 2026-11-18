@@ -1,0 +1,10 @@
+{
+  "ok": false,
+  "chars": 5196,
+  "errors": [
+    "placeholder not declared in placeholders_left: [B]",
+    "placeholder not declared in placeholders_left: [a]",
+    "placeholder not declared in placeholders_left: [b]"
+  ],
+  "warnings": []
+}

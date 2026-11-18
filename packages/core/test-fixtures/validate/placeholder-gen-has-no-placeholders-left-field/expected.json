@@ -1,0 +1,13 @@
+{
+  "ok": false,
+  "chars": 5198,
+  "errors": [
+    "placeholder not declared in placeholders_left: [CEO name]",
+    "placeholder not declared in placeholders_left: [company]",
+    "placeholder not declared in placeholders_left: [matrix manager, Group IT]",
+    "placeholder not declared in placeholders_left: [names]",
+    "placeholder not declared in placeholders_left: [role]",
+    "placeholder not declared in placeholders_left: [tool]"
+  ],
+  "warnings": []
+}

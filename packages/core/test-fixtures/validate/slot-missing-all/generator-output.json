@@ -1,0 +1,24 @@
+{
+  "status": "ready",
+  "slots": {},
+  "description": "Prejde moje pracovné maily za posledných 7 dní, vyberie 10 najdôležitejších, ktoré vyžadujú moju akciu, navrhne riešenie a pripraví drafty odpovedí. Funguje v Microsoft 365 Copilot.",
+  "conversation_starters": [
+    "Priprav mi top 10 mailov za posledný týždeň, ktoré vyžadujú moju akciu.",
+    "Čo čaká na moje schválenie alebo rozhodnutie?",
+    "Priprav drafty odpovedí k trom najdôležitejším mailom.",
+    "Ktoré veci sú po termíne alebo eskalované?"
+  ],
+  "placeholders_left": [
+    "[company]",
+    "[CEO name]",
+    "[matrix manager, Group IT]",
+    "[names]",
+    "[role]"
+  ],
+  "assumptions": [
+    "NBS je regulátor (Národná banka Slovenska)."
+  ],
+  "questions": [
+    "Ako sa volá CEO a tvoj matrix manažér? Agent ich potom spozná podľa mena."
+  ]
+}

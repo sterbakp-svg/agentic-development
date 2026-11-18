@@ -1,0 +1,8 @@
+{
+  "ok": false,
+  "chars": 5982,
+  "errors": [
+    "inline optional slot must start with a space: draft_extra"
+  ],
+  "warnings": []
+}

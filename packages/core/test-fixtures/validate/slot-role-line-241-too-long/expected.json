@@ -1,0 +1,8 @@
+{
+  "ok": false,
+  "chars": 5298,
+  "errors": [
+    "slot too long: role_line (241 > 240)"
+  ],
+  "warnings": []
+}

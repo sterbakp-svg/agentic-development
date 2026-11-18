@@ -1,0 +1,8 @@
+{
+  "ok": false,
+  "chars": 6075,
+  "errors": [
+    "slot too long: sender_rule (122 > 120)"
+  ],
+  "warnings": []
+}

@@ -1,0 +1,9 @@
+{
+  "ok": false,
+  "chars": 5174,
+  "errors": [
+    "need exactly 4 conversation starters",
+    "starter too long: cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  ],
+  "warnings": []
+}

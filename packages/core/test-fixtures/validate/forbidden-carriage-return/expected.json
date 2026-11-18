@@ -1,0 +1,8 @@
+{
+  "ok": false,
+  "chars": 5188,
+  "errors": [
+    "forbidden content in slot tools: /[\\r\\n]/"
+  ],
+  "warnings": []
+}

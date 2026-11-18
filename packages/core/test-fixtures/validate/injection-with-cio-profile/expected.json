@@ -1,0 +1,11 @@
+{
+  "ok": false,
+  "chars": 5946,
+  "errors": [
+    "forbidden content in slot tools: /[\\r\\n]/",
+    "forbidden content in slot tools: /^\\s*#/",
+    "forbidden content in slot discretion_rule: /ignore (all|any|the|previous|above)/",
+    "forbidden content in slot discretion_rule: /\\b(send|forward|delete|move)\\b[^.;]*\\b(automatically|without (asking|review))/"
+  ],
+  "warnings": []
+}
