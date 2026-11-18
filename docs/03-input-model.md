@@ -18,7 +18,15 @@ The formal definition is `schemas/agent-profile.schema.json`. This page explains
 `presets/<id>.json` proposes typical values for one role: executive, it-manager, finance, risk-compliance, data-analyst, project-manager, sales, hr. The format is `schemas/preset.schema.json`. Its `profile` part is a subset of the profile schema and has the same limits.
 - A preset sets only `user.seniority`, `user.has_team`, `user.delegation_roles`, `role.responsibilities`, `role.tools`, `role.regulations`, `stakeholders` (groups only, never names), `priorities` and `style.draft_tone`.
 - A preset never sets identity fields, `role.description`, ongoing topics, languages, agent settings or org context.
-- Applying a preset fills only fields that are missing or empty. Values the user already set win.
+- Two caps apply to presets only. A preset has at most 8 responsibilities, because the responsibilities slot takes 4-8. A preset has at most 12 stakeholders, so the user can still add named people within the profile limit of 20.
+- All preset values are English ASCII text. They pass the same content checks as slots (reference `FORBIDDEN_IN_SLOTS` plus the stricter Q-13 rules).
+
+Merge rule (the wizard and the pilot apply a preset this way):
+1. Apply the preset once, to the raw user input, before `prepareProfile` adds schema defaults. After the defaults, a `has_team` the user did not answer would already be `false`.
+2. The preset fills only fields the user did not answer: missing, empty text or an empty list. Any value the user set wins, also an explicit `has_team: false`. Lists are taken whole, never joined.
+3. `user.delegation_roles` is filled only when the merged `has_team` is `true`. The generator suggests no delegation when `has_team` is `false`.
+
+Labels and eval cases:
 - Labels and descriptions come from `apps/web/messages/{en,sk}.json` (`presets.<id>.label`, `presets.<id>.description`).
 - Eval cases PR-01 to PR-08 in `evals/cases.md` cover each preset.
 

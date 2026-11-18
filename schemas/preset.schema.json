@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://agent-composer.example/schemas/preset/1.0.json",
   "title": "Role preset (proposed profile values for one role)",
-  "description": "A preset proposes typical values for a role. The user can change all of them. Applying a preset fills only profile fields that are missing or empty; values the user already set win. Every field reuses the definition and limits of the agent-profile schema. Stakeholders are groups, never named persons. A preset never sets identity fields (name, job title, organization), role.description, ongoing topics, languages, agent settings or org_context.",
+  "description": "A preset proposes typical values for a role. The user can change all of them. Merge rule: apply the preset once, to the raw user input, before schema defaults; it fills only fields the user did not answer (an explicit false or any value wins); delegation_roles is filled only when the merged has_team is true. Every field reuses the definition and limits of the agent-profile schema. Stakeholders are groups, never named persons. A preset never sets identity fields (name, job title, organization), role.description, ongoing topics, languages, agent settings or org_context.",
   "type": "object",
   "required": ["id", "label_key", "description_key", "version", "profile"],
   "additionalProperties": false,
@@ -47,9 +47,10 @@
           "additionalProperties": false,
           "properties": {
             "responsibilities": {
+              "type": "array",
               "$ref": "https://agent-composer.example/schemas/agent-profile/1.0.json#/properties/role/properties/responsibilities",
               "maxItems": 8,
-              "description": "At most 8, the range of the responsibilities slot (4-8)."
+              "description": "Preset-only cap: at most 8, the range of the responsibilities slot (4-8)."
             },
             "tools": {
               "$ref": "https://agent-composer.example/schemas/agent-profile/1.0.json#/properties/role/properties/tools",
@@ -63,7 +64,7 @@
         "stakeholders": {
           "type": "array",
           "maxItems": 12,
-          "description": "At most 12, so that the user can add named people within the profile limit.",
+          "description": "Preset-only cap: at most 12, so that the user can add named people within the profile limit of 20.",
           "items": {
             "type": "object",
             "required": ["role_or_group", "relation", "priority"],
