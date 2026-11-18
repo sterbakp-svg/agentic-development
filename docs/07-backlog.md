@@ -52,8 +52,8 @@ Blocked by: T-005, T-010
 
 ### T-012 Job description extraction — AGENT
 Blocked by: T-010
-- Separate prompt `prompts/extract-profile.system.md` (write it): text in, partial profile out (responsibilities, topics, stakeholders, regulations, seniority guess) with confidence per field.
-- AC: 5 test job descriptions (write them, different roles); extracted fields reviewed in the eval report.
+- ADR-001: no separate prompt tool. The interview agent extracts fields from a pasted job description (`# PASTED JOB DESCRIPTION` in `prompts/mvp-interview-agent.instructions.md`). A separate `prompts/extract-profile.system.md` only if the evals show weak extraction.
+- AC: 5 test job descriptions (`evals/job-descriptions/JD-01..05`), run by hand and scored in the manual eval form (cases JD-01..JD-05).
 
 ### T-013 Eval harness — AGENT
 Blocked by: T-011

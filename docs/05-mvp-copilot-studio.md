@@ -8,7 +8,7 @@ Prove with 5-10 real users that the guided interview plus the generator gives ag
 
 | Component | Copilot Studio element | Content |
 |---|---|---|
-| Agent "Agent Composer (pilot)" | Custom agent, generative orchestration | Instructions: `prompts/mvp-interview-agent.instructions.md` (4,615 characters) |
+| Agent "Agent Composer (pilot)" | Custom agent, generative orchestration | Instructions: `prompts/mvp-interview-agent.instructions.md` (5,660 characters pasted, version 1.1.0) |
 | `GenerateEmailTriageSlots` | Prompt tool | Instructions: `prompts/generator.system.md` + template + examples as fixed text in the prompt; input: `profile_json` (text); output: JSON (generator-output schema) |
 | `RenderAndValidate` | Agent flow (Power Automate) called as a tool | Renders the template with string replacement and checks the rules listed below; returns `instructions`, `chars`, `errors`, `warnings` (as text: array outputs are not documented, T-020) |
 | Pilot feedback | Topic triggered by "feedback" | 3 questions (relevance 1-5, drafts 1-5, free text) stored in a Dataverse table or a SharePoint list |

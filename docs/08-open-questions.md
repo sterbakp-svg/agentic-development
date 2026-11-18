@@ -38,6 +38,9 @@ Coding agents: when you need a decision that is not in the docs, add it here wit
 | Q-32 | Spike option C is gone. If the test hits a C condition (fewer than 9 of 10 valid runs, flow weaker than the reference, over 100 s), what then? (ADR-001 P-12) | Try B first. If B fails too, stop and present options; do not decide in a ticket. | see ADR-001 § 13 |
 | Q-33 | Processing roles: the company is controller; the product owner's side supplies artifacts and has maker access. Who does records of processing and the DPIA screening? (ADR-001 P-13) | The company's data protection officer, with our pilot guide and § 6 as input. T-052 stays deferred. | see ADR-001 § 13 |
 | Q-34 | Presets in the pilot interview: offered to pilot users, or used only in evals for now? (ADR-001 P-14) | Evals only in the first release; add to the interview after the pilot if users ask. | see ADR-001 § 13 |
+| Q-35 | Slot `max_chars` values add up to more than the template's total limit (reference: 8,594 characters for T-01 and 9,118 for T-02 with every slot at its maximum), and `prompts/generator.system.md` does not state the total budget. Give the generator the total budget from `template.json`? | Yes, as a separate generator prompt change with its own manual eval run. | open |
+| Q-36 | Email addresses in profile fields and computed slots (for example a signature) reach the instructions with no warning; only model slots are checked. Check them too? | Yes: warn in `prepareProfile` and in the flow; decide together with Q-18. | open |
+| Q-37 | The manual eval form has only `promptVersion` (generator). JD cases depend on the interview prompt. Add `interviewPromptVersion`, and a version header to `generator.system.md`? | Yes, both. | open |
 
 ## Differences between the docs and the reference
 
