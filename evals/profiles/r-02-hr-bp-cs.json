@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "template_id": "email-triage",
+  "user": {
+    "display_name": "Klára",
+    "job_title": "HR Business Partner",
+    "department": "Human Resources",
+    "organization_name": "",
+    "organization_type": "a logistics company with about 1,500 employees",
+    "industry": "other",
+    "seniority": "specialist",
+    "has_team": false
+  },
+  "role": {
+    "description": "HR business partner for the warehouse and transport divisions. Advises managers on people topics, handles employee relations cases, supports recruiting of drivers and warehouse staff, and prepares changes in shift models with the works council.",
+    "responsibilities": [
+      "HR advice for managers of the warehouse and transport divisions",
+      "employee relations cases, warnings and dismissals",
+      "recruiting and onboarding of drivers and warehouse staff",
+      "salary reviews and benefits questions with payroll",
+      "shift model changes with the works council",
+      "HR reports on turnover and absence"
+    ],
+    "ongoing_topics": [
+      "new shift model in the central warehouse",
+      "collective agreement negotiation",
+      "driver shortage and recruiting campaign"
+    ],
+    "tools": ["HR information system", "applicant tracking system"],
+    "regulations": ["Labour Code", "GDPR"]
+  },
+  "stakeholders": [
+    { "role_or_group": "HR Director", "relation": "manager", "priority": "highest" },
+    { "role_or_group": "division directors (warehouse, transport)", "relation": "executive", "priority": "highest" },
+    { "role_or_group": "warehouse and transport managers", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "payroll", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "Legal", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "works council", "relation": "other", "priority": "high" },
+    { "role_or_group": "employees with open HR cases", "relation": "other", "priority": "high" }
+  ],
+  "priorities": {
+    "high_impact_areas": [
+      "dismissals and disciplinary cases",
+      "works council agreements",
+      "labour inspection requests",
+      "payroll cutoff errors"
+    ],
+    "extra_urgency_signals": ["notice period ends", "employee complaint or grievance"],
+    "low_priority": ["training newsletters", "job portal notifications"],
+    "confidential_topics": ["personal data", "HR cases", "salaries", "health information"]
+  },
+  "languages": { "working": ["cs", "en"], "overview": "cs", "instructions": "en" },
+  "style": { "draft_tone": ["empathetic", "clear", "discreet"], "signature": "Klára" },
+  "agent": { "name": "Inbox Triage", "time_window_days": 7, "top_n": 10 }
+}

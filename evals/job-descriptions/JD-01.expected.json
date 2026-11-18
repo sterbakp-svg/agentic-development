@@ -1,0 +1,39 @@
+{
+  "user": {
+    "job_title": "Vedúci/a nákupu",
+    "department": "Nákup a zásobovanie",
+    "organization_type": "stredne veľký výrobca komponentov pre automobilový priemysel, súčasť zahraničnej skupiny",
+    "industry": "manufacturing",
+    "seniority": "manager",
+    "has_team": true,
+    "delegation_roles": ["nákupcovia v tíme"]
+  },
+  "role": {
+    "description": "Vedie tím 6 nákupcov a zodpovedá za strategický a operatívny nákup materiálu a služieb pre dva výrobné závody. Reportuje výrobnému riaditeľovi.",
+    "responsibilities": [
+      "riadenie a rozvoj tímu nákupcov",
+      "výber, hodnotenie a audit dodávateľov",
+      "vyjednávanie rámcových zmlúv, cien a platobných podmienok",
+      "zabezpečenie plynulých dodávok materiálu pre výrobu",
+      "reklamácie a nezhody v kvalite s dodávateľmi, spolu s oddelením kvality",
+      "nákupný rozpočet a sledovanie úspor",
+      "globálne tendre s nákupom skupiny"
+    ],
+    "ongoing_topics": [
+      "konsolidácia dodávateľov oceľových dielov",
+      "zavedenie nového nákupného modulu v ERP systéme"
+    ],
+    "tools": ["ERP systém"],
+    "regulations": ["IATF 16949", "ISO 9001"]
+  },
+  "stakeholders": [
+    { "role_or_group": "výrobný riaditeľ", "relation": "manager", "priority": "highest" },
+    { "role_or_group": "kľúčoví dodávatelia", "relation": "vendor", "priority": "high" },
+    { "role_or_group": "nákup skupiny", "relation": "group_or_headquarters", "priority": "high" },
+    { "role_or_group": "tím nákupcov", "relation": "team", "priority": "high" },
+    { "role_or_group": "výroba a plánovanie výroby", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "kvalita", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "logistika", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "financie", "relation": "internal_function", "priority": "high" }
+  ]
+}

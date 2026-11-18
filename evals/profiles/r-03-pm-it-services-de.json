@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "template_id": "email-triage",
+  "user": {
+    "display_name": "Jonas",
+    "job_title": "Project Manager",
+    "department": "Delivery",
+    "organization_name": "",
+    "organization_type": "an IT services provider for mid-sized companies",
+    "industry": "it_services",
+    "seniority": "manager",
+    "has_team": false
+  },
+  "role": {
+    "description": "Runs a fixed-price ERP migration project for a client in the food industry. Owns plan, budget, risks and change requests, reports to the client steering committee and coordinates the delivery team and a subcontractor.",
+    "responsibilities": [
+      "project plan, milestones and go-live readiness",
+      "budget and effort versus fixed price",
+      "risk and issue management",
+      "change requests and their approval",
+      "steering committee reports",
+      "coordination of the delivery team and the subcontractor"
+    ],
+    "ongoing_topics": [
+      "data migration test cycle 2",
+      "go-live date for the second plant",
+      "change request for the warehouse interface"
+    ],
+    "tools": ["issue tracker", "project status report", "time tracking"],
+    "regulations": []
+  },
+  "stakeholders": [
+    { "role_or_group": "client project sponsor", "relation": "client", "priority": "highest" },
+    { "role_or_group": "client steering committee", "relation": "client", "priority": "highest" },
+    { "role_or_group": "Head of Delivery", "relation": "manager", "priority": "highest" },
+    { "role_or_group": "client IT team", "relation": "client", "priority": "high" },
+    { "role_or_group": "solution architect", "relation": "peer", "priority": "high" },
+    { "role_or_group": "delivery team", "relation": "team", "priority": "high" },
+    { "role_or_group": "subcontractor for interfaces", "relation": "vendor", "priority": "high" }
+  ],
+  "priorities": {
+    "high_impact_areas": [
+      "milestones and go-live dates",
+      "budget overruns",
+      "change requests",
+      "client escalations"
+    ],
+    "extra_urgency_signals": ["blocker reported by the delivery team", "sign-off requested"],
+    "low_priority": ["notifications from the issue tracker", "company newsletters"],
+    "confidential_topics": ["commercial terms of the contract", "subcontractor rates"]
+  },
+  "languages": { "working": ["de", "en"], "overview": "de", "instructions": "en" },
+  "style": { "draft_tone": ["concise", "factual", "polite"], "signature": "Jonas" },
+  "agent": { "name": "Inbox Triage", "time_window_days": 7, "top_n": 10 }
+}

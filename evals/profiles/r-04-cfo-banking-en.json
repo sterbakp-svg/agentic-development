@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "template_id": "email-triage",
+  "user": {
+    "display_name": "Andrea",
+    "job_title": "Chief Financial Officer",
+    "department": "Finance",
+    "organization_name": "",
+    "organization_type": "a retail bank, subsidiary of an international banking group",
+    "industry": "banking",
+    "seniority": "executive",
+    "has_team": true,
+    "delegation_roles": ["Head of Controlling", "Head of Accounting", "Treasury lead", "Head of Regulatory Reporting"]
+  },
+  "role": {
+    "description": "CFO and member of the Management Board. Owns financial planning, accounting, controlling, treasury and regulatory reporting. Responsible for capital and liquidity planning, the annual audit and reporting to the group.",
+    "responsibilities": [
+      "budget, forecast and results versus plan",
+      "capital and liquidity planning",
+      "accounting and financial statements",
+      "regulatory reporting to the supervisor",
+      "treasury and funding",
+      "annual audit",
+      "group reporting"
+    ],
+    "ongoing_topics": [
+      "budget for next year",
+      "supervisory review of capital planning",
+      "new core banking system cost case"
+    ],
+    "tools": ["ERP", "consolidation system"],
+    "regulations": ["CRR", "IFRS 9", "DORA"]
+  },
+  "stakeholders": [
+    { "role_or_group": "CEO", "relation": "executive", "priority": "highest" },
+    { "role_or_group": "Management Board members", "relation": "board", "priority": "highest" },
+    { "role_or_group": "Supervisory Board and Audit Committee", "relation": "board", "priority": "highest" },
+    { "role_or_group": "banking supervisor", "relation": "regulator", "priority": "highest" },
+    { "role_or_group": "Group CFO office", "relation": "group_or_headquarters", "priority": "high" },
+    { "role_or_group": "external auditor", "relation": "auditor", "priority": "high" },
+    { "role_or_group": "Risk Management", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "finance department heads", "relation": "direct_report", "priority": "high" }
+  ],
+  "priorities": {
+    "high_impact_areas": [
+      "capital and liquidity ratios",
+      "results versus plan",
+      "supervisor requests",
+      "audit findings"
+    ],
+    "extra_urgency_signals": ["regulatory reporting deadline", "liquidity alert"],
+    "low_priority": ["vendor marketing", "conference invitations"],
+    "confidential_topics": ["unpublished results", "capital measures", "executive pay"]
+  },
+  "languages": { "working": ["en"], "overview": "en", "instructions": "en" },
+  "style": { "draft_tone": ["concise", "formal", "decisive"], "signature": "Andrea" },
+  "agent": { "name": "Inbox Triage", "time_window_days": 7, "top_n": 10 }
+}

@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "template_id": "email-triage",
+  "user": {
+    "display_name": "Tomas",
+    "job_title": "Regional Sales Manager",
+    "department": "Retail Sales",
+    "organization_name": "",
+    "organization_type": "a home and garden retail chain with 40 stores",
+    "industry": "retail",
+    "seniority": "manager",
+    "has_team": true,
+    "delegation_roles": ["store managers", "key account specialist", "sales analyst"]
+  },
+  "role": {
+    "description": "Leads sales in the western region: 12 stores and the B2B key account desk. Owns the regional revenue and margin plan, seasonal promotions with category management, and offers for business customers such as builders and hotels.",
+    "responsibilities": [
+      "regional revenue and margin versus plan",
+      "store performance and coaching of store managers",
+      "key accounts and offers for business customers",
+      "promotions and seasonal campaigns with category management",
+      "pricing exceptions and discount approvals",
+      "sales forecast and weekly sales report"
+    ],
+    "ongoing_topics": [
+      "spring garden season campaign",
+      "rollout of the new loyalty program",
+      "offer for the refurbishment of a hotel chain"
+    ],
+    "tools": ["CRM", "POS sales reports", "sales dashboard"],
+    "regulations": []
+  },
+  "stakeholders": [
+    { "name": "Eva", "role_or_group": "Head of Retail Sales", "relation": "manager", "priority": "highest" },
+    { "role_or_group": "key account customers", "relation": "client", "priority": "highest" },
+    { "role_or_group": "store managers in the region", "relation": "direct_report", "priority": "high" },
+    { "role_or_group": "category management", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "marketing", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "supply chain and logistics", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "finance and controlling", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "key suppliers", "relation": "vendor", "priority": "high" }
+  ],
+  "priorities": {
+    "high_impact_areas": [
+      "regional revenue versus plan",
+      "key account deals and offers",
+      "discount and pricing approvals",
+      "stock-outs in top stores"
+    ],
+    "extra_urgency_signals": ["complaint from a key account", "offer deadline in a tender"],
+    "low_priority": ["supplier newsletters", "internal event invitations"],
+    "confidential_topics": ["prices and margins", "customer contracts", "staff performance"]
+  },
+  "languages": { "working": ["en", "sk"], "overview": "en", "instructions": "en" },
+  "style": { "draft_tone": ["concise", "friendly", "commercial"], "signature": "Tomas" },
+  "agent": { "name": "Inbox Triage", "time_window_days": 7, "top_n": 10 }
+}

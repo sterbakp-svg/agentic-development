@@ -1,0 +1,14 @@
+{
+  "user": {
+    "job_title": "Operations Coordinator",
+    "seniority": "specialist"
+  },
+  "role": {
+    "description": "Supports various operations activities and helps different teams keep things running smoothly.",
+    "responsibilities": ["support of operations activities for different teams"],
+    "ongoing_topics": [],
+    "tools": ["MS Office"],
+    "regulations": []
+  },
+  "stakeholders": []
+}

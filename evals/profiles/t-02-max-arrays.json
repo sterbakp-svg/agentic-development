@@ -1,0 +1,157 @@
+{
+  "schema_version": "1.0",
+  "template_id": "email-triage",
+  "user": {
+    "display_name": "Katarina",
+    "job_title": "Chief Risk Officer and member of the Management Board",
+    "department": "Risk Management, Compliance and Information Security",
+    "organization_name": "",
+    "organization_type": "an insurance and pension group with companies in four countries of Central Europe",
+    "industry": "insurance",
+    "seniority": "executive",
+    "has_team": true,
+    "delegation_roles": [
+      "Head of Enterprise Risk Management",
+      "Head of Compliance",
+      "Chief Information Security Officer",
+      "Head of Actuarial Function",
+      "Data Protection Officer",
+      "Head of Operational Risk",
+      "Head of Model Validation",
+      "Head of Outsourcing and Third-Party Risk"
+    ]
+  },
+  "role": {
+    "description": "Chief Risk Officer of the group and member of the Management Board. Owns the risk management system of the group: risk strategy and risk appetite, the own risk and solvency assessment, capital and solvency monitoring, operational risk, compliance, information security, data protection, outsourcing and third-party risk, business continuity and model validation. Leads eight department heads and about 70 specialists in four countries. Chairs the group Risk Committee and reports every quarter to the Supervisory Board and its Risk and Audit Committee. Is the main contact for the supervisory authorities in all four countries on risk, solvency, DORA and outsourcing topics and coordinates their inspections and information requests. Works with the group actuarial function on the solvency capital requirement and with Finance on the capital plan and dividend capacity. Leads the group DORA program, the ICT risk framework and the register of information on ICT third-party providers. Owns the group policies for risk, compliance, information security, outsourcing and data protection and their yearly review. Approves risk acceptances, exceptions from policies and material outsourcing contracts. Prepares the group for the new sustainability risk rules and for climate scenario analysis in the ORSA. Supports the CEO in crisis situations, such as major cyber incidents, large claims events and liquidity stress, and runs the crisis management team when it is activated. Works in Slovak, Czech, German and English with colleagues, regulators and the group headquarters.",
+    "responsibilities": [
+      "group risk strategy, risk appetite statement and limit system with yearly review and Supervisory Board approval",
+      "own risk and solvency assessment (ORSA), stress tests and climate scenario analysis for all group companies",
+      "solvency ratio monitoring, capital plan and dividend capacity together with the CFO and the actuarial function",
+      "operational risk framework, loss event database, key risk indicators and risk and control self-assessments",
+      "compliance management system, regulatory change management and compliance monitoring plan for the group",
+      "information security management system, security incidents and penetration test findings with the CISO",
+      "DORA program: ICT risk framework, major ICT incident reporting, resilience testing and ICT third-party register",
+      "outsourcing and third-party risk: approval of material outsourcing, due diligence and exit plans",
+      "data protection governance, personal data breaches and notifications to the data protection authorities",
+      "business continuity management, crisis management team and yearly crisis exercises in every country",
+      "internal model governance and independent model validation for pricing, reserving and capital models",
+      "risk reports to the Management Board, the group Risk Committee and the Supervisory Board every quarter"
+    ],
+    "ongoing_topics": [
+      "group DORA program: register of information and threat-led penetration testing preparation",
+      "on-site inspection of the supervisory authority on outsourcing and cloud services",
+      "ORSA report for this year with new climate scenarios and a cyber stress scenario",
+      "review of the risk appetite statement after the acquisition of a pension fund company",
+      "replacement of the governance, risk and compliance tool in all four countries",
+      "remediation of open findings from the last internal audit of information security",
+      "new group policy for artificial intelligence use and model risk",
+      "preparation for the sustainability reporting and sustainability risk rules"
+    ],
+    "tools": [
+      "governance risk and compliance tool",
+      "loss event database",
+      "solvency calculation engine",
+      "ICT third-party register",
+      "security incident portal",
+      "policy management portal",
+      "risk dashboard",
+      "board portal",
+      "whistleblowing platform",
+      "crisis notification app"
+    ],
+    "regulations": [
+      "Solvency II",
+      "DORA",
+      "NIS2",
+      "GDPR",
+      "EIOPA outsourcing guidelines",
+      "IDD",
+      "AML directive",
+      "EU AI Act"
+    ]
+  },
+  "stakeholders": [
+    { "name": "Viktor", "role_or_group": "Group CEO", "relation": "executive", "priority": "highest" },
+    { "role_or_group": "Chair of the Supervisory Board", "relation": "board", "priority": "highest" },
+    { "role_or_group": "Risk and Audit Committee of the Supervisory Board", "relation": "board", "priority": "highest" },
+    { "role_or_group": "Management Board members", "relation": "board", "priority": "highest" },
+    { "role_or_group": "national supervisory authorities in all four countries", "relation": "regulator", "priority": "highest" },
+    { "role_or_group": "data protection authorities", "relation": "regulator", "priority": "highest" },
+    { "role_or_group": "group headquarters risk office", "relation": "group_or_headquarters", "priority": "highest" },
+    { "role_or_group": "Chief Financial Officer", "relation": "peer", "priority": "high" },
+    { "role_or_group": "Chief Information Officer", "relation": "peer", "priority": "high" },
+    { "role_or_group": "Chief Operating Officer", "relation": "peer", "priority": "high" },
+    { "role_or_group": "Head of Internal Audit", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "actuarial function", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "Legal department", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "country CEOs of the group companies", "relation": "executive", "priority": "high" },
+    { "role_or_group": "department heads in Risk, Compliance and Security", "relation": "direct_report", "priority": "high" },
+    { "role_or_group": "risk and compliance specialists", "relation": "team", "priority": "high" },
+    { "role_or_group": "external auditor", "relation": "auditor", "priority": "high" },
+    { "role_or_group": "cloud and core system vendors", "relation": "vendor", "priority": "high" },
+    { "role_or_group": "reinsurers", "relation": "other", "priority": "high" },
+    { "role_or_group": "insurance association risk working group", "relation": "other", "priority": "high" }
+  ],
+  "priorities": {
+    "high_impact_areas": [
+      "solvency ratio and capital measures",
+      "supervisory inspections and information requests",
+      "major ICT incidents and cyber attacks",
+      "personal data breaches and notification deadlines",
+      "material outsourcing and cloud contracts",
+      "breaches of risk appetite limits",
+      "Supervisory Board and Risk Committee decisions",
+      "crisis management team activation"
+    ],
+    "extra_urgency_signals": [
+      "deadline from a supervisory authority",
+      "major ICT incident classification needed",
+      "limit breach reported by a risk owner",
+      "whistleblowing report received",
+      "request for a risk acceptance before signing",
+      "media inquiry about an incident"
+    ],
+    "low_priority": [
+      "conference and webinar invitations",
+      "vendor marketing about risk tools",
+      "regulatory newsletters without action",
+      "internal event invitations",
+      "automatic reports from the GRC tool",
+      "training reminders",
+      "industry association digests",
+      "facility and office notices",
+      "IT maintenance announcements",
+      "survey requests from consultants"
+    ],
+    "confidential_topics": [
+      "supervisory findings before publication",
+      "whistleblowing reports and investigations",
+      "security vulnerabilities and incidents",
+      "capital measures and acquisitions",
+      "personal data and HR cases",
+      "board matters and executive pay"
+    ]
+  },
+  "languages": { "working": ["sk", "cs", "de", "en"], "overview": "sk", "instructions": "en" },
+  "style": {
+    "draft_tone": ["concise", "formal", "decisive", "calm", "precise"],
+    "signature": "Katarina, Chief Risk Officer"
+  },
+  "agent": { "name": "Risk Inbox Triage Assistant", "time_window_days": 30, "top_n": 20 },
+  "org_context": {
+    "organization_description": "An insurance and pension group with life, non-life and pension companies in Slovakia, Czechia, Austria and Hungary, part of an international financial group, supervised by the national authorities and by the group supervisor at headquarters level.",
+    "common_stakeholders": [
+      "Group Compliance Office",
+      "Group Information Security Office",
+      "Group Data Protection Office",
+      "Group Procurement",
+      "Group Internal Audit",
+      "Group Actuarial Office",
+      "Group Legal",
+      "Group Communications",
+      "Group HR",
+      "Group Finance"
+    ],
+    "mandatory_rule": "Mark every email about a supervisory deadline, a major ICT incident, a personal data breach or a whistleblowing report as Urgent, and name the person or team that must act today. Never put the content of whistleblowing reports in the overview; name only the date and the channel."
+  }
+}

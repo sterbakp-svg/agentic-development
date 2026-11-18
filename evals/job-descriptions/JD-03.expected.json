@@ -1,0 +1,39 @@
+{
+  "user": {
+    "job_title": "Specialista/specialistka regulace a trhu s energiemi",
+    "department": "Regulace a vztahy s úřady",
+    "organization_type": "obchodník s elektřinou a plynem, dodává domácnostem i firmám",
+    "industry": "energy",
+    "seniority": "specialist",
+    "has_team": false
+  },
+  "role": {
+    "description": "Sleduje změny energetické legislativy a cenová rozhodnutí ERÚ, připravuje odpovědi úřadům, zajišťuje REMIT reporting a hlídá termíny regulatorních hlášení.",
+    "responsibilities": [
+      "sledování změn energetické legislativy a cenových rozhodnutí ERÚ",
+      "podklady a odpovědi na žádosti a dotazníky ERÚ a MPO",
+      "reporting obchodů podle nařízení REMIT",
+      "termíny regulatorních hlášení a povinných zveřejnění",
+      "dopady regulace na produkty a ceny s obchodem a tradingem",
+      "stanoviska do připomínkových řízení",
+      "informování vedení o regulatorních rizicích"
+    ],
+    "ongoing_topics": [
+      "novela energetického zákona",
+      "nová pravidla pro sdílení elektřiny",
+      "příprava na audit REMIT reportingu"
+    ],
+    "regulations": ["REMIT", "energetický zákon"]
+  },
+  "stakeholders": [
+    { "role_or_group": "vedoucí útvaru regulace", "relation": "manager", "priority": "highest" },
+    { "role_or_group": "ERÚ (Energetický regulační úřad)", "relation": "regulator", "priority": "highest" },
+    { "role_or_group": "Ministerstvo průmyslu a obchodu", "relation": "regulator", "priority": "high" },
+    { "role_or_group": "Operátor trhu (OTE)", "relation": "other", "priority": "high" },
+    { "role_or_group": "vedení", "relation": "executive", "priority": "high" },
+    { "role_or_group": "obchod a trading", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "právní oddělení", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "compliance", "relation": "internal_function", "priority": "high" },
+    { "role_or_group": "profesní asociace", "relation": "other", "priority": "high" }
+  ]
+}
