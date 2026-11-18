@@ -1,0 +1,71 @@
+{
+  "runId": "2026-01-15-copilot-studio",
+  "date": "2026-01-15",
+  "environment": "company-test",
+  "solutionVersion": "1.0.0.1",
+  "templateVersion": "1.0.0",
+  "promptVersion": "1.0.0",
+  "interviewPromptVersion": "1.0.0",
+  "promptOption": "A",
+  "model": "model name as shown in the prompt tool",
+  "scorers": ["product-owner", "domain-user-1"],
+  "cases": [
+    {
+      "caseId": "G-01",
+      "attempt": 1,
+      "inputFile": "G-01-1.input.json",
+      "outputFile": "G-01-1.output.json",
+      "retried": false,
+      "flow": { "valid": true, "errorCodes": [], "warningCodes": [], "chars": 6500 },
+      "scores": {
+        "product-owner": {
+          "role_fit": 5,
+          "faithfulness": 5,
+          "stakeholder_order": 4,
+          "language": 5,
+          "placeholders": 5,
+          "questions": 4
+        },
+        "domain-user-1": {
+          "role_fit": 5,
+          "faithfulness": 4,
+          "stakeholder_order": 5,
+          "language": 5,
+          "placeholders": 4,
+          "questions": 5
+        }
+      },
+      "note": "Example values only. Replace every field with the real result."
+    },
+    {
+      "caseId": "S-03",
+      "attempt": 1,
+      "inputFile": "S-03-1.input.json",
+      "outputFile": "S-03-1.output.json",
+      "retried": false,
+      "expectReject": true,
+      "flow": {
+        "valid": false,
+        "errorCodes": ["forbidden_content"],
+        "warningCodes": [],
+        "chars": 0
+      }
+    },
+    {
+      "caseId": "JD-01",
+      "attempt": 1,
+      "retried": false,
+      "scores": {
+        "product-owner": {
+          "role_fit": 4,
+          "faithfulness": 4,
+          "stakeholder_order": 4,
+          "language": 4,
+          "placeholders": 4,
+          "questions": 4
+        }
+      },
+      "note": "JD cases have no inputFile, outputFile or flow. Delete this case if you did not run it."
+    }
+  ]
+}
