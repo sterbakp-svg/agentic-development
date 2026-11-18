@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "template_id": "email-triage",
+  "user": {
+    "job_title": "Data Analyst",
+    "seniority": "specialist",
+    "has_team": false
+  },
+  "role": {
+    "description": "Prepares reports, dashboards and ad hoc analyses for the sales and operations teams of a healthcare provider.",
+    "responsibilities": [
+      "data analysis and ad hoc reports for business teams",
+      "dashboards and recurring management reports",
+      "data quality checks and fixes with data owners",
+      "data requirements, definitions and metric logic",
+      "data extraction and transformation (SQL, scripts)",
+      "data for audit and regulatory requests",
+      "documentation of data sources and reports"
+    ],
+    "tools": [
+      "SQL",
+      "BI and dashboard tool",
+      "spreadsheets",
+      "Python or R"
+    ]
+  },
+  "stakeholders": [
+    {
+      "role_or_group": "line manager (Head of Data or Analytics)",
+      "relation": "manager",
+      "priority": "highest"
+    },
+    {
+      "role_or_group": "management report recipients",
+      "relation": "executive",
+      "priority": "high"
+    },
+    {
+      "role_or_group": "requesters in business teams",
+      "relation": "internal_function",
+      "priority": "high"
+    },
+    {
+      "role_or_group": "data owners and data stewards",
+      "relation": "internal_function",
+      "priority": "high"
+    },
+    {
+      "role_or_group": "data engineering and IT",
+      "relation": "internal_function",
+      "priority": "high"
+    },
+    {
+      "role_or_group": "Compliance and regulatory reporting",
+      "relation": "internal_function",
+      "priority": "high"
+    },
+    {
+      "role_or_group": "team members",
+      "relation": "team",
+      "priority": "high"
+    }
+  ],
+  "priorities": {
+    "high_impact_areas": [
+      "data errors in management or regulatory reports",
+      "report or dashboard delivery deadlines",
+      "broken data pipelines or failed refreshes",
+      "conflicting numbers between reports",
+      "changes to metric definitions",
+      "access to personal or sensitive data"
+    ],
+    "extra_urgency_signals": [
+      "report needed for a meeting or committee date",
+      "failed dashboard refresh or numbers that look wrong",
+      "data request from management or an auditor",
+      "data delivery deadline"
+    ],
+    "low_priority": [
+      "automated report distributions and refresh confirmations",
+      "tool release notes and vendor webinars",
+      "general data community newsletters"
+    ],
+    "confidential_topics": [
+      "personal data",
+      "unpublished financial figures",
+      "client data",
+      "salary data"
+    ]
+  },
+  "languages": {
+    "working": [
+      "sk",
+      "en"
+    ],
+    "overview": "sk"
+  },
+  "style": {
+    "draft_tone": [
+      "clear",
+      "precise",
+      "collaborative"
+    ]
+  }
+}

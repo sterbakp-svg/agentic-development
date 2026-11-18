@@ -1,0 +1,98 @@
+{
+  "id": "project-manager",
+  "label_key": "presets.project-manager.label",
+  "description_key": "presets.project-manager.description",
+  "version": 1,
+  "profile": {
+    "user": {
+      "seniority": "manager",
+      "has_team": true,
+      "delegation_roles": [
+        "workstream leads",
+        "project team members",
+        "project coordinator or PMO support"
+      ]
+    },
+    "role": {
+      "responsibilities": [
+        "project plan, milestones and delivery",
+        "scope and change requests",
+        "risks, issues and dependencies",
+        "project budget and resource planning",
+        "status reports for the steering committee and sponsor",
+        "coordination of project team, vendors and business users",
+        "decisions, approvals and acceptance of deliverables",
+        "go-live preparation and handover to operations"
+      ],
+      "tools": ["project planning tool", "task or issue tracker", "team collaboration site"]
+    },
+    "stakeholders": [
+      {
+        "role_or_group": "project sponsor",
+        "relation": "executive",
+        "priority": "highest"
+      },
+      {
+        "role_or_group": "steering committee members",
+        "relation": "executive",
+        "priority": "highest"
+      },
+      {
+        "role_or_group": "line manager or PMO lead",
+        "relation": "manager",
+        "priority": "high"
+      },
+      {
+        "role_or_group": "workstream leads and project team",
+        "relation": "team",
+        "priority": "high"
+      },
+      {
+        "role_or_group": "business owners and key users",
+        "relation": "internal_function",
+        "priority": "high"
+      },
+      {
+        "role_or_group": "IT and architecture",
+        "relation": "internal_function",
+        "priority": "high"
+      },
+      {
+        "role_or_group": "vendors and implementation partners",
+        "relation": "vendor",
+        "priority": "high"
+      }
+    ],
+    "priorities": {
+      "high_impact_areas": [
+        "milestone or go-live at risk",
+        "scope change or change request",
+        "budget overrun or unplanned cost",
+        "blocked dependency or missing resource",
+        "steering committee decisions",
+        "vendor delay or quality issue",
+        "acceptance and sign-off of deliverables",
+        "escalated risks and issues"
+      ],
+      "extra_urgency_signals": [
+        "steering committee or status report date",
+        "milestone, test or go-live date soon",
+        "blocker reported by the team or a vendor",
+        "decision or sign-off requested by a date"
+      ],
+      "low_priority": [
+        "automated task tracker notifications",
+        "general PMO newsletters",
+        "vendor marketing"
+      ],
+      "confidential_topics": [
+        "contracts and vendor pricing",
+        "staff performance and HR matters",
+        "unannounced organizational changes"
+      ]
+    },
+    "style": {
+      "draft_tone": ["clear", "structured", "friendly", "decisive"]
+    }
+  }
+}
