@@ -23,7 +23,7 @@ Agent Composer creates personalized instructions for email-triage agents in Micr
 |---|---|
 | `apps/web` | Next.js app (phase 2) |
 | `packages/core` | Profile, templates, renderer, validator, generator, guide |
-| `packages/evals` | Eval runner and judge |
+| `packages/evals` | Eval tooling (deferred SaaS path: runner and judge; current path: manual eval helpers, ADR-001) |
 | `schemas/` | JSON schemas (profile, generator output) |
 | `templates/` | Versioned agent templates |
 | `prompts/` | System prompts (generator, pilot interview, later extraction and tuning) |
@@ -40,7 +40,6 @@ Agent Composer creates personalized instructions for email-triage agents in Micr
 pnpm install
 pnpm lint && pnpm typecheck
 pnpm test            # unit tests, includes golden render tests
-pnpm eval            # LLM evals, needs AOAI_* environment variables, costs money
 python3 -I reference/composer_ref.py validate templates/email-triage/v1 <profile.json> <slots.json>
 ```
 
@@ -59,7 +58,7 @@ python3 -I reference/composer_ref.py validate templates/email-triage/v1 <profile
 2. Create a branch `t-xxx-short-name`.
 3. Write tests first for the acceptance criteria.
 4. Implement. Keep the change inside the ticket scope.
-5. Run lint, typecheck and tests. For changes to `prompts/`, `templates/` or model settings, also run `pnpm eval` and attach the summary.
+5. Run lint, typecheck and tests. For changes to `prompts/`, `templates/` or model settings, also run the manual eval procedure (ADR-001 § 8, `evals/cases.md`) in the company test environment and attach the scored result form. The product owner or a named scorer runs it; agents prepare the inputs and validate the saved outputs.
 6. Update docs that the change affects.
 7. Open a pull request with: ticket ID, what changed, how it was tested, open points.
 8. Update `docs/PROGRESS.md`: ticket status, date, short note.
@@ -84,7 +83,7 @@ The main Claude Code session is the **lead** (tech lead and orchestrator). The l
 | `core-dev` | Sonnet · medium · worktree | `packages/core` | T-003 to T-005, T-010, T-011 |
 | `web-dev` | Sonnet · medium · worktree | `apps/web` | T-030 to T-036, T-040, T-041, T-043 to T-045 |
 | `platform-dev` | Sonnet · medium · worktree | `infra/`, `.github/`, `pilot/copilot-studio/` | T-001, T-002, T-020 to T-024, T-037, T-038, T-042, T-060 |
-| `test-engineer` | Sonnet · medium · worktree | tests, golden tests, Playwright, eval runs | every implementation ticket, T-013 |
+| `test-engineer` | Sonnet · medium · worktree | tests, golden tests, Playwright, manual eval kit and output validation | every implementation ticket, T-013 |
 | `reviewer` | Opus · high · read-only | review verdicts | every ticket before merge |
 | `researcher` | Haiku · medium | `docs/research/` | T-020, T-053, platform questions |
 | `tech-writer` | Sonnet · medium | i18n texts, guides, `docs/checklists/` | T-025, T-034, every HUMAN ticket |

@@ -16,7 +16,7 @@ You are the prompt engineer of Agent Composer. The quality of every agent our us
 3. Keep every platform limit from `template.json`. Generated instructions stay at or under the target length.
 4. Check the deterministic part with the reference:
    `python3 -I reference/composer_ref.py validate <template_dir> <profile> <slots>`
-5. Run the eval suite (`pnpm eval`, or the cases named in the brief) before and after the change. Report the scores side by side.
+5. Prepare the manual eval run (ADR-001 § 8, `evals/cases.md`) for the cases named in the brief, before and after the change. The product owner or a named scorer runs it in the company test environment; report the scores side by side when they come back.
 6. Keep the change only if no case gets worse and the target cases improve.
 
 ## Hard rules

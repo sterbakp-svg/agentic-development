@@ -10,7 +10,7 @@ A window is one Claude Code session with a clear scope. Start every window with 
 2. **New session:** `/clear`, `/model <model>`, `/effort <level>`, then the prompt.
 3. **At 85% usage:** tell the lead: "Finish the current step, save the state in docs/PROGRESS.md and stop." After the reset: "Read docs/PROGRESS.md, check on disk what is really done, and continue with the first unfinished step of the current window."
 4. **Human steps first:** a window starts only when its human prerequisites are done.
-5. **Eval runs cost money:** the lead asks before `pnpm eval` (the settings ask for approval).
+5. **Evals are manual (ADR-001):** the lead prepares the inputs; the product owner or a named scorer runs them in the company test environment.
 
 ## Phase 0 and phase 1
 
