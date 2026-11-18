@@ -1,7 +1,6 @@
 // Pass rule per evals/cases.md and ADR-001 section 5 (T-013) and P-11 (two scorers for G-01, G-02).
 import { describe, expect, it } from 'vitest';
 import { evaluateCase, thresholdFor, type CaseEvalInput } from './scoring';
-import { allScores } from './testkit';
 
 type Scores = NonNullable<CaseEvalInput['scores']>;
 const s = (...c: number[]) => ({
@@ -69,9 +68,5 @@ describe('evaluateCase pass rule', () => {
   it('rounds the mean to 2 decimals', () => {
     const r = evaluateCase({ caseId: 'R-01', ...good, scores: one(s(5, 4, 4, 4, 4, 4)) });
     expect(r.meanScore).toBe(4.17);
-  });
-
-  it('unused helper allScores yields six equal scores', () => {
-    expect(Object.values(allScores(4))).toEqual([4, 4, 4, 4, 4, 4]);
   });
 });

@@ -20,7 +20,8 @@ export const INPUT_JSON = JSON.stringify(prepared.profile);
 const template = loadTemplate(templateDir);
 export const goldenResult = validate(template, prepared.profile, JSON.parse(GOLDEN_SLOTS));
 export const injectionResult = validate(template, prepared.profile, JSON.parse(INJECTION_SLOTS));
-export const injectionCodes = [...new Set(injectionResult.errors.map(errorCode))];
+/** One code per reference error, with multiplicity (the 4 errors of evals/negative/injection-slots.json). */
+export const injectionCodes = injectionResult.errors.map(errorCode).sort();
 
 type Obj = Record<string, unknown>;
 

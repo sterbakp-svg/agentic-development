@@ -1,6 +1,6 @@
 // Score summary and report. Prints IDs, codes, lengths, flags and scores only (golden rule 7).
 import { checkRun, type CheckOptions } from './check';
-import { evaluateCase } from './scoring';
+import { evaluateCase, evaluateCaseGroup } from './scoring';
 import type { ManualEvalCaseSummary, Parity } from './schema';
 
 export interface ReportEntry extends ManualEvalCaseSummary {
@@ -18,6 +18,20 @@ export interface ReportEntry extends ManualEvalCaseSummary {
   reasons: string[];
 }
 
+/** One row per caseId (ADR-001 section 8 summary, plus detail fields). Decides pass and fail. */
+export interface CaseReport extends ManualEvalCaseSummary {
+  expectReject: boolean;
+  attempts: number;
+  /** Attempts that have scores. */
+  judgedAttempts: number;
+  /** Mean per scorer over the judged attempts. */
+  scorerMeans: Record<string, number>;
+  /** False for a negative case, and for a case that no scorer judged: true only if judged. */
+  notScored: boolean;
+  /** Failure reasons (codes), including the problems of the attempts. Empty when the case passes. */
+  reasons: string[];
+}
+
 export interface RunReport {
   runId: string;
   date: string;
@@ -28,9 +42,13 @@ export interface RunReport {
   model: string;
   solutionVersion: string;
   scorers: string[];
+  /** One row per caseId. `allPass`, the counts and the exit code come from these rows. */
+  cases: CaseReport[];
+  /** Detail: one row per attempt. */
   entries: ReportEntry[];
   runIssues: string[];
-  counts: { total: number; passed: number; failed: number; unscored: number };
+  /** Over cases. `unscored`: cases that are not negative cases and have no judged attempt. */
+  counts: { total: number; passed: number; failed: number; unscored: number; attempts: number };
   /** Every case passed and the run has no run-level issue. */
   allPass: boolean;
   /** At least one flow-weaker result (Q-13). */
@@ -71,7 +89,41 @@ export function summarizeRun(runFile: string, opts: CheckOptions): RunReport {
       reasons,
     };
   });
-  const passed = entries.filter((e) => e.pass).length;
+  const cases: CaseReport[] = [];
+  for (const caseId of [...new Set(entries.map((e) => e.caseId))]) {
+    const rows = entries.filter((e) => e.caseId === caseId);
+    const sources = check.entries
+      .map((e, i) => ({ e, c: run.cases[i]! }))
+      .filter(({ e }) => e.caseId === caseId);
+    const judged = sources.flatMap(({ c }) =>
+      c.scores && Object.keys(c.scores).length > 0 ? [c.scores] : [],
+    );
+    const expectReject = rows.some((r) => r.expectReject);
+    const g = evaluateCaseGroup({
+      caseId,
+      attempts: rows.map((r) => ({ repoValid: r.repoValid, parity: r.parity })),
+      judged,
+      expectReject: expectReject || undefined,
+    });
+    const problems = [...new Set(sources.flatMap(({ e }) => e.problems))];
+    const reasons = [...g.reasons, ...problems];
+    cases.push({
+      caseId,
+      repoValid: g.repoValid,
+      parity: g.parity,
+      meanScore: g.meanScore,
+      minCriterion: g.minCriterion,
+      threshold: g.threshold,
+      pass: reasons.length === 0,
+      expectReject,
+      attempts: rows.length,
+      judgedAttempts: g.judgedAttempts,
+      scorerMeans: g.scorerMeans,
+      notScored: g.notScored,
+      reasons,
+    });
+  }
+  const passed = cases.filter((c) => c.pass).length;
   return {
     runId: run.runId,
     date: run.date,
@@ -82,16 +134,18 @@ export function summarizeRun(runFile: string, opts: CheckOptions): RunReport {
     model: run.model,
     solutionVersion: run.solutionVersion,
     scorers: run.scorers,
+    cases,
     entries,
     runIssues: check.runIssues,
     counts: {
-      total: entries.length,
+      total: cases.length,
       passed,
-      failed: entries.length - passed,
-      unscored: entries.filter((e) => e.notScored).length,
+      failed: cases.length - passed,
+      unscored: cases.filter((c) => c.notScored && !c.expectReject).length,
+      attempts: entries.length,
     },
-    allPass: passed === entries.length && check.runIssues.length === 0,
-    releaseBlocking: entries.some((e) => e.parity === 'flow-weaker'),
+    allPass: passed === cases.length && check.runIssues.length === 0,
+    releaseBlocking: cases.some((c) => c.parity === 'flow-weaker'),
   };
 }
 
@@ -116,22 +170,36 @@ export function renderMarkdown(r: RunReport): string {
   lines.push(
     `- Model: ${r.model}`,
     `- Scorers: ${r.scorers.join(', ')}`,
-    `- Result: ${r.counts.passed} of ${r.counts.total} passed, ${r.counts.failed} failed, ${r.counts.unscored} not scored`,
+    `- Result: ${r.counts.passed} of ${r.counts.total} cases passed, ${r.counts.failed} failed, ${r.counts.unscored} not scored (${r.counts.attempts} attempts)`,
     '',
   );
   if (r.runIssues.length > 0) lines.push(`Run issues: ${r.runIssues.join(', ')}`, '');
   lines.push(
-    '| Case | Attempt | Repo valid | Parity | Mean | Min | Threshold | Result | Reasons |',
-    '|---|---|---|---|---|---|---|---|---|',
+    '## Cases',
+    '',
+    '| Case | Attempts | Judged | Repo valid | Parity | Mean | Min | Threshold | Result | Reasons |',
+    '|---|---|---|---|---|---|---|---|---|---|',
   );
-  for (const e of r.entries) {
+  for (const c of r.cases) {
     lines.push(
-      `| ${e.caseId} | ${e.attempt} | ${cell(e.repoValid)} | ${parityText(e.parity)} | ${cell(e.meanScore)} | ${cell(e.minCriterion)} | ${e.threshold} | ${e.pass ? 'pass' : 'FAIL'} | ${e.reasons.join(', ') || '-'} |`,
+      `| ${c.caseId} | ${c.attempts} | ${c.judgedAttempts} | ${cell(c.repoValid)} | ${parityText(c.parity)} | ${cell(c.meanScore)} | ${cell(c.minCriterion)} | ${c.threshold} | ${c.pass ? 'pass' : 'FAIL'} | ${c.reasons.join(', ') || '-'} |`,
     );
   }
   lines.push(
     '',
-    'Pass rule: mean at or above the threshold, no score below 3, repository validator accepts the output, flow not weaker than the repository. G-01 and G-02 need two scorers.',
+    '## Attempts (detail)',
+    '',
+    '| Case | Attempt | Repo valid | Parity | Mean | Min | Reasons |',
+    '|---|---|---|---|---|---|---|',
+  );
+  for (const e of r.entries) {
+    lines.push(
+      `| ${e.caseId} | ${e.attempt} | ${cell(e.repoValid)} | ${parityText(e.parity)} | ${cell(e.meanScore)} | ${cell(e.minCriterion)} | ${e.reasons.join(', ') || '-'} |`,
+    );
+  }
+  lines.push(
+    '',
+    'Pass rule, per case over all attempts: every attempt accepted by the repository validator (a negative case: rejected), worst parity not flow-weaker, at least one judged attempt, pooled mean at or above the threshold, no score below 3. G-01 and G-02 need a judged attempt with two scorers.',
     '',
   );
   return lines.join('\n');

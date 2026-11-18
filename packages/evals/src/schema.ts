@@ -35,7 +35,9 @@ const scorerScoresSchema = z.strictObject({
 export const RELATIVE_PATH_PATTERN = '^(?!/)(?!.*(^|/)\\.\\.(/|$))[A-Za-z0-9._/-]+$';
 const relativePathSchema = z.string().min(1).max(200).regex(new RegExp(RELATIVE_PATH_PATTERN));
 
-const codeSchema = z.string().regex(/^[a-z][a-z0-9_]*$/);
+/** Dot-separated IDs: `forbidden_content.tools.line_break`. See codes.ts. */
+export const CODE_PATTERN = '^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$';
+const codeSchema = z.string().max(100).regex(new RegExp(CODE_PATTERN));
 const SEMVER = /^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?$/;
 
 export const flowResultSchema = z

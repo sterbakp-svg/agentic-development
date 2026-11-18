@@ -22,24 +22,51 @@ describe('computeParity (flow may be stricter than the reference, never weaker)'
   });
 });
 
-describe('error code vocabulary (stable codes for the repository error strings)', () => {
+describe('parity compares per code, with multiplicity (review B1)', () => {
+  const f = (slot: string, kind: string) => `forbidden_content.${slot}.${kind}`;
+  const four = [
+    f('tools', 'line_break'),
+    f('tools', 'heading_marker'),
+    f('discretion_rule', 'ignore_pattern'),
+    f('discretion_rule', 'auto_send_pattern'),
+  ];
+  it('a flow that reports only one of four forbidden errors is flow-weaker', () => {
+    for (const one of four) expect(computeParity(bad(...four), bad(one))).toBe('flow-weaker');
+  });
+  it('the same kind in another slot does not count', () => {
+    expect(computeParity(bad(f('tools', 'backtick')), bad(f('role_line', 'backtick')))).toBe('flow-weaker');
+  });
+  it('a code that the repository reports twice must be reported twice', () => {
+    expect(computeParity(bad('starter_too_long', 'starter_too_long'), bad('starter_too_long'))).toBe('flow-weaker');
+    expect(computeParity(bad('starter_too_long'), bad('starter_too_long', 'starter_too_long'))).toBe('flow-stricter');
+  });
+  it('all four reported is same, with extras is flow-stricter', () => {
+    expect(computeParity(bad(...four), bad(...[...four].reverse()))).toBe('same');
+    expect(computeParity(bad(...four), bad(...four, f('tools', 'backtick')))).toBe('flow-stricter');
+  });
+});
+
+describe('error code vocabulary (IDs, never content)', () => {
   const rows: [string, string][] = [
-    ['missing slot: tools', 'missing_slot'],
-    ['slot is not a string: tools', 'slot_not_string'],
-    ['empty required slot: role_line', 'empty_required_slot'],
-    ['slot too long: role_line (300 > 200)', 'slot_too_long'],
-    ['forbidden content in slot tools: /x/', 'forbidden_content'],
-    ['inline optional slot must start with a space: waiting_parties', 'inline_optional_space'],
+    ['missing slot: tools', 'missing_slot.tools'],
+    ['slot is not a string: tools', 'slot_not_string.tools'],
+    ['empty required slot: role_line', 'empty_required_slot.role_line'],
+    ['slot too long: role_line (300 > 200)', 'slot_too_long.role_line'],
+    ['forbidden content in slot tools: /[\\r\\n]/', 'forbidden_content.tools.line_break'],
+    ['inline optional slot must start with a space: waiting_parties', 'inline_optional_space.waiting_parties'],
     ['unresolved slot marker in rendered text', 'unresolved_marker'],
     ['instructions too long: 9000 > 8000', 'instructions_too_long'],
-    ['guardrail missing: x', 'guardrail_missing'],
-    ['section missing: ## X', 'section_missing'],
+    ['guardrail missing: You only read and draft.', 'guardrail_missing.g3'],
+    ['section missing: # WORKFLOW', 'section_missing.h4'],
     ['placeholder not declared in placeholders_left: [x]', 'placeholder_not_declared'],
     ['description too long', 'description_too_long'],
     ['need exactly 4 conversation starters', 'starters_count'],
     ['starter too long: x', 'starter_too_long'],
     ['agent name too long', 'name_too_long'],
     ['something new', 'unknown_error'],
+    ['forbidden content in slot tools: /a rule that does not exist/', 'unknown_error'],
+    ['guardrail missing: text that is not a guardrail', 'unknown_error'],
+    ['missing slot: Not-An-ID', 'unknown_error'],
   ];
   it.each(rows)('%s -> %s', (text, code) => {
     expect(errorCode(text)).toBe(code);

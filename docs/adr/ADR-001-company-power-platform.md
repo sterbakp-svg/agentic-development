@@ -167,6 +167,18 @@ interface ManualEvalCaseSummary {
 
 Example: `{ caseId: "G-01", repoValid: true, parity: "same", meanScore: 4.6, minCriterion: 4, threshold: 4.5, pass: true }`.
 
+### Amendment 1 (T-013)
+
+Recorded when the kit in `packages/evals` was built. The interfaces above stay valid; these points extend them.
+
+- `ManualEvalRun.interviewPromptVersion?: string` (semver, version of `prompts/mvp-interview-agent.instructions.md`). Required when a `JD-*` case is present.
+- `ManualEvalCase.expectReject?: boolean` marks a negative case (S-03): the validator and the flow must both reject the output. It needs no scores. Not allowed on JD cases.
+- JD cases (`JD-*`) test the interview agent. They have no `inputFile`, `outputFile` or `flow` (the form refuses them) and are judged on scores alone.
+- In `ManualEvalCaseSummary`, `repoValid` and `parity` are `null` for JD cases.
+- The summary has one row per `caseId`: `repoValid` is the AND over all attempts (a negative case fails when any attempt is accepted), `parity` is the worst over the attempts, scores are pooled over the judged attempts. A case that is not a negative case and has no judged attempt fails with `not_scored`; G-01 and G-02 fail unless a judged attempt has two scorers. Extra summary fields: `attempts`, `judgedAttempts`, `scorerMeans`, `notScored`, `reasons`. `summary.json` also holds per-attempt detail rows (`entries`), `counts`, `allPass` and `releaseBlocking`. `allPass` and the exit code come from the per-case rows.
+- `chars_mismatch`: if the repository and the flow both accept the output but the character counts differ, the case fails with the problem `chars_mismatch` (the flow rendered different text).
+- Error-code vocabulary that T-023 and T-024 must emit in `flow.errorCodes` (one code per error, lower snake case segments separated by dots; slot names and kinds are template IDs, never content): `missing_slot.<slot>`, `slot_not_string.<slot>`, `empty_required_slot.<slot>`, `slot_too_long.<slot>`, `inline_optional_space.<slot>`, `forbidden_content.<slot>.<kind>` with kind one of `braces`, `line_break`, `backtick`, `heading_marker`, `ignore_pattern`, `disregard`, `auto_send_pattern`, `guardrail_missing.g<n>`, `section_missing.h<n>`, and the bare codes `unresolved_marker`, `instructions_too_long`, `description_too_long`, `starters_count`, `starter_too_long`, `name_too_long`, `placeholder_not_declared`. Warning codes: `email_in_slot`, `above_target`. Parity compares per code with its count, so a flow that misses one of several errors is `flow-weaker` (spike T-020 § 4). The full table is in `evals/README.md`.
+
 ## 9. New test points for the T-020 hands-on test
 
 In addition to the open points in `docs/spikes/T-020.md`:

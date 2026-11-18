@@ -3,7 +3,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import Ajv2020 from 'ajv/dist/2020.js';
-import { prepareProfile } from '../index';
+import { applyPreset, prepareProfile, presetSchema, type Preset } from '../index';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../../../..');
 const readJson = (rel: string): unknown => JSON.parse(readFileSync(join(ROOT, rel), 'utf8'));
@@ -21,18 +21,10 @@ const ROLES = [
 
 type Group = Record<string, unknown>;
 type RawProfile = Record<string, unknown>;
-interface Preset {
-  id: string;
-  label_key: string;
-  description_key: string;
-  version: number;
-  profile: Record<string, Group | Group[]>;
-}
-
 const presetFiles = readdirSync(join(ROOT, 'presets'))
   .filter((f) => f.endsWith('.json'))
   .sort();
-const presets: Preset[] = presetFiles.map((f) => readJson(`presets/${f}`) as Preset);
+const presets: Preset[] = presetFiles.map((f) => presetSchema.parse(readJson(`presets/${f}`)));
 const preset = (id: string) => presets.find((p) => p.id === id)!;
 
 /** Fictional minimal profile: the interview minimum (job title, one sentence, languages). */
@@ -44,45 +36,6 @@ function minimalProfile(): RawProfile {
     role: { description: 'Leads a small team in a fictional test company.' },
     languages: { working: ['sk', 'en'], overview: 'sk' },
   };
-}
-
-/** Missing means not answered: undefined, null, '', [] or {}. An explicit `false` is an answer. */
-const isMissing = (v: unknown) =>
-  v === undefined ||
-  v === null ||
-  v === '' ||
-  (Array.isArray(v) && v.length === 0) ||
-  (typeof v === 'object' && v !== null && Object.keys(v).length === 0);
-
-/**
- * Merge rule of schemas/preset.schema.json (also in docs/03-input-model.md, "Role presets"):
- * (a) apply the preset once, to the raw user input, before prepareProfile adds schema defaults
- *     (after defaults, a not-answered `has_team` would already be `false`);
- * (b) the preset fills only missing fields; `has_team` is missing only when the user did not
- *     answer, so an explicit `false` wins;
- * (c) `delegation_roles` is filled only when the merged `has_team` is true, because the
- *     generator suggests no delegation when `has_team` is false.
- * Arrays are taken whole, never concatenated.
- */
-function applyPreset(raw: RawProfile, p: Preset): RawProfile {
-  const out = structuredClone(raw);
-  for (const [group, value] of Object.entries(p.profile)) {
-    if (Array.isArray(value)) {
-      if (isMissing(out[group])) out[group] = structuredClone(value);
-      continue;
-    }
-    const target = (out[group] ?? {}) as Group;
-    for (const [key, v] of Object.entries(value)) {
-      if (group === 'user' && key === 'delegation_roles') continue;
-      if (isMissing(target[key])) target[key] = structuredClone(v);
-    }
-    if (group === 'user' && target.has_team === true && isMissing(target.delegation_roles)) {
-      const roles = (value as Group).delegation_roles;
-      if (roles !== undefined) target.delegation_roles = structuredClone(roles);
-    }
-    out[group] = target;
-  }
-  return out;
 }
 
 /** Every string value of a preset's profile part. */
@@ -129,7 +82,8 @@ describe('preset schema (ajv)', () => {
   }
 
   it('rejects a named stakeholder, a field the profile does not know and an identity field', () => {
-    const base = structuredClone(presets[0]!);
+    type Loose = { profile: Record<string, unknown> };
+    const base = structuredClone(presets[0]!) as unknown as Loose;
     const named = structuredClone(base);
     (named.profile.stakeholders as Group[])[0]!.name = 'Person';
     const unknown = structuredClone(base);

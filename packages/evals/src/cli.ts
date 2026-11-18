@@ -1,9 +1,10 @@
 // CLI of the manual eval kit: build-input, check, summary. No model is called.
 // Exit codes: 0 ok, 1 failed cases, 2 usage or file error, 3 flow-weaker result (release blocking).
-import { existsSync, mkdirSync, readFileSync, realpathSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, realpathSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { checkRun, RunFileError, MAX_FILE_BYTES } from './check';
+import { checkRun, RunFileError } from './check';
+import { readSmallFile } from './files';
 import { buildProfileJson, loadPreset, loadPresetFile } from './input';
 import { renderMarkdown, summarizeRun } from './summary';
 
@@ -20,14 +21,21 @@ const USAGE = `Manual eval kit (T-013). No model is called.
 Usage (from the repository root):
   pnpm --filter @agent-composer/evals cli build-input --profile <file> [--preset <id|file>] [--out <file>]
       Prints the profile_json to paste into the prompt tool.
-  pnpm --filter @agent-composer/evals cli check <run.json>
+  pnpm --filter @agent-composer/evals cli check <run.json> [--root <dir>]
       Validates the saved outputs with the core validator and compares with the flow result.
-  pnpm --filter @agent-composer/evals cli summary <run.json> [--out-dir <dir>]
+  pnpm --filter @agent-composer/evals cli summary <run.json> [--out-dir <dir>] [--root <dir>]
       Check plus scores. Writes summary.json and report.md (default: next to run.json).
 
-Options: --root <dir> repository root (default: this repository).
+--root <dir> is the repository root (default: this repository). Other flags belong to one command only.
 Exit codes: 0 ok, 1 failed cases, 2 usage or file error, 3 flow weaker than the validator (release blocking).
 `;
+
+/** Flags per command: a flag that does not belong to the command is refused, not ignored. */
+const FLAGS: Record<'build-input' | 'check' | 'summary', string[]> = {
+  'build-input': ['profile', 'preset', 'out', 'root'],
+  check: ['root'],
+  summary: ['out-dir', 'root'],
+};
 
 interface Parsed {
   positional: string[];
@@ -54,8 +62,7 @@ function parseArgs(args: string[], allowed: string[]): Parsed | string {
 }
 
 function readJsonFile(path: string): unknown {
-  if (statSync(path).size > MAX_FILE_BYTES) throw new Error('file is too large');
-  return JSON.parse(readFileSync(path, 'utf8'));
+  return JSON.parse(readSmallFile(path));
 }
 
 export function main(argv: string[], io: Io, cwd: string = process.cwd()): number {
@@ -68,7 +75,7 @@ export function main(argv: string[], io: Io, cwd: string = process.cwd()): numbe
     io.err(cmd === undefined ? USAGE : `unknown command: ${cmd}\n\n${USAGE}`);
     return 2;
   }
-  const parsed = parseArgs(rest, ['profile', 'preset', 'out', 'out-dir', 'root']);
+  const parsed = parseArgs(rest, FLAGS[cmd]);
   if (typeof parsed === 'string') {
     io.err(`${parsed}\n\n${USAGE}`);
     return 2;

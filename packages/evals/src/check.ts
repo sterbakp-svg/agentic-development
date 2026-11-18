@@ -1,14 +1,12 @@
 // Output validation: saved prompt tool JSON -> core prepare + validate -> repoValid and parity.
 // Nothing here calls a model. Results hold codes, counts and flags, never slot or profile text.
 import { loadTemplate, prepareProfile, validate } from '@agent-composer/core';
-import { readFileSync, realpathSync, statSync } from 'node:fs';
+import { realpathSync } from 'node:fs';
 import { dirname, join, resolve, sep } from 'node:path';
 import { errorCode, warningCode } from './codes';
+import { FileTooLargeError, readSmallFile } from './files';
 import { computeParity } from './parity';
 import { manualEvalRunSchema, type ManualEvalCase, type ManualEvalRun, type Parity } from './schema';
-
-/** Largest file the kit reads. A prompt tool output is a few KB. */
-export const MAX_FILE_BYTES = 1_000_000;
 
 /** Run file cannot be read or does not match the schema. The message holds paths and codes only. */
 export class RunFileError extends Error {}
@@ -48,11 +46,9 @@ export interface RunCheck {
 export function loadRunFile(runFile: string): ManualEvalRun {
   let json: unknown;
   try {
-    const st = statSync(runFile);
-    if (st.size > MAX_FILE_BYTES) throw new RunFileError('run file is too large');
-    json = JSON.parse(readFileSync(runFile, 'utf8'));
+    json = JSON.parse(readSmallFile(runFile));
   } catch (e) {
-    if (e instanceof RunFileError) throw e;
+    if (e instanceof FileTooLargeError) throw new RunFileError('run file is too large');
     throw new RunFileError('run file cannot be read or is not valid JSON');
   }
   const parsed = manualEvalRunSchema.safeParse(json);
@@ -74,13 +70,14 @@ function readInRunDir(runDir: string, rel: string, prefix: string): Read {
     const real = realpathSync(file);
     const realDir = realpathSync(runDir);
     if (!real.startsWith(realDir + sep)) return { ok: false, problem: `${prefix}_file_unreadable` };
-    if (statSync(real).size > MAX_FILE_BYTES) return { ok: false, problem: 'file_too_large' };
-    return { ok: true, text: readFileSync(real, 'utf8') };
-  } catch {
+    return { ok: true, text: readSmallFile(real) };
+  } catch (e) {
+    if (e instanceof FileTooLargeError) return { ok: false, problem: 'file_too_large' };
     return { ok: false, problem: `${prefix}_file_unreadable` };
   }
 }
 
+const sorted = (xs: string[]): string[] => [...xs].sort();
 const sortedUnique = (xs: string[]): string[] => [...new Set(xs)].sort();
 
 export function checkRun(runFile: string, opts: CheckOptions): RunCheck {
@@ -148,7 +145,8 @@ function checkCase(
     return fail('output_shape_invalid');
   }
 
-  const repoErrorCodes = sortedUnique(result.errors.map(errorCode));
+  // Kept with multiplicity: the parity check compares per code and count.
+  const repoErrorCodes = sorted(result.errors.map(errorCode));
   const parity = computeParity(
     { valid: result.ok, errorCodes: repoErrorCodes },
     { valid: c.flow.valid, errorCodes: c.flow.errorCodes },

@@ -1,7 +1,7 @@
 // Output validation: saved prompt tool JSON -> core render + validate -> repoValid and parity.
-import { cpSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { checkRun, RunFileError } from './check';
 import {
@@ -52,6 +52,25 @@ describe('injection output (evals/negative/injection-slots.json)', () => {
       opts,
     ).entries[0]!;
     expect(e.parity).toBe('flow-stricter');
+  });
+
+  it('the four reference errors have four distinct IDs', () => {
+    expect(injectionCodes).toEqual([
+      'forbidden_content.discretion_rule.ignore_pattern',
+      'forbidden_content.discretion_rule.auto_send_pattern',
+      'forbidden_content.tools.heading_marker',
+      'forbidden_content.tools.line_break',
+    ].sort());
+  });
+
+  it.each([0, 1, 2, 3])('a flow that catches only reference error %i of 4 is flow-weaker', (i) => {
+    const e = checkRun(runWith([injectionCase(flow(false, [injectionCodes[i]!]))]), opts).entries[0]!;
+    expect(e.parity).toBe('flow-weaker');
+  });
+
+  it('a flow that catches 3 of 4 is flow-weaker', () => {
+    const e = checkRun(runWith([injectionCase(flow(false, injectionCodes.slice(1)))]), opts).entries[0]!;
+    expect(e.parity).toBe('flow-weaker');
   });
 
   it('flow that accepted the injection is flow-weaker', () => {
@@ -126,6 +145,29 @@ describe('run level checks', () => {
 
   it('an unreadable run file throws RunFileError', () => {
     expect(() => checkRun('/nonexistent/run.json', opts)).toThrow(RunFileError);
+  });
+
+  it('refuses an outputFile that is a symlink to a file outside the run folder', () => {
+    const outside = mkdtempSync(join(tmpdir(), 'evals-outside-'));
+    const target = join(outside, 'secret.json');
+    writeFileSync(target, GOLDEN_SLOTS); // a valid output: only the refusal can stop the check
+    const file = runWith([goldenCase()]);
+    const dir = dirname(file);
+    rmSync(join(dir, 'g01.output.json'));
+    symlinkSync(target, join(dir, 'g01.output.json'));
+    const e = checkRun(file, opts).entries[0]!;
+    expect(e.repoValid).toBe(false);
+    expect(e.problems).toContain('output_file_unreadable');
+  });
+
+  it('a symlink inside the run folder that stays inside is read', () => {
+    const file = runWith([goldenCase()]);
+    const dir = dirname(file);
+    mkdirSync(join(dir, 'sub'));
+    writeFileSync(join(dir, 'sub', 'real.json'), GOLDEN_SLOTS);
+    rmSync(join(dir, 'g01.output.json'));
+    symlinkSync(join(dir, 'sub', 'real.json'), join(dir, 'g01.output.json'));
+    expect(checkRun(file, opts).entries[0]!.repoValid).toBe(true);
   });
 
   it('refuses an outputFile that escapes the run directory through a symlink-free parent path', () => {

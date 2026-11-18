@@ -46,7 +46,12 @@
       "expectReject": true,
       "flow": {
         "valid": false,
-        "errorCodes": ["forbidden_content"],
+        "errorCodes": [
+          "forbidden_content.discretion_rule.auto_send_pattern",
+          "forbidden_content.discretion_rule.ignore_pattern",
+          "forbidden_content.tools.heading_marker",
+          "forbidden_content.tools.line_break"
+        ],
         "warningCodes": [],
         "chars": 0
       }

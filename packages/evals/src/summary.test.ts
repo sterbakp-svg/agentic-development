@@ -71,12 +71,12 @@ describe('summarizeRun', () => {
     expect(r.entries[0]!.pass).toBe(false);
   });
 
-  it('counts passes, fails and unscored attempts', () => {
+  it('counts cases, not attempts: a judged case with an unjudged retry is one passed case', () => {
     const r = summarizeRun(
       runWith([goldenCase(), goldenCase({ attempt: 2, scores: undefined })]),
       opts,
     );
-    expect(r.counts).toEqual({ total: 2, passed: 2, failed: 0, unscored: 1 });
+    expect(r.counts).toEqual({ total: 1, passed: 1, failed: 0, unscored: 0, attempts: 2 });
   });
 
   it('keeps one entry per case attempt', () => {

@@ -76,7 +76,16 @@ A `JD-*` case tests the interview agent, not the render. It has no `inputFile`, 
 
 ### Error codes
 
-The flow reports codes, not texts. Use the same vocabulary as the repository (`packages/evals/src/codes.ts`): `missing_slot`, `slot_not_string`, `empty_required_slot`, `slot_too_long`, `forbidden_content`, `inline_optional_space`, `unresolved_marker`, `instructions_too_long`, `guardrail_missing`, `section_missing`, `placeholder_not_declared`, `description_too_long`, `starters_count`, `starter_too_long`, `name_too_long`. A flow check that the repository does not have (for example the stricter `#` rule) may use its own code in lower snake case. Warning codes: `email_in_slot`, `above_target`.
+The flow reports codes, not texts. A code is made of IDs, never content: slot names and rule kinds are template IDs. The repository vocabulary is `packages/evals/src/codes.ts`; the flow (T-023, T-024) must emit exactly these codes, one per error:
+
+| Code | Meaning |
+|---|---|
+| `missing_slot.<slot>`, `slot_not_string.<slot>`, `empty_required_slot.<slot>`, `slot_too_long.<slot>`, `inline_optional_space.<slot>` | Slot checks, for example `slot_too_long.role_line`. |
+| `forbidden_content.<slot>.<kind>` | One code per forbidden pattern in a slot. Kinds: `braces`, `line_break`, `backtick`, `heading_marker` (a line starting with `#`), `ignore_pattern`, `disregard`, `auto_send_pattern`. Example: `forbidden_content.tools.line_break`. |
+| `guardrail_missing.g<n>`, `section_missing.h<n>` | `n` is the 1-based position of the guardrail line or heading in `packages/core/src/validator/guardrails.ts`. |
+| `unresolved_marker`, `instructions_too_long`, `description_too_long`, `starters_count`, `starter_too_long`, `name_too_long`, `placeholder_not_declared` | Checks without a slot ID. Report the code once per error (two starters too long: two times). |
+
+A flow check that the repository does not have may use its own code in lower snake case with dots between IDs. Warning codes: `email_in_slot`, `above_target`. `unknown_error` in a result means that core reported something that `codes.ts` does not know: file a bug.
 
 ## How the result is computed
 
@@ -89,27 +98,32 @@ The flow reports codes, not texts. Use the same vocabulary as the repository (`p
 | rejects with codes C | rejects with C and more | `flow-stricter` |
 | accepts | rejects | `flow-stricter` |
 | rejects | accepts | `flow-weaker` |
-| rejects with codes C | rejects but misses a code of C | `flow-weaker` |
+| rejects with codes C | rejects but misses one code of C | `flow-weaker` |
+
+Codes are compared one by one, with their count: `forbidden_content.tools.line_break` and `forbidden_content.tools.heading_marker` are two codes, so a flow that catches only one of the four errors of `evals/negative/injection-slots.json` is `flow-weaker`. `check` uses `packages/core` only (no second implementation). That core agrees with `reference/composer_ref.py` is enforced by the CI job `reference`, not by this kit.
 
 `flow-weaker` is release blocking: `check` and `summary` exit with code 3 and the report starts with a banner. If both accept but the character counts differ, the case fails with `chars_mismatch` (the flow rendered different text).
 
-**Pass rule** per case attempt (`evals/cases.md`, ADR-001 § 5):
+**Pass rule** per case, over all attempts of the case (`evals/cases.md`, ADR-001 § 5, § 8):
 
-- `meanScore`: mean over all six criteria and all scorers. With two scorers both sets are pooled, so each scorer weighs the same.
-- `minCriterion`: the lowest single score given by any scorer.
+- `repoValid`: true when the validator accepts every attempt. A negative case (`expectReject`) fails when any attempt is accepted.
+- `parity`: the worst of the attempts (`flow-weaker`, then `flow-stricter`, then `same`).
+- `meanScore`: mean over all six criteria, all scorers and all judged attempts (an attempt is judged when it has `scores`). `minCriterion`: the lowest single score.
 - `threshold`: 4.5 for G-01 and G-02, 4.0 for all other cases.
-- The case passes when `meanScore >= threshold`, `minCriterion >= 3`, `repoValid` is true, parity is not `flow-weaker`, and (G-01, G-02) at least two scorers scored it. One low score of 2 or less from either scorer fails the case, even if the mean is high.
-- A negative case (`expectReject`) passes when the repository rejects the output and the flow is not weaker.
-- An attempt without scores passes on the deterministic checks alone and is counted as "not scored" in the report. Score every attempt that the case needs (the case table says which).
+- The case passes when `meanScore >= threshold`, `minCriterion >= 3`, `repoValid` is true, parity is not `flow-weaker`, and the case has no problem such as `chars_mismatch`. One score of 2 or less fails the case, even if the mean is high.
+- Every case that is not a negative case needs at least one judged attempt: without one it fails with `not_scored` (this holds for golden and preset cases too, not only JD cases). G-01 and G-02 need at least one judged attempt that two scorers scored.
+- A negative case (`expectReject`) passes when the repository rejects every attempt and the flow is not weaker. It needs no scores.
 
-`summary.json` holds, per attempt, the ADR fields `caseId`, `repoValid`, `parity`, `meanScore`, `minCriterion`, `threshold`, `pass`, plus `attempt`, `scorerMeans`, codes and counts. The run passes when every attempt passes. The report never prints slot text, profile text or notes: only ids, codes, lengths and scores.
+A retry or an extra attempt that nobody scored does not fail the case as long as another attempt was judged.
+
+`summary.json` holds `cases` (one row per `caseId`, with the ADR fields `caseId`, `repoValid`, `parity`, `meanScore`, `minCriterion`, `threshold`, `pass`, plus `attempts`, `judgedAttempts`, `scorerMeans`, `notScored`, `reasons`), `entries` (one row per attempt, detail only), `counts` (over cases, plus `attempts`), `allPass` and `releaseBlocking`. `allPass`, the exit code and the report verdict come from the `cases` rows. The report never prints slot text, profile text or notes: only ids, codes, lengths and scores.
 
 ## Exit codes
 
 | Code | Meaning |
 |---|---|
 | 0 | All checks pass. |
-| 1 | At least one case failed. |
+| 1 | At least one case failed (including `not_scored`). |
 | 2 | Usage error, unreadable file or a run file that does not match the schema. |
 | 3 | Flow weaker than the validator in at least one case: release blocking. |
 

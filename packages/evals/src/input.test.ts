@@ -1,11 +1,15 @@
 // Input builder: profile (+ preset) -> profile_json string for the prompt tool.
-import { prepareProfile } from '@agent-composer/core';
+import { applyPreset as coreApplyPreset, prepareProfile, type Preset } from '@agent-composer/core';
+import { mkdtempSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { describe, expect, it } from 'vitest';
 import { join } from 'node:path';
-import { applyPreset, buildProfileJson, loadPreset } from './input';
+import { buildProfileJson, loadPreset, loadPresetFile } from './input';
+import { MAX_FILE_BYTES } from './files';
 import { readJson, repoRoot } from './testkit';
 
-type Obj = Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any -- test fixtures are free-form JSON
+type Obj = { user: Record<string, unknown>; role: Record<string, unknown> } & Record<string, unknown>;
+const applyPreset = (raw: Record<string, unknown>, p: Preset): Obj => coreApplyPreset(raw, p) as Obj;
 
 const minimal = (): Obj => ({
   schema_version: '1.0',
@@ -102,5 +106,47 @@ describe('preset merge rule (docs/03-input-model.md, Role presets)', () => {
   it.each(ROLES)('evals/profiles/preset-%s.json is a fixed point of the merge', (id) => {
     const raw = readJson(join(repoRoot, `evals/profiles/preset-${id}.json`));
     expect(applyPreset(raw as Obj, loadPreset(repoRoot, id))).toEqual(raw);
+  });
+});
+
+describe('files are read with stat first and one size limit', () => {
+  it('a preset file over MAX_FILE_BYTES is refused', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'evals-preset-'));
+    const file = join(dir, 'big.json');
+    writeFileSync(file, JSON.stringify({ pad: 'x'.repeat(MAX_FILE_BYTES + 1) }));
+    expect(() => loadPresetFile(file)).toThrow(/cannot be read/);
+  });
+  it('a preset that does not match the preset format is refused (zod, no cast)', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'evals-preset-'));
+    const file = join(dir, 'bad.json');
+    const p = structuredClone(readJson(join(repoRoot, 'presets/sales.json'))) as Record<string, unknown>;
+    p.profile = { user: { job_title: 'CEO' } };
+    writeFileSync(file, JSON.stringify(p));
+    expect(() => loadPresetFile(file)).toThrow(/preset format/);
+  });
+});
+
+describe('__proto__ regression', () => {
+  const polluted = () => ({}) as Record<string, unknown>;
+  it('profile with an own __proto__ key is refused and pollutes nothing', () => {
+    const raw = JSON.parse(
+      '{"__proto__": {"polluted": "yes"}, "schema_version": "1.0", "template_id": "email-triage",' +
+        '"user": {"job_title": "Team Lead"}, "role": {"description": "Leads a small team in a fictional company."},' +
+        '"languages": {"working": ["en"], "overview": "en"}}',
+    );
+    expect(buildProfileJson(raw).ok).toBe(false);
+    expect(buildProfileJson(raw, loadPreset(repoRoot, 'sales')).ok).toBe(false);
+    expect(polluted().polluted).toBeUndefined();
+  });
+  it('preset file with __proto__ is refused and pollutes nothing', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'evals-preset-'));
+    const file = join(dir, 'evil.json');
+    writeFileSync(
+      file,
+      '{"id":"evil","label_key":"presets.evil.label","description_key":"presets.evil.description","version":1,' +
+        '"profile":{"__proto__":{"polluted":"yes"},"user":{"__proto__":{"polluted":"yes"},"has_team":true}}}',
+    );
+    expect(() => loadPresetFile(file)).toThrow(/preset format/);
+    expect(polluted().polluted).toBeUndefined();
   });
 });

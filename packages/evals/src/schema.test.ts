@@ -23,7 +23,11 @@ function set(r: Obj, f: (r: Obj) => void): Obj {
   return r;
 }
 
-/** [name, mutate, valid in zod, valid in JSON Schema]. The JSON Schema has no cross-field rules. */
+/**
+ * [name, mutate, valid in zod, valid in JSON Schema]. The JSON Schema states the JD, flow and scorer
+ * rules (if/then, draft 2020-12). It cannot state: scorer listed in scorers, unique caseId + attempt,
+ * a real calendar date.
+ */
 const fixtures: [string, (r: Obj) => Obj, boolean, boolean][] = [
   ['valid run', (r) => r, true, true],
   ['valid run without scores', (r) => set(r, () => delete firstCase(r).scores), true, true],
@@ -32,7 +36,7 @@ const fixtures: [string, (r: Obj) => Obj, boolean, boolean][] = [
     'JD case without interviewPromptVersion',
     (r) => set(jd(r), (x) => delete x.interviewPromptVersion),
     false,
-    true,
+    false,
   ],
   [
     'interviewPromptVersion not semver',
@@ -40,13 +44,33 @@ const fixtures: [string, (r: Obj) => Obj, boolean, boolean][] = [
     false,
     false,
   ],
-  ['non-JD case without outputFile', (r) => set(r, () => delete firstCase(r).outputFile), false, true],
-  ['non-JD case without flow', (r) => set(r, () => delete firstCase(r).flow), false, true],
+  ['non-JD case without outputFile', (r) => set(r, () => delete firstCase(r).outputFile), false, false],
+  ['non-JD case without inputFile', (r) => set(r, () => delete firstCase(r).inputFile), false, false],
+  ['non-JD case without flow', (r) => set(r, () => delete firstCase(r).flow), false, false],
+  ['JD case with inputFile', (r) => set(jd(r), (x) => ((x.cases as Obj[])[0]!.inputFile = 'x.json')), false, false],
+  [
+    'JD case with flow',
+    (r) =>
+      set(jd(r), (x) => ((x.cases as Obj[])[0]!.flow = { valid: true, errorCodes: [], warningCodes: [], chars: 1 })),
+    false,
+    false,
+  ],
+  ['JD case with expectReject', (r) => set(jd(r), (x) => ((x.cases as Obj[])[0]!.expectReject = true)), false, false],
+  [
+    'flow code with IDs (forbidden_content.tools.line_break)',
+    (r) =>
+      set(r, () => {
+        Object.assign(flowOf(r), { valid: false, errorCodes: ['forbidden_content.tools.line_break'] });
+      }),
+    true,
+    true,
+  ],
+  ['flow code with an empty segment', (r) => set(r, () => Object.assign(flowOf(r), { valid: false, errorCodes: ['a..b'] })), false, false],
   [
     'JD case with outputFile',
     (r) => set(jd(r), (x) => ((x.cases as Obj[])[0]!.outputFile = 'x.json')),
     false,
-    true,
+    false,
   ],
   ['environment other than company-test', (r) => set(r, () => (r.environment = 'prod')), false, false],
   ['bad date', (r) => set(r, () => (r.date = '25.11.2026')), false, false],
@@ -55,7 +79,7 @@ const fixtures: [string, (r: Obj) => Obj, boolean, boolean][] = [
   ['promptOption C', (r) => set(r, () => (r.promptOption = 'C')), false, false],
   ['empty scorers', (r) => set(r, () => (r.scorers = [])), false, false],
   ['scorer label with spaces (a name)', (r) => set(r, () => (r.scorers = ['Jane Doe'])), false, false],
-  ['duplicate scorers', (r) => set(r, () => (r.scorers = ['a-1', 'a-1'])), false, true],
+  ['duplicate scorers', (r) => set(r, () => (r.scorers = ['a-1', 'a-1'])), false, false],
   ['attempt 0', (r) => set(r, () => (firstCase(r).attempt = 0)), false, false],
   ['attempt fractional', (r) => set(r, () => (firstCase(r).attempt = 1.5)), false, false],
   ['absolute inputFile', (r) => set(r, () => (firstCase(r).inputFile = '/etc/x')), false, false],
@@ -85,9 +109,9 @@ const fixtures: [string, (r: Obj) => Obj, boolean, boolean][] = [
     'flow valid with error codes',
     (r) => set(r, () => (flowOf(r).errorCodes = ['slot_too_long'])),
     false,
-    true,
+    false,
   ],
-  ['flow invalid without error codes', (r) => set(r, () => (flowOf(r).valid = false)), false, true],
+  ['flow invalid without error codes', (r) => set(r, () => (flowOf(r).valid = false)), false, false],
   ['flow chars negative', (r) => set(r, () => (flowOf(r).chars = -1)), false, false],
   [
     'flow code not snake_case',
@@ -143,8 +167,11 @@ describe('schemas/manual-eval-run.schema.json agrees with zod', () => {
 
   it.each(fixtures)('%s', (_name, mutate, zodOk, jsonOk) => {
     expect(validate(mutate(clone(baseRun())))).toBe(jsonOk);
-    // The JSON Schema may be looser than zod, never stricter.
+    // The JSON Schema may be looser than zod in the three documented cases, never stricter.
     if (zodOk) expect(jsonOk).toBe(true);
+    // Everything else that zod refuses, the JSON Schema refuses too.
+    const NOT_EXPRESSIBLE = ['impossible date', 'scorer not listed in scorers', 'duplicate caseId and attempt'];
+    if (!zodOk && !NOT_EXPRESSIBLE.includes(_name)) expect(jsonOk).toBe(false);
   });
 
   it('evals/runs/TEMPLATE.json passes both', () => {
