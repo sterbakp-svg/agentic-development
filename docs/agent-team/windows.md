@@ -1,3 +1,5 @@
+> ADR-001 (2026-11-18) changes the order: W4 dropped, W5 changed, W15 and W16 new, W9 to W14 deferred. The current order is in `docs/PROGRESS.md` § 4.
+
 # Work windows
 
 A window is one Claude Code session with a clear scope. Start every window with `/clear`, then set the lead's model and effort, then paste the prompt. The lead reads the state from `docs/PROGRESS.md`, so no context from earlier sessions is needed.

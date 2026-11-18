@@ -1,3 +1,5 @@
+> ADR-001 (2026-11-18): ticket status per delivery path in `docs/adr/ADR-001-company-power-platform.md` § 5. Deferred tickets stay here unchanged.
+
 # Backlog
 
 Each ticket has an owner type: **AGENT** (coding agents do it), **HUMAN** (the product owner or an admin must do it; agents prepare a checklist), or **AGENT+HUMAN** (agents prepare, a human executes one step). "Blocked by" lists tickets that must be done first. Start any ticket whose blockers are done.
@@ -104,6 +106,16 @@ Blocked by: T-022
 Blocked by: T-024, T-025
 - Run the pilot (5-10 users, at least 4 roles); collect feedback; agents write the evaluation report from the collected data.
 - AC: exit criteria in `docs/05-mvp-copilot-studio.md` checked; go or no-go for phase 2.
+
+### T-027 Solution packaging and IT handover — AGENT+HUMAN
+Blocked by: W8 evals pass, Q-23, Q-24, Q-27
+- Managed solution export, company-neutral source in the repository, handover checklist (ADR-001 § 7) for the company's IT.
+- AC: IT confirms the checklist is complete; the import in the test environment works from the checklist alone.
+
+### T-028 IT import to production and smoke test — HUMAN
+Blocked by: T-027, Q-22, Q-26, Q-29
+- Company IT imports the managed solution into production; smoke test with one golden user.
+- AC: smoke test passes; result recorded in `docs/checklists/T-028.md`.
 
 ## E3. Phase 2a SaaS core
 

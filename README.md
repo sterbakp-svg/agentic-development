@@ -19,7 +19,7 @@ This package is the input for the development agent team (Claude Code). It is wr
 
 ## Configuration
 
-The model client in `packages/core` reads these environment variables.
+The model client in `packages/core` reads these environment variables. It belongs to the deferred SaaS path; the current delivery path (ADR-001) uses the Copilot Studio prompt tool and needs none of them.
 
 | Variable | Required | Default | Meaning |
 |---|---|---|---|

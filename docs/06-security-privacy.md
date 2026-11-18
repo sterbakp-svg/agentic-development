@@ -1,3 +1,5 @@
+> Current delivery path: ADR-001 (one company's Power Platform, no Azure on our side). Azure-specific controls below apply to the deferred SaaS path; the controls for this path are in `docs/adr/ADR-001-company-power-platform.md` § 6.
+
 # Security and privacy
 
 ## Data classification

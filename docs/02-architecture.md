@@ -1,5 +1,14 @@
 # Architecture
 
+## Current delivery path (ADR-001)
+
+Decided 2026-11-18, see `docs/adr/ADR-001-company-power-platform.md`.
+
+- The product is delivered to **one company** as a Power Platform solution: interview agent, prompt tool `GenerateEmailTriageSlots`, agent flow `RenderAndValidate`, feedback table. It is built in the company's test environment and moved to production by the company's IT (managed solution).
+- Model calls happen only inside Copilot Studio. No own Azure subscription and no own Azure OpenAI. Evals are run by hand in the test environment.
+- The design in § 1 and § 2 still applies. The agent flow implements the renderer and validator (§ 2, last paragraph). `packages/core` is the reference and test oracle, not a deployed service. The model client stays in the repository, unused in this path.
+- **§ 3 (Phase 2 SaaS architecture) and § 4 (Phase 3 app package export) are deferred.** They are kept for a later decision and do not describe the current product.
+
 ## 1. Core idea: deterministic frame, LLM content
 
 The generator never writes the whole instruction text. The LLM fills only the role-specific **slots** of a fixed, versioned template. Code renders the template and validates the result.
