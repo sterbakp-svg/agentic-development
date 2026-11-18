@@ -1,0 +1,112 @@
+{
+  "id": "finance",
+  "label_key": "presets.finance.label",
+  "description_key": "presets.finance.description",
+  "version": 1,
+  "profile": {
+    "user": {
+      "seniority": "manager",
+      "has_team": true,
+      "delegation_roles": [
+        "accounting lead",
+        "controlling analyst",
+        "accounts payable team",
+        "treasury specialist"
+      ]
+    },
+    "role": {
+      "responsibilities": [
+        "monthly and annual closing and financial statements",
+        "budget, forecast and variance analysis",
+        "management and group reporting",
+        "cash flow, liquidity and treasury",
+        "tax, VAT and statutory filings",
+        "payment approvals and invoice disputes",
+        "external audit and internal controls",
+        "cost control and investment business cases"
+      ],
+      "tools": ["ERP system", "accounting system", "BI and reporting tool", "spreadsheets"]
+    },
+    "stakeholders": [
+      {
+        "role_or_group": "CFO or line manager",
+        "relation": "manager",
+        "priority": "highest"
+      },
+      {
+        "role_or_group": "CEO and management team",
+        "relation": "executive",
+        "priority": "highest"
+      },
+      {
+        "role_or_group": "tax authority",
+        "relation": "regulator",
+        "priority": "highest"
+      },
+      {
+        "role_or_group": "external auditors",
+        "relation": "auditor",
+        "priority": "highest"
+      },
+      {
+        "role_or_group": "finance team",
+        "relation": "direct_report",
+        "priority": "high"
+      },
+      {
+        "role_or_group": "budget owners and department heads",
+        "relation": "internal_function",
+        "priority": "high"
+      },
+      {
+        "role_or_group": "group finance or headquarters controlling",
+        "relation": "group_or_headquarters",
+        "priority": "high"
+      },
+      {
+        "role_or_group": "tax advisors",
+        "relation": "vendor",
+        "priority": "high"
+      },
+      {
+        "role_or_group": "banks and lenders",
+        "relation": "other",
+        "priority": "high"
+      }
+    ],
+    "priorities": {
+      "high_impact_areas": [
+        "closing and reporting deadlines",
+        "cash shortfall or liquidity risk",
+        "material variance against budget or forecast",
+        "audit findings and adjustments",
+        "tax assessments and filing deadlines",
+        "bank covenants and lender requests",
+        "large or unusual payments",
+        "investment and cost approvals"
+      ],
+      "extra_urgency_signals": [
+        "closing or reporting calendar date",
+        "payment due date or overdue invoice reminder",
+        "auditor or tax authority request with a deadline",
+        "approval needed before a payment run",
+        "unexpected request to change bank details"
+      ],
+      "low_priority": [
+        "automated ERP job and report notifications",
+        "copies of already approved invoices",
+        "finance newsletters and training offers"
+      ],
+      "confidential_topics": [
+        "unpublished financial results",
+        "salaries and payroll",
+        "bank details",
+        "tax matters",
+        "M&A and valuations"
+      ]
+    },
+    "style": {
+      "draft_tone": ["precise", "factual", "professional"]
+    }
+  }
+}

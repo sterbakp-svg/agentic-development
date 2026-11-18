@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0",
+  "template_id": "email-triage",
+  "user": {
+    "job_title": "Sales Manager",
+    "seniority": "manager",
+    "has_team": true,
+    "delegation_roles": [
+      "account managers",
+      "sales support",
+      "presales or solution specialists",
+      "customer service"
+    ]
+  },
+  "role": {
+    "description": "Leads a team of account managers selling industrial equipment to business customers.",
+    "responsibilities": [
+      "sales targets, pipeline and forecast",
+      "key accounts and strategic customers",
+      "offers, pricing and discount approvals",
+      "contract negotiations and renewals",
+      "sales team coaching and performance",
+      "customer escalations and complaints",
+      "coordination with marketing, delivery and finance",
+      "sales reports for management"
+    ],
+    "tools": [
+      "CRM",
+      "quoting tool",
+      "sales dashboard"
+    ]
+  },
+  "stakeholders": [
+    {
+      "role_or_group": "line manager (Sales Director or CEO)",
+      "relation": "manager",
+      "priority": "highest"
+    },
+    {
+      "role_or_group": "key account customers",
+      "relation": "client",
+      "priority": "highest"
+    },
+    {
+      "role_or_group": "account managers and sales team",
+      "relation": "direct_report",
+      "priority": "high"
+    },
+    {
+      "role_or_group": "Finance and credit control",
+      "relation": "internal_function",
+      "priority": "high"
+    },
+    {
+      "role_or_group": "Legal (contracts)",
+      "relation": "internal_function",
+      "priority": "high"
+    },
+    {
+      "role_or_group": "delivery, operations or customer service",
+      "relation": "internal_function",
+      "priority": "high"
+    },
+    {
+      "role_or_group": "Marketing",
+      "relation": "internal_function",
+      "priority": "high"
+    },
+    {
+      "role_or_group": "channel partners and resellers",
+      "relation": "other",
+      "priority": "high"
+    }
+  ],
+  "priorities": {
+    "high_impact_areas": [
+      "large deals and renewals at risk",
+      "key account escalations or complaints",
+      "pricing, discount or margin approvals",
+      "pipeline and forecast versus target",
+      "tender and offer deadlines",
+      "contract terms and liability",
+      "competitor activity at key accounts",
+      "customer payment issues"
+    ],
+    "extra_urgency_signals": [
+      "offer or tender deadline",
+      "customer waiting for a quote or an answer",
+      "deal closing this month or quarter",
+      "complaint or churn threat from a key account",
+      "discount or contract approval requested"
+    ],
+    "low_priority": [
+      "marketing campaign reports",
+      "automated CRM notifications",
+      "sales tool newsletters"
+    ],
+    "confidential_topics": [
+      "pricing and discounts",
+      "customer contracts",
+      "commissions and pay",
+      "pipeline figures"
+    ]
+  },
+  "languages": {
+    "working": [
+      "sk",
+      "en"
+    ],
+    "overview": "sk"
+  },
+  "style": {
+    "draft_tone": [
+      "friendly",
+      "confident",
+      "concise",
+      "customer-focused"
+    ]
+  }
+}

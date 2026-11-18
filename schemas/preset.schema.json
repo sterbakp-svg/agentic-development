@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-composer.example/schemas/preset/1.0.json",
+  "title": "Role preset (proposed profile values for one role)",
+  "description": "A preset proposes typical values for a role. The user can change all of them. Merge rule: apply the preset once, to the raw user input, before schema defaults; it fills only fields the user did not answer (an explicit false or any value wins); delegation_roles is filled only when the merged has_team is true. Every field reuses the definition and limits of the agent-profile schema. Stakeholders are groups, never named persons. A preset never sets identity fields (name, job title, organization), role.description, ongoing topics, languages, agent settings or org_context.",
+  "type": "object",
+  "required": ["id", "label_key", "description_key", "version", "profile"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$", "maxLength": 40 },
+    "label_key": {
+      "type": "string",
+      "pattern": "^presets\\.[a-z][a-z0-9-]*\\.label$",
+      "description": "i18n key in apps/web/messages/*.json: presets.<id>.label"
+    },
+    "description_key": {
+      "type": "string",
+      "pattern": "^presets\\.[a-z][a-z0-9-]*\\.description$",
+      "description": "i18n key in apps/web/messages/*.json: presets.<id>.description"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Raise on every content change, so that eval runs and saved profiles can name the preset version they used."
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "user": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "seniority": {
+              "$ref": "https://agent-composer.example/schemas/agent-profile/1.0.json#/properties/user/properties/seniority"
+            },
+            "has_team": {
+              "$ref": "https://agent-composer.example/schemas/agent-profile/1.0.json#/properties/user/properties/has_team"
+            },
+            "delegation_roles": {
+              "$ref": "https://agent-composer.example/schemas/agent-profile/1.0.json#/properties/user/properties/delegation_roles"
+            }
+          }
+        },
+        "role": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "responsibilities": {
+              "type": "array",
+              "$ref": "https://agent-composer.example/schemas/agent-profile/1.0.json#/properties/role/properties/responsibilities",
+              "maxItems": 8,
+              "description": "Preset-only cap: at most 8, the range of the responsibilities slot (4-8)."
+            },
+            "tools": {
+              "$ref": "https://agent-composer.example/schemas/agent-profile/1.0.json#/properties/role/properties/tools",
+              "description": "Generic tool categories only, no product or company names."
+            },
+            "regulations": {
+              "$ref": "https://agent-composer.example/schemas/agent-profile/1.0.json#/properties/role/properties/regulations"
+            }
+          }
+        },
+        "stakeholders": {
+          "type": "array",
+          "maxItems": 12,
+          "description": "Preset-only cap: at most 12, so that the user can add named people within the profile limit of 20.",
+          "items": {
+            "type": "object",
+            "required": ["role_or_group", "relation", "priority"],
+            "additionalProperties": false,
+            "properties": {
+              "role_or_group": {
+                "$ref": "https://agent-composer.example/schemas/agent-profile/1.0.json#/properties/stakeholders/items/properties/role_or_group"
+              },
+              "relation": {
+                "$ref": "https://agent-composer.example/schemas/agent-profile/1.0.json#/properties/stakeholders/items/properties/relation"
+              },
+              "priority": {
+                "$ref": "https://agent-composer.example/schemas/agent-profile/1.0.json#/properties/stakeholders/items/properties/priority"
+              }
+            }
+          }
+        },
+        "priorities": {
+          "$ref": "https://agent-composer.example/schemas/agent-profile/1.0.json#/properties/priorities"
+        },
+        "style": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "draft_tone": {
+              "$ref": "https://agent-composer.example/schemas/agent-profile/1.0.json#/properties/style/properties/draft_tone"
+            }
+          }
+        }
+      }
+    }
+  }
+}

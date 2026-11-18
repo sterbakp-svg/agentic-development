@@ -1,0 +1,98 @@
+{
+  "id": "risk-compliance",
+  "label_key": "presets.risk-compliance.label",
+  "description_key": "presets.risk-compliance.description",
+  "version": 1,
+  "profile": {
+    "user": {
+      "seniority": "specialist",
+      "has_team": false
+    },
+    "role": {
+      "responsibilities": [
+        "compliance monitoring and tracking of regulatory change",
+        "risk register, risk assessments and key risk indicators",
+        "policies, procedures and staff training",
+        "regulatory reporting and requests from supervisors",
+        "incident, breach and loss event reporting",
+        "conduct, conflict of interest and whistleblowing cases",
+        "coordination of audits and follow-up of findings",
+        "risk and compliance reports for management and committees"
+      ]
+    },
+    "stakeholders": [
+      {
+        "role_or_group": "line manager (Head of Risk or Chief Compliance Officer)",
+        "relation": "manager",
+        "priority": "highest"
+      },
+      {
+        "role_or_group": "Management Board and risk committee",
+        "relation": "board",
+        "priority": "highest"
+      },
+      {
+        "role_or_group": "regulators and supervisory authorities",
+        "relation": "regulator",
+        "priority": "highest"
+      },
+      {
+        "role_or_group": "internal audit",
+        "relation": "auditor",
+        "priority": "high"
+      },
+      {
+        "role_or_group": "external auditors",
+        "relation": "auditor",
+        "priority": "high"
+      },
+      {
+        "role_or_group": "Legal",
+        "relation": "internal_function",
+        "priority": "high"
+      },
+      {
+        "role_or_group": "data protection officer",
+        "relation": "internal_function",
+        "priority": "high"
+      },
+      {
+        "role_or_group": "business line managers and risk owners",
+        "relation": "internal_function",
+        "priority": "high"
+      }
+    ],
+    "priorities": {
+      "high_impact_areas": [
+        "regulatory inspection, request or sanction",
+        "breach of law, policy or limit",
+        "reportable incident or data breach",
+        "overdue audit or regulatory findings",
+        "new or changed regulation with an effective date",
+        "key risk indicator above threshold",
+        "whistleblowing or misconduct report"
+      ],
+      "extra_urgency_signals": [
+        "statutory notification deadline, e.g. for a data breach",
+        "regulator letter or request with a due date",
+        "remediation date of a finding overdue",
+        "committee meeting papers due",
+        "new whistleblowing report"
+      ],
+      "low_priority": [
+        "general regulatory newsletters and digests",
+        "training and conference invitations",
+        "automated policy acknowledgement reminders"
+      ],
+      "confidential_topics": [
+        "whistleblowing and investigations",
+        "personal data",
+        "regulatory findings",
+        "disciplinary cases"
+      ]
+    },
+    "style": {
+      "draft_tone": ["clear", "precise", "neutral"]
+    }
+  }
+}

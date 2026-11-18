@@ -1,0 +1,36 @@
+{
+  "presets": {
+    "executive": {
+      "label": "Vrcholový manažér",
+      "description": "Pre generálneho riaditeľa, konateľa alebo člena predstavenstva."
+    },
+    "it-manager": {
+      "label": "IT manažér",
+      "description": "Pre vedúceho IT, ktorý riadi prevádzku, bezpečnosť a dodávateľov."
+    },
+    "finance": {
+      "label": "Finančný manažér",
+      "description": "Pre vedúceho financií alebo controllingu."
+    },
+    "risk-compliance": {
+      "label": "Riziká a compliance",
+      "description": "Pre špecialistu na riziká alebo súlad s predpismi."
+    },
+    "data-analyst": {
+      "label": "Dátový analytik",
+      "description": "Pre analytika, ktorý pripravuje dáta, reporty a dashboardy."
+    },
+    "project-manager": {
+      "label": "Projektový manažér",
+      "description": "Pre manažéra, ktorý riadi plán projektu, jeho riziká a zmeny."
+    },
+    "sales": {
+      "label": "Obchodný manažér",
+      "description": "Pre obchodného manažéra, ktorý zodpovedá za ciele, ponuky a kľúčových zákazníkov."
+    },
+    "hr": {
+      "label": "HR business partner",
+      "description": "Pre HR partnera, ktorý radí manažérom a rieši prípady zamestnancov."
+    }
+  }
+}
