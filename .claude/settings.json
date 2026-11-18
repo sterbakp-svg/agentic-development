@@ -11,7 +11,6 @@
     ],
     "ask": [
       "Bash(git push:*)",
-      "Bash(pnpm eval:*)",
       "Bash(pnpm add:*)",
       "Bash(npm install:*)"
     ]
