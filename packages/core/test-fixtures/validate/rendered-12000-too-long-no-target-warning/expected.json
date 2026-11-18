@@ -1,0 +1,8 @@
+{
+  "ok": false,
+  "chars": 12000,
+  "errors": [
+    "instructions too long: 12000 > 8000"
+  ],
+  "warnings": []
+}

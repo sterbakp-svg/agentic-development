@@ -1,0 +1,8 @@
+{
+  "ok": false,
+  "chars": 4981,
+  "errors": [
+    "forbidden content in slot responsibilities: /^\\s*#/"
+  ],
+  "warnings": []
+}

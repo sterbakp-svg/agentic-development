@@ -1,0 +1,8 @@
+{
+  "ok": true,
+  "chars": 5194,
+  "errors": [],
+  "warnings": [
+    "email address in slot tools; names are enough"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "ok": false,
+  "chars": 5207,
+  "errors": [
+    "slot too long: placeholder_example (41 > 40)"
+  ],
+  "warnings": []
+}

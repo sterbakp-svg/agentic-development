@@ -1,0 +1,16 @@
+{
+  "ok": false,
+  "chars": 4894,
+  "errors": [
+    "empty required slot: role_line",
+    "missing slot: responsibilities",
+    "forbidden content in slot tools: /[\\r\\n]/",
+    "forbidden content in slot tools: /`/",
+    "inline optional slot must start with a space: waiting_parties",
+    "placeholder not declared in placeholders_left: [x]",
+    "description too long",
+    "need exactly 4 conversation starters",
+    "agent name too long"
+  ],
+  "warnings": []
+}

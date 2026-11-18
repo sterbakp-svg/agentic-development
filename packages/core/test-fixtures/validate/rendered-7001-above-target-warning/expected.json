@@ -1,0 +1,8 @@
+{
+  "ok": true,
+  "chars": 7001,
+  "errors": [],
+  "warnings": [
+    "instructions above target: 7001 > 7000"
+  ]
+}

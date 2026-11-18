@@ -1,0 +1,9 @@
+{
+  "ok": false,
+  "chars": 5203,
+  "errors": [
+    "forbidden content in slot tools: /[\\r\\n]/",
+    "forbidden content in slot tools: /\\b(send|forward|delete|move)\\b[^.;]*\\b(automatically|without (asking|review))/"
+  ],
+  "warnings": []
+}

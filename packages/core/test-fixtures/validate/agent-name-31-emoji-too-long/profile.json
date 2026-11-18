@@ -1,0 +1,114 @@
+{
+  "schema_version": "1.0",
+  "template_id": "email-triage",
+  "user": {
+    "display_name": "Martin",
+    "job_title": "CIO (Director of IT and PMO)",
+    "department": "IT and PMO",
+    "organization_name": "",
+    "organization_type": "an insurance company in an international group",
+    "industry": "insurance",
+    "seniority": "executive",
+    "has_team": true,
+    "delegation_roles": [
+      "IT operations lead",
+      "PMO lead",
+      "CISO"
+    ]
+  },
+  "role": {
+    "description": "CIO and member of the country Management Board. Leads IT operations, development, the PMO and information security. Owns regulatory compliance for IT (DORA, NBS, audits), IT vendors and the IT budget. Works on the IT part of the group transformation program for business units.",
+    "responsibilities": [
+      "IT operations and development",
+      "PMO and project portfolio",
+      "information security",
+      "regulatory compliance (DORA, NBS, internal and external audit)",
+      "IT vendors, contracts and budget",
+      "Management Board agenda"
+    ],
+    "ongoing_topics": [
+      "Group IT transformation program for business units (alignment, standardization, simplification)",
+      "DORA compliance and governance",
+      "AI adoption (GitHub Copilot, AI agents)"
+    ],
+    "tools": [],
+    "regulations": [
+      "DORA"
+    ]
+  },
+  "stakeholders": [
+    {
+      "role_or_group": "CEO",
+      "relation": "executive",
+      "priority": "highest"
+    },
+    {
+      "role_or_group": "matrix manager, Group IT",
+      "relation": "manager",
+      "priority": "highest"
+    },
+    {
+      "role_or_group": "Management Board members",
+      "relation": "board",
+      "priority": "highest"
+    },
+    {
+      "role_or_group": "Group IT / Group CIO office",
+      "relation": "group_or_headquarters",
+      "priority": "high"
+    },
+    {
+      "role_or_group": "NBS",
+      "relation": "regulator",
+      "priority": "highest"
+    },
+    {
+      "role_or_group": "internal and external audit",
+      "relation": "auditor",
+      "priority": "high"
+    },
+    {
+      "role_or_group": "Risk & Compliance",
+      "relation": "internal_function",
+      "priority": "high"
+    },
+    {
+      "role_or_group": "direct reports",
+      "relation": "direct_report",
+      "priority": "high"
+    },
+    {
+      "role_or_group": "key vendors",
+      "relation": "vendor",
+      "priority": "high"
+    }
+  ],
+  "priorities": {
+    "confidential_topics": [
+      "HR",
+      "personal matters"
+    ]
+  },
+  "languages": {
+    "working": [
+      "sk",
+      "en"
+    ],
+    "overview": "sk",
+    "instructions": "en"
+  },
+  "style": {
+    "draft_tone": [
+      "concise",
+      "professional",
+      "decisive",
+      "friendly"
+    ],
+    "signature": "Martin"
+  },
+  "agent": {
+    "name": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀",
+    "time_window_days": 7,
+    "top_n": 10
+  }
+}

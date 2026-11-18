@@ -1,0 +1,9 @@
+{
+  "ok": false,
+  "chars": 5194,
+  "errors": [
+    "forbidden content in slot tools: /\\{\\{|\\}\\}/",
+    "unresolved slot marker in rendered text"
+  ],
+  "warnings": []
+}

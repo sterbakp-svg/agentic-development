@@ -1,0 +1,26 @@
+{
+  "ok": false,
+  "chars": 3771,
+  "errors": [
+    "missing slot: role_line",
+    "missing slot: responsibilities",
+    "missing slot: ongoing_topics",
+    "missing slot: tools",
+    "missing slot: stakeholders",
+    "missing slot: search_signals",
+    "missing slot: action_verbs",
+    "missing slot: waiting_parties",
+    "missing slot: fyi_risk_examples",
+    "missing slot: sender_rule",
+    "missing slot: urgency_signals",
+    "missing slot: impact_areas",
+    "missing slot: ownership_rule",
+    "missing slot: next_step_options",
+    "missing slot: solution_guidance",
+    "missing slot: draft_style",
+    "missing slot: draft_extra",
+    "missing slot: placeholder_example",
+    "missing slot: discretion_rule"
+  ],
+  "warnings": []
+}

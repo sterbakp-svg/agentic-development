@@ -1,0 +1,47 @@
+{
+  "status": "ready",
+  "slots": {
+    "role_line": "Data and Business Analyst in the Outsourcing and Third-Party Risk Management (TPRM) department at [company], a financial institution",
+    "responsibilities": "data analysis and reporting on outsourcing and third-party risk; outsourcing register and DORA Register of Information (ICT third-party providers); data quality checks; business requirements and process analysis for TPRM processes and tools; support for due diligence, risk and criticality assessments, contract and SLA monitoring, and exit plans; dashboards and reports for management, risk committees and the regulator",
+    "ongoing_topics": "[e.g. DORA Register of Information update and submission, annual outsourcing review, vendor risk assessments]",
+    "tools": "[e.g. Excel, Power BI, SQL, GRC tool]",
+    "stakeholders": "[manager, Head of Outsourcing & TPRM], [team members], business owners of outsourced services, Procurement, Legal, Compliance, Information Security, Operational Risk, Internal Audit, Group TPRM, NBS (National Bank of Slovakia, regulator), key vendors: [names]",
+    "search_signals": "data, report and analysis requests; register updates; requirement reviews and approvals; audit and regulatory requests; contract renewals, expiries and vendor incidents",
+    "action_verbs": "reply, provide data or analysis, update a register, clarify or review requirements, decide, attend, or escalate",
+    "waiting_parties": " (vendor, business owner, IT)",
+    "fyi_risk_examples": "data error in a report, audit or regulatory request, vendor incident, contract about to expire",
+    "sender_rule": "ššššššššššššššššššššššššššššššššššššššššššššššššššššššššššššš",
+    "urgency_signals": "explicit deadline, regulatory or committee reporting date, meeting soon, repeated reminders, sender waiting more than 3 days",
+    "impact_areas": "DORA or regulatory reporting, audit, critical or important function, data quality in management or regulatory reports, contract expiry, vendor incident",
+    "ownership_rule": "only Jana has the data or knowledge = 5; easy to hand over = 1",
+    "next_step_options": "reply, deliver data or analysis, update the register, clarify the requirement, schedule a meeting, escalate to the manager, or close",
+    "solution_guidance": " For data or report requests, name the likely data source, the analysis steps, and the open questions for the requester (scope, period, format, deadline).",
+    "draft_style": "clear, precise, friendly and collaborative",
+    "draft_extra": " when giving data, state source and as-of date;",
+    "placeholder_example": "údaj z registra",
+    "discretion_rule": "Handle contract terms, vendor pricing and personal data discreetly: summarize only what Jana needs to act."
+  },
+  "description": "Prejde moje pracovné maily za posledných 7 dní, vyberie 10 najdôležitejších požiadaviek z oblasti outsourcingu a TPRM, ktoré vyžadujú moju akciu, navrhne riešenie a pripraví drafty odpovedí. Funguje v Microsoft 365 Copilot.",
+  "conversation_starters": [
+    "Priprav mi top 10 mailov za posledný týždeň, ktoré vyžadujú moju akciu.",
+    "Aké požiadavky na dáta alebo reporty mám otvorené a s akým termínom?",
+    "Priprav drafty odpovedí k trom najdôležitejším mailom.",
+    "Sú tam požiadavky auditu, regulátora alebo incidenty dodávateľov?"
+  ],
+  "placeholders_left": [
+    "[company]",
+    "[e.g. DORA Register of Information update and submission, annual outsourcing review, vendor risk assessments]",
+    "[e.g. Excel, Power BI, SQL, GRC tool]",
+    "[manager, Head of Outsourcing & TPRM]",
+    "[team members]",
+    "[names]"
+  ],
+  "assumptions": [
+    "Aktuálne témy a nástroje som doplnil ako typické príklady pre rolu. Nahraď ich svojimi."
+  ],
+  "questions": [
+    "Na akých 3 až 5 témach teraz pracuješ?",
+    "S akými nástrojmi pracuješ (Excel, Power BI, GRC nástroj)?",
+    "Ako sa volá tvoj manažér?"
+  ]
+}

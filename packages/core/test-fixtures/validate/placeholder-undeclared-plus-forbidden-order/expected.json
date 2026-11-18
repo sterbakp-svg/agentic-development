@@ -1,0 +1,10 @@
+{
+  "ok": false,
+  "chars": 5192,
+  "errors": [
+    "forbidden content in slot tools: /[\\r\\n]/",
+    "placeholder not declared in placeholders_left: [t]",
+    "placeholder not declared in placeholders_left: [u]"
+  ],
+  "warnings": []
+}

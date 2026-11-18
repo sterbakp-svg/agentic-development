@@ -1,0 +1,8 @@
+{
+  "ok": false,
+  "chars": 5174,
+  "errors": [
+    "missing slot: tools"
+  ],
+  "warnings": []
+}
