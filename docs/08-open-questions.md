@@ -39,3 +39,6 @@ Golden rule 3: the reference decides. These points are recorded here; the TypeSc
 
 ### R-A1 Dev-only audit finding GHSA-g3hv-75wg-m249 (minimatch 10.2.6)
 Path: typescript-eslint → @typescript-eslint/typescript-estree → minimatch. Dev dependency only; `pnpm audit --prod` is clean. No upstream fix: typescript-eslint 8.72.2 requires `minimatch ^10.2.2`. Suppressed in root `package.json` (`pnpm.auditConfig.ignoreGhsas`) since T-001, 2026-11-14. Remove the ignore when typescript-eslint moves to a fixed minimatch; T-053 checks it monthly.
+
+### R-A2 Dev-only audit finding GHSA-fc5q-39xc-vjpf (picomatch 4.0.7, high, ReDoS)
+Path: typescript-eslint → @typescript-eslint/typescript-estree → tinyglobby → picomatch. Dev dependency only; `pnpm audit --prod` is clean. No patched version exists (advisory: patched `<0.0.0`). The ReDoS needs an attacker-controlled glob pattern; in this repository the patterns come only from our own lint configuration. Accepted by the product owner on 2026-11-18; suppressed in root `package.json` (`pnpm.auditConfig.ignoreGhsas`). Remove the ignore when a fixed picomatch or tinyglobby ships; T-053 checks it monthly.
