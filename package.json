@@ -11,7 +11,6 @@
     "test": "pnpm -r run test",
     "lint": "eslint . && prettier --check .",
     "typecheck": "pnpm -r run typecheck",
-    "eval": "pnpm --filter @agent-composer/evals run eval",
     "format": "prettier --write ."
   },
   "devDependencies": {
