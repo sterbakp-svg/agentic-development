@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0",
+  "template_id": "email-triage",
+  "user": {
+    "job_title": "Head of IT",
+    "seniority": "manager",
+    "has_team": true,
+    "delegation_roles": [
+      "IT operations lead",
+      "service desk lead",
+      "infrastructure lead",
+      "application owners",
+      "information security officer"
+    ]
+  },
+  "role": {
+    "description": "Runs IT operations, infrastructure and IT projects for a regional manufacturing company.",
+    "responsibilities": [
+      "IT operations, availability and service desk",
+      "infrastructure, network, cloud and end-user devices",
+      "business applications and change management",
+      "information security and access management, with the security officer",
+      "IT projects and demand from the business",
+      "IT vendors, licenses, contracts and SLAs",
+      "IT budget and cost control",
+      "IT audit findings, policies and business continuity"
+    ],
+    "tools": [
+      "IT service management tool",
+      "monitoring and alerting tool",
+      "project portfolio tool"
+    ]
+  },
+  "stakeholders": [
+    {
+      "role_or_group": "line manager (CIO, COO or CEO)",
+      "relation": "manager",
+      "priority": "highest"
+    },
+    {
+      "role_or_group": "IT team leads",
+      "relation": "direct_report",
+      "priority": "high"
+    },
+    {
+      "role_or_group": "information security officer",
+      "relation": "internal_function",
+      "priority": "high"
+    },
+    {
+      "role_or_group": "business process owners and department heads",
+      "relation": "internal_function",
+      "priority": "high"
+    },
+    {
+      "role_or_group": "Risk and Compliance",
+      "relation": "internal_function",
+      "priority": "high"
+    },
+    {
+      "role_or_group": "internal and external IT audit",
+      "relation": "auditor",
+      "priority": "high"
+    },
+    {
+      "role_or_group": "key IT vendors and service providers",
+      "relation": "vendor",
+      "priority": "high"
+    }
+  ],
+  "priorities": {
+    "high_impact_areas": [
+      "outage of a critical service",
+      "security incident, breach or vulnerability",
+      "audit or regulatory finding on IT",
+      "failed or risky production change",
+      "vendor SLA breach or price increase",
+      "license compliance and renewals",
+      "IT budget overrun",
+      "end-of-life systems or backup failures"
+    ],
+    "extra_urgency_signals": [
+      "major incident or priority 1 ticket",
+      "vulnerability with a patch deadline",
+      "change approval needed before a release window",
+      "certificate, license or contract expiry date",
+      "audit evidence due"
+    ],
+    "low_priority": [
+      "routine ticket status notifications",
+      "vendor marketing and webinar invitations",
+      "technology newsletters"
+    ],
+    "confidential_topics": [
+      "security vulnerabilities and incidents",
+      "access credentials",
+      "vendor pricing and contracts",
+      "HR matters of the team"
+    ]
+  },
+  "languages": {
+    "working": [
+      "sk",
+      "en"
+    ],
+    "overview": "sk"
+  },
+  "style": {
+    "draft_tone": [
+      "clear",
+      "pragmatic",
+      "professional"
+    ]
+  }
+}

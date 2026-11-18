@@ -1,0 +1,101 @@
+{
+  "id": "hr",
+  "label_key": "presets.hr.label",
+  "description_key": "presets.hr.description",
+  "version": 1,
+  "profile": {
+    "user": {
+      "seniority": "specialist",
+      "has_team": false
+    },
+    "role": {
+      "responsibilities": [
+        "HR advice for managers of the supported business units",
+        "recruiting and onboarding coordination",
+        "employee relations cases and conflict resolution",
+        "performance reviews, development and succession planning",
+        "compensation and benefits questions, with payroll",
+        "support for organizational changes and restructuring",
+        "HR policies, labor law questions and documentation",
+        "engagement surveys and HR reports"
+      ],
+      "tools": ["HR information system", "applicant tracking system", "learning management system"]
+    },
+    "stakeholders": [
+      {
+        "role_or_group": "line manager (Head of HR)",
+        "relation": "manager",
+        "priority": "highest"
+      },
+      {
+        "role_or_group": "senior leaders of the supported units",
+        "relation": "executive",
+        "priority": "high"
+      },
+      {
+        "role_or_group": "managers of the supported business units",
+        "relation": "internal_function",
+        "priority": "high"
+      },
+      {
+        "role_or_group": "payroll and HR operations",
+        "relation": "internal_function",
+        "priority": "high"
+      },
+      {
+        "role_or_group": "Legal",
+        "relation": "internal_function",
+        "priority": "high"
+      },
+      {
+        "role_or_group": "works council or employee representatives",
+        "relation": "other",
+        "priority": "high"
+      },
+      {
+        "role_or_group": "employees with open HR cases",
+        "relation": "other",
+        "priority": "high"
+      },
+      {
+        "role_or_group": "recruiting agencies and training providers",
+        "relation": "vendor",
+        "priority": "high"
+      }
+    ],
+    "priorities": {
+      "high_impact_areas": [
+        "employee relations and disciplinary cases",
+        "dismissals and restructuring",
+        "labor law and works council requirements",
+        "harassment, discrimination or whistleblowing reports",
+        "key hires and offer deadlines",
+        "resignations of key people",
+        "payroll errors",
+        "health and safety incidents"
+      ],
+      "extra_urgency_signals": [
+        "legal deadline in a labor case or notice period",
+        "candidate offer or start date",
+        "complaint from an employee or a manager",
+        "payroll cutoff date",
+        "resignation of a key employee"
+      ],
+      "low_priority": [
+        "HR newsletters and webinar invitations",
+        "automated HR system notifications",
+        "unsolicited recruiting agency offers"
+      ],
+      "confidential_topics": [
+        "personal data",
+        "health information",
+        "salaries",
+        "disciplinary and employee relations cases",
+        "dismissal and restructuring plans"
+      ]
+    },
+    "style": {
+      "draft_tone": ["empathetic", "clear", "professional", "discreet"]
+    }
+  }
+}

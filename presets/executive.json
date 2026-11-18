@@ -1,0 +1,106 @@
+{
+  "id": "executive",
+  "label_key": "presets.executive.label",
+  "description_key": "presets.executive.description",
+  "version": 1,
+  "profile": {
+    "user": {
+      "seniority": "executive",
+      "has_team": true,
+      "delegation_roles": [
+        "chief of staff or executive assistant",
+        "functional directors (CFO, COO, CIO)",
+        "strategy office"
+      ]
+    },
+    "role": {
+      "responsibilities": [
+        "company strategy and annual business plan",
+        "financial results, budget and major investment decisions",
+        "Board and supervisory board meetings and decisions",
+        "relations with shareholders, group headquarters and regulators",
+        "key clients, partners and public representation",
+        "senior leadership team, top appointments and succession",
+        "major risks, crises and reputation",
+        "transformation and strategic programs"
+      ]
+    },
+    "stakeholders": [
+      {
+        "role_or_group": "Chair and members of the Board",
+        "relation": "board",
+        "priority": "highest"
+      },
+      {
+        "role_or_group": "shareholders or group headquarters",
+        "relation": "group_or_headquarters",
+        "priority": "highest"
+      },
+      {
+        "role_or_group": "regulators and supervisory authorities",
+        "relation": "regulator",
+        "priority": "highest"
+      },
+      {
+        "role_or_group": "senior leadership team (direct reports)",
+        "relation": "direct_report",
+        "priority": "high"
+      },
+      {
+        "role_or_group": "internal and external audit",
+        "relation": "auditor",
+        "priority": "high"
+      },
+      {
+        "role_or_group": "Legal and Compliance",
+        "relation": "internal_function",
+        "priority": "high"
+      },
+      {
+        "role_or_group": "communications and investor relations",
+        "relation": "internal_function",
+        "priority": "high"
+      },
+      {
+        "role_or_group": "key clients and strategic partners",
+        "relation": "client",
+        "priority": "high"
+      }
+    ],
+    "priorities": {
+      "high_impact_areas": [
+        "Board or shareholder decisions",
+        "regulatory or supervisory action",
+        "financial results versus plan, liquidity",
+        "major deals, investments and M&A",
+        "reputation, media and crisis events",
+        "key client or partner escalations",
+        "top management appointments and departures",
+        "strategic program delays"
+      ],
+      "extra_urgency_signals": [
+        "Board or committee papers due",
+        "approval or signature requested by a date",
+        "media inquiry or reputational incident",
+        "regulator or shareholder request",
+        "crisis or major incident report"
+      ],
+      "low_priority": [
+        "industry newsletters and event invitations",
+        "vendor sales offers",
+        "company-wide internal announcements",
+        "copies (CC) of operational threads without a question"
+      ],
+      "confidential_topics": [
+        "M&A and strategic deals",
+        "Board matters",
+        "executive appointments and pay",
+        "unpublished financial results",
+        "personal matters"
+      ]
+    },
+    "style": {
+      "draft_tone": ["concise", "decisive", "professional"]
+    }
+  }
+}
