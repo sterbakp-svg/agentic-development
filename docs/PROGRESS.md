@@ -66,8 +66,8 @@ One approved change against `windows.md`: W6 runs directly after W1, not after W
 | W4 | 1 | ADR for the generator pipeline in `docs/adr/` | architect | — |
 | W4 | 2 | Failing tests with a mocked model for T-011 and T-012 | test-engineer | — |
 | W4 | 3 | T-011 Generator pipeline | core-dev | step 4 |
-| W4 | 4 | T-012 `prompts/extract-profile.system.md` and five test job descriptions | prompt-engineer | step 3 |
-| W4 | 5 | T-012 wiring in `packages/core` | core-dev | — |
+| W4 | 4 | T-012 (ADR-001): the interview agent extracts from a pasted job description (`# PASTED JOB DESCRIPTION` in `prompts/mvp-interview-agent.instructions.md`); five test job descriptions in `evals/job-descriptions/`; a separate `prompts/extract-profile.system.md` only if the evals show weak extraction | prompt-engineer | step 3 |
+| W4 | 5 | T-012: no wiring in `packages/core` (ADR-001); closes with the first manual eval run (W8, Q-12) | — | — |
 | W4 | 6 | Reviews of T-011 and T-012, merge; one real generation per golden profile, validator reports shown to you | reviewer ×2, lead | both reviews together |
 | W5 | 1 | T-013 `packages/evals`, missing profiles in `evals/profiles/` | test-engineer | step 2 |
 | W5 | 2 | Judge prompt from the rubric, checked on G-01 and G-02 | prompt-engineer | step 1 |
