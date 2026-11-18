@@ -55,10 +55,10 @@ Blocked by: T-010
 - ADR-001: no separate prompt tool. The interview agent extracts fields from a pasted job description (`# PASTED JOB DESCRIPTION` in `prompts/mvp-interview-agent.instructions.md`). A separate `prompts/extract-profile.system.md` only if the evals show weak extraction.
 - AC: 5 test job descriptions (`evals/job-descriptions/JD-01..05`), run by hand and scored in the manual eval form (cases JD-01..JD-05).
 
-### T-013 Eval harness — AGENT
+### T-013 Manual eval kit — AGENT
 Blocked by: T-011
-- `packages/evals`: runs `evals/cases.md` cases (create the missing profile files under `evals/profiles/`), deterministic checks, LLM judge with the rubric, report as JSON and Markdown.
-- AC: `pnpm eval` produces a report; G-01 and G-02 ≥ 4.5; all others ≥ 4.0. Not part of the pull request CI; nightly and before release.
+- ADR-001 § 8 and § 12 P-11: no `pnpm eval`, no LLM judge, no model call. `packages/evals` holds the model-free kit for the manual evals of `evals/cases.md`: input builder (profile + preset to `profile_json`), output validation with `packages/core` (`repoValid`, error codes), parity of the flow result with the repository (`same`, `flow-stricter`, `flow-weaker`), per-case summary, `summary.json` and `report.md`, procedure in `evals/README.md`, result form `evals/runs/TEMPLATE.json` and `schemas/manual-eval-run.schema.json`. The scorer runs the cases by hand in the company test environment and fills the form.
+- AC: `pnpm --filter @agent-composer/evals cli summary <run.json>` writes the report; G-01 and G-02 reach 4.5 with two scorers; all other cases 4.0; a flow weaker than the validator exits with code 3 (release blocking). Not part of the pull request CI beyond its unit tests.
 
 ### T-014 Role presets — AGENT
 Blocked by: T-003

@@ -14,7 +14,7 @@ This package is the input for the development agent team (Claude Code). It is wr
 4. Run `pnpm build` to build all workspace packages.
 5. Run `pnpm test` for the unit tests.
 6. Run `pnpm lint` and `pnpm typecheck` for style and type checks.
-7. Run `pnpm eval` for the eval runner. It is a stub for now: it calls no model and needs no `AOAI_*` variables.
+7. Manual evals (ADR-001): follow `evals/README.md`. The kit in `packages/evals` calls no model: `pnpm --filter @agent-composer/evals cli build-input|check|summary`.
 8. Run `pnpm --filter @agent-composer/web dev` to start the web app on http://localhost:3000.
 
 ## Configuration

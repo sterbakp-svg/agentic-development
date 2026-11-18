@@ -1,6 +1,6 @@
 # Evaluation cases
 
-The generator is an LLM. Its quality is measured with fixed cases. Delivery path ADR-001: the model runs only in the Copilot Studio prompt tool, so the cases are run by hand in the company test environment and scored by people with the rubric below (T-013, procedure in ADR-001 § 8). Store each run in `evals/runs/<date>-<model>.json`.
+The generator is an LLM. Its quality is measured with fixed cases. Delivery path ADR-001: the model runs only in the Copilot Studio prompt tool, so the cases are run by hand in the company test environment and scored by people with the rubric below (T-013, procedure in ADR-001 § 8). Store each run in `evals/runs/<runId>/run.json` with the form `evals/runs/TEMPLATE.json`; procedure and tools in `evals/README.md`.
 
 ## Two levels of checks
 
