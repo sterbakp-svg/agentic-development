@@ -43,9 +43,10 @@ function cmpCodePoints(a: string, b: string): number {
  * Python semantics reproduced by hand: re.I folding (forbidden.ts), Unicode \b and \w,
  * Python \s in `^\s*#`, `^` after \n only, len() and sorted() in code points.
  *
- * Differences from the reference (E-1/E-5): a slot value that is neither a string nor null gives
- * `slot is not a string: <name>` (the reference crashes) and renders as empty. null counts as
- * missing, as in the reference. The result may contain slot text; the caller must not log it.
+ * Differences from the reference (E-1, E-5 to E-7 in docs/08-open-questions.md): a slot value
+ * that is neither a string nor null gives `slot is not a string: <name>` and renders as empty;
+ * null gives `missing slot: <name>`. The reference raises on both. The result may contain slot
+ * text; the caller must not log it.
  */
 export function validate(
   template: LoadedTemplate,

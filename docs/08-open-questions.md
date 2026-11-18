@@ -46,7 +46,11 @@ Found in the T-004 review with 18,000 random differential cases (all byte-identi
 | E-2 | `user`, `agent` or `style` is `null`; `agent.name` not a string | raises | uses the defaults | `prepareProfile` rejects such profiles before rendering. |
 | E-3 | `has_team` is `[]` or `{}` | non-delegate label (Python truthiness) | delegate label (JavaScript truthiness) | The schema allows only a boolean; `prepareProfile` rejects other types. |
 | E-4 | `time_window_days` or `top_n` written as `7.0` or `1e1` in the JSON file | `7.0`, `10.0` | `7`, `10` | JSON numbers lose their spelling in JavaScript. `7.0` is a valid JSON Schema integer, so only hand-written files can differ. Proposal: the reference uses `str(int(...))` (a reference change; needs your approval). |
-| E-5 | LLM slot value that is a number, array or object (not a string, not `null`) | raises | validator error `slot is not a string: <name>` at the slot's position, other checks for that slot skipped; renders empty | Never accept such output; `null` behaves like the reference (`missing slot: <name>`). |
+| E-5 | LLM slot value that is `null`, a number, an array or an object | raises (`AttributeError` on `null`) | `null`: `missing slot: <name>`; other non-strings: `slot is not a string: <name>` at the slot's position, other checks for that slot skipped; renders empty | Such output is never accepted either way. |
+| E-6 | Code points that are letters or digits in Unicode 18 (Node 26) but unassigned in Unicode 13 (Python 3.10 in CI): 27,397 code points | not word characters | word characters (`\b` in the auto-send rule, `\w` in the email warning) | No security effect: any letter glued to the verb already passes both. The reference result depends on the Python version; pin Python in CI (done: 3.10) and accept the gap. |
+| E-7 | Generator output with a slot key `__proto__` | reports placeholders in it | zod drops the key, so its placeholders are not reported | No bypass: the key is never rendered, and a nested `__proto__` object gives `missing slot`. |
+
+The message `need exactly 4 conversation starters` copies the reference wording; the count itself comes from `template.json`. Change the message when that limit changes.
 
 ## Accepted risks
 

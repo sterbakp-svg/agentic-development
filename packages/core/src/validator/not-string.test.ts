@@ -18,7 +18,7 @@ it.each([[5], [['a']], [{ a: 1 }]])('non-string slot value %j is an error', (val
   expect(r.ok).toBe(false);
 });
 
-it('null counts as missing, as in the reference', () => {
+it('null counts as missing (the reference raises; E-5)', () => {
   const gen = read('slots.json') as Gen;
   gen.slots.role_line = null;
   expect(validate(template, read('profile.json'), gen).errors[0]).toBe('missing slot: role_line');

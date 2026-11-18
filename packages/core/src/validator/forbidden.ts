@@ -67,8 +67,12 @@ export const FORBIDDEN_IN_SLOTS: readonly ForbiddenRule[] = [
   },
 ];
 
-/** Port of EMAIL_RE (Unicode \w). */
-export const EMAIL_RE = new RegExp(`[${W}.+-]+@[${W}-]+\\.[${W}.-]+`, 'u');
+/**
+ * Port of EMAIL_RE `[\w.+-]+@[\w-]+\.[\w.-]+` (Unicode \w). Only used with test(), so the
+ * leading and trailing `+` are dropped: a match exists exactly when the reduced pattern matches,
+ * and the reduced pattern does not slow down on long runs of word characters.
+ */
+export const EMAIL_RE = new RegExp(`[${W}.+-]@[${W}-]+\\.[${W}.-]`, 'u');
 
 /** Port of `re.findall(r"\[[^\]\n]+\]", text)`. */
 export const PLACEHOLDER_RE = /\[[^\]\n]+\]/g;
