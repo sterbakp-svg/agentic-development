@@ -22,12 +22,16 @@ function strings(v: unknown): string[] {
 const quoted = (terms: string[]): string => terms.map((t) => `"${t}"`).join(', ');
 
 function joinNames(names: string[]): string {
+  if (names.length === 0) throw new Error('profile.languages.working must not be empty');
   if (names.length === 1) return names[0] as string;
   return names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
 }
 
 /** Port of `computed_slots` in reference/composer_ref.py. Reads the raw profile defensively. */
-export function computeSlots(template: LoadedTemplate, profileInput: unknown): Record<string, string> {
+export function computeSlots(
+  template: LoadedTemplate,
+  profileInput: unknown,
+): Record<string, string> {
   const { meta } = template;
   const profile = dict(profileInput);
   const user = dict(profile.user);
@@ -35,10 +39,10 @@ export function computeSlots(template: LoadedTemplate, profileInput: unknown): R
   const langs = dict(profile.languages);
   const overview = text(langs.overview);
   const working = strings(langs.working);
-  const labels = meta.labels[overview];
+  const labels = Object.hasOwn(meta.labels, overview) ? meta.labels[overview] : undefined;
   if (!labels) throw new Error('profile.languages.overview has no labels in the template');
   const nameOf = (l: string): string => {
-    const n = meta.language_names[l];
+    const n = Object.hasOwn(meta.language_names, l) ? meta.language_names[l] : undefined;
     if (n === undefined) throw new Error('unknown language in profile');
     return n;
   };
@@ -46,7 +50,7 @@ export function computeSlots(template: LoadedTemplate, profileInput: unknown): R
   const pack = (kind: 'deadline' | 'urgency' | 'reminder'): string => {
     const seen: string[] = [];
     for (const lang of working) {
-      const p = meta.keyword_packs[lang];
+      const p = Object.hasOwn(meta.keyword_packs, lang) ? meta.keyword_packs[lang] : undefined;
       if (!p) throw new Error('unknown language in profile');
       for (const term of p[kind]) if (!seen.includes(term)) seen.push(term);
     }

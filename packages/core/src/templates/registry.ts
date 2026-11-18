@@ -26,6 +26,18 @@ function subdirs(dir: string): string[] {
 
 /** Registry over `<root>/<id>/<folder>/template.json`; versions are matched by `meta.version`. */
 export function createTemplateRegistry(root: string): TemplateRegistry {
+  // One load per folder and registry instance. null marks a folder that failed to load.
+  const cache = new Map<string, LoadedTemplate | null>();
+  const load = (dir: string): LoadedTemplate | null => {
+    if (!cache.has(dir)) {
+      try {
+        cache.set(dir, loadTemplate(dir));
+      } catch {
+        cache.set(dir, null);
+      }
+    }
+    return cache.get(dir) ?? null;
+  };
   const candidates = (id: string): string[] => subdirs(join(root, id)).map((f) => join(root, id, f));
   return {
     get(id, version) {
@@ -33,27 +45,21 @@ export function createTemplateRegistry(root: string): TemplateRegistry {
       safeSegment(version, 'version');
       const dirs = candidates(id);
       if (dirs.length === 0) throw new Error(`unknown template id: ${id}`);
+      let failed = false;
       for (const d of dirs) {
-        let t: LoadedTemplate;
-        try {
-          t = loadTemplate(d);
-        } catch {
-          continue;
-        }
-        if (t.id === id && t.version === version) return t;
+        const t = load(d);
+        if (t === null) failed = true;
+        else if (t.id === id && t.version === version) return t;
       }
+      if (failed) throw new Error(`template ${id} ${version}: failed to load`);
       throw new Error(`unknown version ${version} of template ${id}`);
     },
     list() {
       const out: { id: string; version: string }[] = [];
       for (const id of subdirs(root)) {
         for (const d of candidates(id)) {
-          try {
-            const t = loadTemplate(d);
-            if (t.id === id) out.push({ id: t.id, version: t.version });
-          } catch {
-            // broken templates are not listed
-          }
+          const t = load(d);
+          if (t !== null && t.id === id) out.push({ id: t.id, version: t.version });
         }
       }
       return out;

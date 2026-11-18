@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+templates/** text eol=lf
+examples/** text eol=lf
+packages/core/test-fixtures/** text eol=lf
